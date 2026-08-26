@@ -205,3 +205,10 @@ dialog { box-sizing: border-box; max-width: 708px !important; }
 
 /* 팝업이 열려 있는 동안 배경 페이지 스크롤 잠금 */
 html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
+
+/* ── 원장 소개 페이지 — 연구 논문 더보기 ────────────────────────
+   헤더 햄버거와 같은 체크박스 방식(JS 없음). 펼친 뒤에는 버튼을 감춘다. */
+.papers-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
+.papers-more { display: none; flex-direction: column; gap: 14px; margin-top: 14px; }
+.papers-toggle-input:checked ~ .papers-more { display: flex; }
+.papers-toggle-input:checked ~ .papers-toggle-label { display: none !important; }  /* 라벨의 인라인 display를 덮어써야 함 */
