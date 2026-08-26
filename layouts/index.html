@@ -102,23 +102,28 @@
           </article>
         </div>
       </div>
+      {{ with site.Data.papers }}
       <div>
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 16px;">학술 논문</div>
         <div style="display: flex; flex-direction: column; gap: 14px;">
-          {{ range slice (dict "no" "01" "journal" "대한한방신경정신과학회지" "title" "틱장애 아동의 한방 치료 임상 연구") (dict "no" "02" "journal" "대한한방신경정신과학회지" "title" "공황장애 환자의 자율신경 균형 변화 분석") (dict "no" "03" "journal" "한방소아과학회지" "title" "소아 ADHD의 한약 치료 경과 관찰") }}
-          <a href="#books" target="_blank" rel="noopener" style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 20px 24px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; background: #E3FCF7; padding: 3px 8px; border-radius: 4px;">논문 {{ .no }}</span>
-              <span style="font-size: 13px; color: #6F6B61;">{{ .journal }}</span>
-              <span style="margin-left: auto; font-size: 16px; font-weight: 600; color: #0F7A7E;">↗</span>
+          {{ range $i, $paper := . }}
+          {{ if $paper.url }}<a href="{{ $paper.url }}" target="_blank" rel="noopener" style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 20px 24px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">{{ else }}<div style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 20px 24px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);">{{ end }}
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; background: #E3FCF7; padding: 3px 8px; border-radius: 4px;">논문 {{ printf "%02d" (add $i 1) }}</span>
+              <span style="font-size: 13px; color: #6F6B61;">{{ $paper.journal }}{{ with $paper.year }} · {{ . }}{{ end }}</span>
+              {{ if $paper.sample }}<span style="font-size: 11px; font-weight: 600; color: #8A6D2F; background: #FBF1D9; border: 1px solid #F0DFB4; padding: 3px 8px; border-radius: 4px;">예시</span>{{ end }}
+              {{ if $paper.url }}<span style="margin-left: auto; font-size: 16px; font-weight: 600; color: #0F7A7E;">↗</span>{{ end }}
             </div>
-            <div style="font-size: 17px; font-weight: 600; line-height: 1.45;">{{ .title }}</div>
-            <div style="font-size: 13px; line-height: 1.5; color: #6B6960;">해아림한의원 원장단</div>
-          </a>
+            <div style="font-size: 17px; font-weight: 600; line-height: 1.45;">{{ $paper.title }}</div>
+            <div style="font-size: 13px; line-height: 1.5; color: #6B6960;">{{ $paper.authors | default "해아림한의원 원장단" }}</div>
+          {{ if $paper.url }}</a>{{ else }}</div>{{ end }}
           {{ end }}
         </div>
-        <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 16px 0 0;">논문 제목과 원문 주소는 자리표시자입니다. 실제 정보로 교체가 필요합니다.</p>
+        {{ if where . "sample" true }}
+        <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 16px 0 0;">"예시" 표시가 붙은 항목은 자리표시자입니다. data/papers.yaml에서 실제 논문 정보로 교체해 주세요.</p>
+        {{ end }}
       </div>
+      {{ end }}
     </div>
   </div>
 </section>
