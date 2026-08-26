@@ -224,3 +224,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 480px) {
   .paper-row { padding: 15px 18px; }
 }
+
+/* ── 히어로 원내 사진 슬라이드 ─────────────────────────────
+   여러 장을 같은 자리에서 서서히 겹쳐 넘긴다. 첫 장에 is-active를 미리 넣어
+   스크립트가 없거나 모션을 줄인 환경에서도 한 장은 반드시 보인다. */
+.hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 1200ms ease-in-out; }
+.hero-slides img.is-active { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero-slides img { transition: none; } }
