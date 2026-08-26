@@ -7,7 +7,7 @@
     <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 40px;">
       <div>
         <div style="display: flex; align-items: baseline; gap: 8px;">
-          <img src="/design-v3/logo-white.png" alt="해아림한의원 잠실점" style="height: 34px; width: auto; display: block;" />
+          {{ partial "image.html" (dict "src" "design-v3/logo-white.png" "w" 440 "alt" "해아림한의원 잠실점" "style" "height: 34px; width: auto; display: block;") }}
         </div>
         <p style="font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.70); margin: 14px 0 18px; max-width: 280px;">마음의 불안부터 두뇌의 균형까지<br />2인의 전담 원장이 세밀하게 동행합니다</p>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
