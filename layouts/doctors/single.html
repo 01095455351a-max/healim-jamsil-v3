@@ -44,24 +44,12 @@
         {{ .Content }}
       </div>
       {{ with $author.research }}
-      {{ $featured := .featured | default 4 }}
       <div>
         <h2 style="font-size: 26px; font-weight: 600; margin: 0 0 16px; text-wrap: balance;">{{ .heading }}</h2>
         {{ range .intro }}<p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 16px; text-wrap: pretty;">{{ . }}</p>{{ end }}
 
-        {{ with .papers }}
-        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin: 28px 0 16px;">주요 연구 논문</div>
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          {{ range $i, $paper := first $featured . }}{{ partial "paper-card.html" (dict "paper" $paper "index" $i) }}{{ end }}
-        </div>
-        {{ if gt (len .) $featured }}
-        <input type="checkbox" id="papers-more" class="papers-toggle-input" />
-        <div class="papers-more">
-          {{ range $i, $paper := after $featured . }}{{ partial "paper-card.html" (dict "paper" $paper "index" (add $i $featured)) }}{{ end }}
-        </div>
-        <label for="papers-more" class="papers-toggle-label btn-outline" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 24px; border-radius: 9999px; cursor: pointer;">{{ $author.research.more_label | default "전체 연구 논문 보기" }}<span style="font-size: 13px;">↓</span></label>
-        {{ end }}
-        {{ end }}
+        {{/* 논문 목록은 홈 "출간 도서와 논문" 섹션에서 원장별 데이터를 모아 보여준다.
+            이 페이지에는 연구 이력 소개만 두고 목록은 중복해서 싣지 않는다. */}}
       </div>
       {{ end }}
 

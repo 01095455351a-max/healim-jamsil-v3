@@ -206,9 +206,20 @@ dialog { box-sizing: border-box; max-width: 708px !important; }
 /* 팝업이 열려 있는 동안 배경 페이지 스크롤 잠금 */
 html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 
-/* ── 원장 소개 페이지 — 연구 논문 더보기 ────────────────────────
-   헤더 햄버거와 같은 체크박스 방식(JS 없음). 펼친 뒤에는 버튼을 감춘다. */
+/* ── 학술 논문 목록 ─────────────────────────────────────────
+   논문마다 카드를 두면 세로로 길어져, 한 칸 안에 줄로 나열하고 구분선만 둔다.
+   더보기는 헤더 햄버거와 같은 체크박스 방식(JS 없음)이며 펼치면 버튼이 사라진다. */
+.papers-list { background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; }
+.paper-row { display: flex; gap: 14px; align-items: baseline; padding: 16px 22px; border-top: 1px solid #EDE6DA; }
+.papers-list > .paper-row:first-child { border-top: none; }
+
 .papers-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
-.papers-more { display: none; flex-direction: column; gap: 14px; margin-top: 14px; }
-.papers-toggle-input:checked ~ .papers-more { display: flex; }
-.papers-toggle-input:checked ~ .papers-toggle-label { display: none !important; }  /* 라벨의 인라인 display를 덮어써야 함 */
+.papers-more { display: none; }
+.papers-toggle-input:checked ~ .papers-more { display: block; }
+.papers-toggle-label { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-top: 1px solid #EDE6DA; background: #FFFFFF; font-size: 14px; font-weight: 600; color: #0F7A7E; cursor: pointer; }
+.papers-toggle-label:hover { background: #F4F9F8; }
+.papers-toggle-input:checked ~ .papers-toggle-label { display: none; }
+
+@media (max-width: 480px) {
+  .paper-row { flex-direction: column; gap: 8px; padding: 16px 18px; }
+}
