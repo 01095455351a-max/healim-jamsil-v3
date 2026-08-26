@@ -38,10 +38,21 @@
     return track.scrollWidth - track.clientWidth;
   }
 
+  // 사진이 적어 화면에 다 들어오면(넘길 여지가 반 장도 안 되면) 넘기지 않는다.
+  function scrollable(track) {
+    return maxScroll(track) > cardStep(track) * 0.5;
+  }
+
+  // 화살표는 조금이라도 가려진 사진이 있으면 보여준다.
+  // (자동 넘김은 반 장 이상 여유가 있을 때만 — 몇 십 px씩 움찔거리지 않도록)
+  function syncControls(track) {
+    var controls = document.getElementById('tour-controls');
+    if (controls) controls.style.display = maxScroll(track) > 4 ? 'flex' : 'none';
+  }
+
   function advance(track) {
-    if (animating) return;
+    if (animating || !scrollable(track)) return;
     var limit = maxScroll(track);
-    if (limit <= 0) return;
     if (track.scrollLeft >= limit - 4) {
       animateScrollTo(track, 0, REWIND);
     } else {
@@ -81,6 +92,9 @@
     ['mouseleave', 'focusout', 'pointerup', 'pointercancel'].forEach(function (e) {
       track.addEventListener(e, function () { paused = false; });
     });
+
+    syncControls(track);
+    window.addEventListener('resize', function () { syncControls(track); });
 
     // 화면 움직임을 줄이도록 설정한 사용자에게는 자동으로 넘기지 않는다.
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
