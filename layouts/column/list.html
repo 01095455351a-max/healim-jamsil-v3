@@ -56,7 +56,7 @@
       </div>
       <div style="display: flex; gap: 12px; flex-wrap: wrap;">
         <a href="/#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
-        <a href="{{ $clinic.phone_tel }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">{{ $clinic.phone_display }}</a>
+        <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">{{ $clinic.phone_display }}</a>
       </div>
     </div>
   </div>

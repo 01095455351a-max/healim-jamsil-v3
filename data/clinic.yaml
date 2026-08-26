@@ -1,6 +1,7 @@
 # 연락처/진료시간/예약 링크 — 출처: home-c/config/_default/params.yaml의 clinic: 블록
 phone_display: "02-6954-7575"
-phone_tel: "tel:02-6954-7575"
+# 전화 버튼이 실제로 거는 번호(안심번호). 화면에 보이는 번호는 phone_display 쪽이다.
+phone_tel: "tel:0507-1469-7578"
 naver_booking_url: "https://map.naver.com/p/entry/place/1887559338?placePath=%2Fhome%3Fentry%3Dplt%26from%3Dmap%26fromPanelNum%3D1%26additionalHeight%3D76%26timestamp%3D202608220007%26locale%3Dko%26svcName%3Dmap_pcv5&searchType=place&lng=127.0819814&lat=37.5114327&c=15.00,0,0,0,dh"
 naver_search_url: "https://map.naver.com/p/search/해아림한의원 잠실점"
 kakao_channel_url: "https://pf.kakao.com/_xkqufn"

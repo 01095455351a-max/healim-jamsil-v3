@@ -52,7 +52,7 @@
       <a href="/#notice" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">공지사항</a>
     </nav>
     <div class="desktop-cta" style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex: 0 0 auto; white-space: nowrap;">
-      <a href="{{ $clinic.phone_tel }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
+      <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
       <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 12px 22px; border-radius: 9999px; white-space: nowrap;" class="btn-primary">네이버예약</a>
     </div>
   </div>
@@ -89,7 +89,7 @@
       <a href="/#location" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
-      <a href="{{ $clinic.phone_tel }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
+      <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
       <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버예약</a>
     </div>
   </div>
