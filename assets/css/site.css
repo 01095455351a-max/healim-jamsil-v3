@@ -210,7 +210,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    논문마다 카드를 두면 세로로 길어져, 한 칸 안에 줄로 나열하고 구분선만 둔다.
    더보기는 헤더 햄버거와 같은 체크박스 방식(JS 없음)이며 펼치면 버튼이 사라진다. */
 .papers-list { background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; }
-.paper-row { display: flex; gap: 14px; align-items: baseline; padding: 16px 22px; border-top: 1px solid #EDE6DA; }
+.paper-row { display: flex; gap: 12px; align-items: flex-start; padding: 15px 22px; border-top: 1px solid #EDE6DA; }
+.paper-row > span:first-child { margin-top: 9px; }
 .papers-list > .paper-row:first-child { border-top: none; }
 
 .papers-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
@@ -221,5 +222,5 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .papers-toggle-input:checked ~ .papers-toggle-label { display: none; }
 
 @media (max-width: 480px) {
-  .paper-row { flex-direction: column; gap: 8px; padding: 16px 18px; }
+  .paper-row { padding: 15px 18px; }
 }

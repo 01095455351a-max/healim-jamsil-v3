@@ -114,11 +114,11 @@
       <div>
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 16px;">학술 논문</div>
         <div class="papers-list">
-          {{ range $i, $paper := first $featured . }}{{ partial "paper-row.html" (dict "paper" $paper "index" $i) }}{{ end }}
+          {{ range first $featured . }}{{ partial "paper-row.html" . }}{{ end }}
           {{ if gt (len .) $featured }}
           <input type="checkbox" id="papers-more-home" class="papers-toggle-input" />
           <div class="papers-more">
-            {{ range $i, $paper := after $featured . }}{{ partial "paper-row.html" (dict "paper" $paper "index" (add $i $featured)) }}{{ end }}
+            {{ range after $featured . }}{{ partial "paper-row.html" . }}{{ end }}
           </div>
           <label for="papers-more-home" class="papers-toggle-label">전체 연구 논문 보기<span style="font-size: 12px;">↓</span></label>
           {{ end }}
