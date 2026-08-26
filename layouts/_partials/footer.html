@@ -1,0 +1,49 @@
+{{/* 하단 푸터 — handoff/design-v3/index.html §footer 그대로 이식. */}}
+{{ $clinic := hugo.Data.clinic }}
+{{ $diseases := where site.RegularPages "Section" "diseases" }}
+{{ $diseases = ($diseases.ByWeight) | first 8 }}
+<footer style="background: #001E2B; color: #FFFFFF; padding: 64px 0 40px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 40px;">
+      <div>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <img src="/design-v3/logo-white.png" alt="해아림한의원 잠실점" style="height: 34px; width: auto; display: block;" />
+        </div>
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.70); margin: 14px 0 18px; max-width: 280px;">마음의 불안부터 두뇌의 균형까지<br />2인의 전담 원장이 세밀하게 동행합니다</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="{{ $clinic.naver_blog_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">블로그</a>
+          <a href="{{ $clinic.instagram_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">인스타그램</a>
+          <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">카카오톡</a>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">주요 진료과목</div>
+        {{ range $diseases }}
+        <a href="{{ .RelPermalink }}" style="font-size: 14px; color: rgba(255,255,255,0.70);" class="footer-link">{{ .Title }}</a>
+        {{ end }}
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">진료 시간표</div>
+        {{ range hugo.Data.clinic.hours }}
+        <span style="font-size: 14px; color: rgba(255,255,255,0.70);">{{ .days }}{{ with .note }} ({{ . }}){{ end }} {{ .time }}</span>
+        {{ end }}
+        <span style="font-size: 13px; color: rgba(255,255,255,0.70); margin-top: 6px;">※ {{ $clinic.lunch_note }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">오시는 길 &amp; 문의</div>
+        <span style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.70);">{{ $clinic.address_line }}<br />{{ $clinic.address_transit | safeHTML }}</span>
+        <a href="{{ $clinic.phone_tel }}" style="font-size: 16px; font-weight: 600; color: #FFFFFF; margin-top: 4px;" class="footer-phone">{{ $clinic.phone_display }}</a>
+      </div>
+    </div>
+    <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 14px;">
+      <div style="font-size: 13px; color: rgba(255,255,255,0.70);">상호명: {{ $clinic.business_name }} | 대표자: {{ $clinic.representative }} | 대표전화: {{ $clinic.phone_display }} | 소재지: {{ $clinic.address_line }} | 사업자등록번호 {{ $clinic.business_registration_number }}</div>
+      <div style="font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.70); max-width: 900px;">[의료법 고지] 본 웹사이트의 모든 콘텐츠는 정보 제공을 목적으로 작성되었으며, 개별 환자의 상태에 따라 진단 및 치료 효과는 상이할 수 있습니다.<br />치료 전 반드시 한의사와 1:1 진료 및 상담을 진행하시기 바랍니다.</div>
+      <div style="display: flex; gap: 18px; flex-wrap: wrap;">
+        <a href="https://home-c-e67.pages.dev/privacy/" style="font-size: 13px; color: rgba(255,255,255,0.70);" class="footer-link">개인정보처리방침</a>
+        <a href="https://home-c-e67.pages.dev/terms/" style="font-size: 13px; color: rgba(255,255,255,0.70);" class="footer-link">이용약관</a>
+        <a href="https://home-c-e67.pages.dev/pricing/" style="font-size: 13px; color: rgba(255,255,255,0.70);" class="footer-link">비급여안내</a>
+      </div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.70);">© 2026 {{ $clinic.business_name }}</div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,96 @@
+{{/* 상단 헤더 — handoff/design-v3/index.html §header 그대로 이식.
+     특화 질환 드롭다운은 mockup에서 "준비 중"이던 8개가 이제 전부 실제 링크(질환 9개 range). */}}
+{{ $diseases := where site.RegularPages "Section" "diseases" }}
+{{ $diseases = $diseases.ByWeight }}
+{{ $clinic := hugo.Data.clinic }}
+<header style="background: #FFFFFF; border-bottom: 1px solid #EDE6DA; position: sticky; top: 0; z-index: 20;">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input" />
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; min-height: 84px; display: flex; flex-wrap: wrap; row-gap: 10px; align-items: center; gap: clamp(14px, 2vw, 40px); padding-top: 12px; padding-bottom: 12px;">
+    <a href="/" style="display: flex; align-items: baseline; gap: 8px; flex: 0 0 auto; white-space: nowrap; margin-right: clamp(12px, 2vw, 32px);">
+      <img src="/design-v3/logo.png" alt="해아림한의원 잠실점" style="height: clamp(26px, 2.7vw, 32px); width: auto; display: block;" />
+    </a>
+    <label for="nav-toggle" class="hamburger-btn" aria-label="메뉴 열기" style="width: 44px; height: 44px; margin-left: auto; border-radius: 9999px; border: 1px solid #C1C7C6; align-items: center; justify-content: center; font-size: 20px; color: #001E2B; cursor: pointer;">☰</label>
+    <nav class="desktop-nav" style="display: flex; gap: clamp(12px, 1.6vw, 26px); align-items: center; justify-content: center; white-space: nowrap; flex: 0 0 auto; min-width: max-content; overflow: visible; position: relative; z-index: 30;">
+
+      <div style="position: relative;" class="nav-item">
+        <a href="/#diseases" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">특화 질환<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
+          <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
+            {{ range $diseases }}
+            <a href="{{ .RelPermalink }}" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">{{ .Title }}</a>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+
+      <div style="position: relative;" class="nav-item">
+        <a href="/#treatments" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">진료안내<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
+          <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
+            <a href="/#treatments" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">치료 방법</a>
+            <a href="/first-visit/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">첫 내원 안내</a>
+            <a href="/#location" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">진료시간 · 오시는 길</a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/#doctors" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
+
+      <div style="position: relative;" class="nav-item">
+        <a href="/#reviews" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
+          <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
+            <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">네이버 리뷰 보기</a>
+            <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">치료후기 전체 보기</a>
+            <a href="/reviews/#handwritten" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">자필 후기</a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/column/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">원장 컬럼</a>
+      <a href="/#location" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
+      <a href="/#notice" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">공지사항</a>
+    </nav>
+    <div class="desktop-cta" style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex: 0 0 auto; white-space: nowrap;">
+      <a href="{{ $clinic.phone_tel }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
+      <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 12px 22px; border-radius: 9999px; white-space: nowrap;" class="btn-primary">네이버예약</a>
+    </div>
+  </div>
+
+  <div class="mobile-drawer" style="border-top: 1px solid #EDE6DA; background: #FFFFFF; padding: 8px 24px 24px;">
+    <div style="display: flex; justify-content: flex-end; padding: 12px 0 4px;">
+      <label for="nav-toggle" aria-label="메뉴 닫기" style="width: 44px; height: 44px; border-radius: 9999px; border: 1px solid #C1C7C6; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #001E2B; cursor: pointer;">✕</label>
+    </div>
+    <nav style="display: flex; flex-direction: column; gap: 4px;">
+      <details>
+        <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">특화 질환<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
+        <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 12px 12px;">
+          {{ range $diseases }}
+          <a href="{{ .RelPermalink }}" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">{{ .Title }}</a>
+          {{ end }}
+        </div>
+      </details>
+      <details>
+        <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">진료안내<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
+        <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 12px 12px;">
+          <a href="/#treatments" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">치료 방법</a>
+          <a href="/first-visit/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">첫 내원 안내</a>
+          <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">치료후기</a>
+        </div>
+      </details>
+      <details>
+        <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">게시판<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
+        <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 12px 12px;">
+          <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">치료후기</a>
+          <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">원장 컬럼</a>
+          <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">공지사항</a>
+        </div>
+      </details>
+      <a href="/#location" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
+    </nav>
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
+      <a href="{{ $clinic.phone_tel }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
+      <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버예약</a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,28 @@
+schema: hugoblox/author/v1
+slug: seok-seonhui
+is_owner: true
+name:
+  display: 석선희 원장
+  family: 석
+role: 한방신경정신과 전문의
+status:
+  icon: "🌿"
+bio: >-
+  불안과 공황, 불면은 단순한 마음의 나약함이 아닌 뇌신경계와 자율신경의 신체적 불균형에서 시작됩니다.
+  뇌와 신체의 균형을 회복시키는 1:1 맞춤 청정 한약 치료를 중심으로, 심층 상담치료를 병행하여
+  치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.
+interests:
+  - 공황장애
+  - 불안장애
+  - 강박증
+  - 우울증
+  - 불면증
+affiliations:
+  - name: 대한한방신경정신과학회 정회원
+links:
+  - icon: brands/instagram
+    url: https://www.instagram.com/healimjs
+    label: 공식 인스타그램
+user_groups:
+  - 전담 원장
+weight: 2

@@ -1,0 +1,27 @@
+schema: hugoblox/author/v1
+slug: ryu-seokgyun
+is_owner: false
+name:
+  display: 류석균 원장
+  family: 류
+role: 한의사 (임상 22년)
+status:
+  icon: "🧠"
+bio: >-
+  22년간 쌓아온 임상 경험을 바탕으로, 과부하된 두뇌 기능과 자율신경계의 불균형을 정밀하게 살펴
+  소아청소년부터 성인까지 안정적인 일상 회복을 이끌어냅니다.
+interests:
+  - 틱장애
+  - ADHD
+  - 자율신경실조증
+  - 다한증
+  - 신경성 질환
+affiliations:
+  - name: 대한한방내과학회 정회원
+links:
+  - icon: brands/instagram
+    url: https://www.instagram.com/healimjs
+    label: 공식 인스타그램
+user_groups:
+  - 전담 원장
+weight: 1

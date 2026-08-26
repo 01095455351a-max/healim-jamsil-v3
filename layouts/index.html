@@ -1,0 +1,392 @@
+{{ define "main" }}
+{{ $clinic := hugo.Data.clinic }}
+{{ $diseases := (where site.RegularPages "Section" "diseases").ByWeight }}
+{{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse | first 3 }}
+{{ $notices := (where site.RegularPages "Section" "notice").ByDate.Reverse }}
+
+<section id="top" style="position: relative; overflow: hidden; background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); padding: 76px 0 72px;">
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 0.95fr; gap: 56px; align-items: center;">
+    <div>
+      <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 8px 16px; border-radius: 9999px; margin-bottom: 24px;">한방신경정신과 전문의 · 임상 22년 원장</div>
+      <h1 style="font-size: 52px; font-weight: 500; line-height: 1.25; letter-spacing: -1.5px; margin: 0; text-wrap: balance;">마음의 불안부터<br />두뇌의 균형까지</h1>
+      <p style="font-size: 19px; line-height: 1.7; color: #4A4A44; margin: 22px 0 30px; max-width: 480px;">2인의 전담 원장이 세밀하게 동행합니다. 단순한 증상 완화를 넘어, 치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.</p>
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 28px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
+        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 26px; border-radius: 9999px;" class="btn-outline">네이버 예약</a>
+      </div>
+      <div style="display: flex; gap: 32px; margin-top: 40px; padding-top: 26px; border-top: 1px solid #EDE6DA;">
+        <div><div style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px;">2인</div><div style="font-size: 14px; color: #6B6960; margin-top: 4px;">전담 원장 · 2대 분과</div></div>
+        <div><div style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px;">22년</div><div style="font-size: 14px; color: #6B6960; margin-top: 4px;">원장 임상 경력</div></div>
+        <div><div style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px;">9가지</div><div style="font-size: 14px; color: #6B6960; margin-top: 4px;">특화 질환 진료</div></div>
+      </div>
+    </div>
+    <div style="border-radius: 20px; overflow: hidden; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; height: 460px;">
+      <img src="https://home-c-e67.pages.dev/media/clinic/waiting-room_hu_b0f79993cc51e6a8.webp" alt="해아림한의원 잠실점 대기 공간" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+    </div>
+  </div>
+</section>
+
+<section id="diseases" style="background: #FFFFFF; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">특화 질환</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">세밀하게 진료하는 9가지 특화 질환</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">카드를 눌러 증상·원인·치료 방법을 확인하세요.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      {{ range $diseases }}
+      <a href="{{ .RelPermalink }}" style="display: block; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; background: #FFFFFF; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1), border-color 170ms;" class="card-link">
+        <div style="height: 132px; border-radius: 8px; overflow: hidden; margin-bottom: 18px; background: #FAF6EF;"><img src="/design-v3/{{ .Params.image }}" alt="{{ .Title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+        <h3 style="font-size: 20px; font-weight: 600; margin: 0 0 10px;">{{ .Title }}</h3>
+        <p style="font-size: 15px; line-height: 1.65; color: #4A4A44; margin: 0 0 16px;">{{ .Params.subtitle }}</p>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          {{ range .Params.tags }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px;">{{ . }}</span>{{ end }}
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section id="doctors" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">의료진</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">원장 및 진료 철학 소개</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">단순한 증상 완화를 넘어, 치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.</p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+      {{ range (where site.RegularPages "Section" "doctors") }}
+      {{ $slug := .File.BaseFileName }}
+      {{ $author := index hugo.Data.authors $slug }}
+      <a href="{{ .RelPermalink }}" style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1), border-color 170ms;" class="card-link">
+        <div style="display: flex; gap: 20px; align-items: center;">
+          <img src="/media/authors/{{ $slug }}.jpg" alt="{{ .Title }}" style="width: 96px; height: 96px; border-radius: 9999px; object-fit: cover; display: block;" />
+          <div>
+            <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 6px;">{{ $author.name.display | default .Title }}</h3>
+            <div style="font-size: 15px; color: #0F7A7E; font-weight: 600;">{{ $author.role }}</div>
+            {{ with $author.affiliations }}<div style="font-size: 14px; color: #6B6960; margin-top: 3px;">{{ (index . 0).name }}</div>{{ end }}
+          </div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $author.bio }}</p>
+        <span style="font-size: 14px; font-weight: 600; color: #0F7A7E;">약력 및 소개글 보기 →</span>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; padding-top: 4px;">
+          {{ range $author.interests }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 6px 12px; border-radius: 9999px;">{{ . }}</span>{{ end }}
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section id="books" style="background: #FFFFFF; padding: 72px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">Books &amp; Papers</div>
+    <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 10px;; text-wrap: balance">출간 도서와 논문</h2>
+    <p style="font-size: 17px; line-height: 1.75; color: #4A4A44; margin: 0 0 36px; max-width: 640px;; text-wrap: pretty">해아림한의원 네트워크 원장단이 펴낸 도서와 학술 논문입니다.</p>
+    <div style="display: flex; flex-direction: column; gap: 40px;">
+      <div>
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 16px;">출간 도서</div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+          <article style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; display: flex; gap: 26px; align-items: stretch; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift">
+            <div style="flex: 0 0 132px; width: 132px; height: 185px; border-radius: 4px; overflow: hidden; background: #F4EEE2; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px;"><img src="/design-v3/book-tic.jpg" alt="토닥토닥 틱장애 표지" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+            <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+              <span style="align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px; border-radius: 4px;">해아림한의원 저</span>
+              <div><h4 style="font-size: 20px; font-weight: 600; line-height: 1.4; margin: 0 0 10px;">토닥토닥 틱장애</h4><p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0;">슬기로운 ADHD·틱장애 완치 지침서</p></div>
+              <a href="https://search.shopping.naver.com/search/all?query=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5%20%ED%8B%B1%EC%9E%A5%EC%95%A0" target="_blank" rel="noopener" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 10px 18px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">소개 및 구매 보기<span style="font-size: 12px;">→</span></a>
+            </div>
+          </article>
+          <article style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; display: flex; gap: 26px; align-items: stretch; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift">
+            <div style="flex: 0 0 132px; width: 132px; height: 185px; border-radius: 4px; overflow: hidden; background: #F4EEE2; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px;"><img src="/design-v3/book-panic.jpg" alt="걱정마 공황장애 표지" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+            <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+              <span style="align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px; border-radius: 4px;">해아림한의원 저</span>
+              <div><h4 style="font-size: 20px; font-weight: 600; line-height: 1.4; margin: 0 0 10px;">걱정마 공황장애</h4><p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0;">불안장애·자율신경실조증·공황장애 치료 완치지침서</p></div>
+              <a href="https://search.shopping.naver.com/search/all?query=%EA%B1%B1%EC%A0%95%EB%A7%88%20%EA%B3%B5%ED%99%A9%EC%9E%A5%EC%95%A0" target="_blank" rel="noopener" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 10px 18px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">소개 및 구매 보기<span style="font-size: 12px;">→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 16px;">학술 논문</div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          {{ range slice (dict "no" "01" "journal" "대한한방신경정신과학회지" "title" "틱장애 아동의 한방 치료 임상 연구") (dict "no" "02" "journal" "대한한방신경정신과학회지" "title" "공황장애 환자의 자율신경 균형 변화 분석") (dict "no" "03" "journal" "한방소아과학회지" "title" "소아 ADHD의 한약 치료 경과 관찰") }}
+          <a href="#books" target="_blank" rel="noopener" style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 20px 24px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; background: #E3FCF7; padding: 3px 8px; border-radius: 4px;">논문 {{ .no }}</span>
+              <span style="font-size: 13px; color: #6F6B61;">{{ .journal }}</span>
+              <span style="margin-left: auto; font-size: 16px; font-weight: 600; color: #0F7A7E;">↗</span>
+            </div>
+            <div style="font-size: 17px; font-weight: 600; line-height: 1.45;">{{ .title }}</div>
+            <div style="font-size: 13px; line-height: 1.5; color: #6B6960;">해아림한의원 원장단</div>
+          </a>
+          {{ end }}
+        </div>
+        <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 16px 0 0;">논문 제목과 원문 주소는 자리표시자입니다. 실제 정보로 교체가 필요합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clinics" style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">2인의 전담 원장 · 2대 분과 체계</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">해아림한의원 잠실점을 믿고 찾는 이유</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 680px;; text-wrap: pretty">원인을 짚어내는 정밀 진단부터 1:1 맞춤 한약, 심층 상담·침구 치료까지 이어지는 전담 케어 시스템입니다.</p>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+      <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px;">
+        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 8px; line-height: 1.35;">한방신경정신과 &amp; 심신 통합 클리닉</h3>
+        <div style="font-size: 15px; line-height: 1.6; color: #4A4A44; margin-bottom: 26px;"><strong style="font-weight: 600; color: #001E2B;">석선희 원장 전담</strong> · 공황장애, 불안장애, 강박증, 우울증, 불면증</div>
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">정밀 검진 및 원인 분석</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">자율신경 균형 검사 및 뇌기능 평가</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">1:1 맞춤 한약 치료 (핵심)</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">항진된 신경계 안정과 오장육부 균형 회복을 돕는 개인별 탕전</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">3</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">심층 상담치료 (병행)</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">전문의의 인지적 통찰 및 심신 이완 지도</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">4</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">침구 및 신경 이완 치료</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">두경부 긴장 완화 및 기혈 순환 촉진</div></div></div>
+        </div>
+      </div>
+      <div style="background: #F4EEE2; border: 1px solid #E3D6BF; border-radius: 16px; padding: 36px;">
+        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 8px; line-height: 1.35;">두뇌 기능 &amp; 자율신경 특화 클리닉</h3>
+        <div style="font-size: 15px; line-height: 1.6; color: #4A4A44; margin-bottom: 26px;"><strong style="font-weight: 600; color: #001E2B;">류석균 원장 전담</strong> · 소아·성인 틱장애, ADHD, 자율신경실조증, 다한증, 신경성 두통·어지럼증</div>
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">22년 임상 기반 정밀 평가</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">두뇌 발달 단계와 자율신경계 기능 상태 진단</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">두뇌 기능 맞춤 한약 처방</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">뇌 기능 균형과 신경계 과흥분 조절을 돕는 개인별 맞춤 한약</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">3</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">침구 치료 및 경추 교정</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">뇌혈류 순환 촉진 및 신체 균형 안정화</div></div></div>
+          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">4</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">생활 관리 코칭</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">수면 습관, 스마트폰 사용 시간, 스트레스 관리를 부모님과 함께 조율합니다</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="treatments" style="background: #FFFFFF; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">진료안내</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">진료안내 · 치료 방법</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">증상과 체질에 맞춰 조합해 진행하는 9가지 치료 방법입니다.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+      {{ range hugo.Data.treatments }}
+      <button type="button" onclick="document.getElementById('modal-{{ .slug }}').showModal()" style="font-family: inherit; text-align: left; cursor: pointer; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: border-color 170ms cubic-bezier(0.4,0,0.2,1), box-shadow 170ms cubic-bezier(0.4,0,0.2,1);" class="treatment-card">
+        <span style="display: flex; flex-direction: column; align-items: flex-start; align-self: flex-start; margin-bottom: 4px;">
+          <span style="font-size: 17px; font-weight: 600; color: #001E2B;">{{ .name }}</span>
+          <span style="width: 100%; height: 4px; border-radius: 9999px; background: #0F7A7E; margin-top: 8px;"></span>
+        </span>
+        <span style="font-size: 15px; line-height: 1.6; color: #4A4A44;">{{ .summary }}</span>
+        <span style="font-size: 13px; font-weight: 600; color: #0F7A7E; margin-top: 6px;">자세히 보기 +</span>
+      </button>
+      {{ end }}
+    </div>
+    <div style="margin-top: 32px; background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 30px 36px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap;">
+      <div style="flex: 1 1 400px; min-width: 0;">
+        <div style="font-size: 19px; font-weight: 600; margin-bottom: 8px;">처음 오시는 날에는 무엇을 준비할까요</div>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">검사와 상담을 포함해 약 60분이 걸립니다. 진료 순서와 준비물, 자주 묻는 질문을 미리 확인하실 수 있습니다.</p>
+      </div>
+      <a href="/first-visit/" style="flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 30px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">첫 내원 안내 보기<span style="font-size: 13px;">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="clinic-tour" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">원내 둘러보기</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">해아림한의원 잠실점 둘러보기</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 36px;; text-wrap: pretty">편안하고 안정감 있는 공간에서 진료받으실 수 있습니다.</p>
+    <div style="position: relative;">
+      <div style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;" id="tour-track">
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><img src="https://home-c-e67.pages.dev/media/clinic/reception_hu_6788b24dac2ed025.webp" alt="접수 데스크" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; display: block;" /></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><img src="https://home-c-e67.pages.dev/media/clinic/waiting-room_hu_b0f79993cc51e6a8.webp" alt="대기 공간" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; display: block;" /></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><img src="https://home-c-e67.pages.dev/media/clinic/counseling-room_hu_4f9549d360674013.webp" alt="1:1 상담실" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; display: block;" /></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><img src="https://home-c-e67.pages.dev/media/clinic/treatment-room_hu_b31a860d2d7374c.webp" alt="치료실" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; display: block;" /></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><div style="width:100%;height:220px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#FAF6EF;border:1px dashed #C1C7C6;color:#97938A;font-size:14px;">한약 조제실 사진</div></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><div style="width:100%;height:220px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#FAF6EF;border:1px dashed #C1C7C6;color:#97938A;font-size:14px;">두뇌훈련실 사진</div></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><div style="width:100%;height:220px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#FAF6EF;border:1px dashed #C1C7C6;color:#97938A;font-size:14px;">복도와 대기 공간 사진</div></figure>
+        <figure style="margin: 0; flex: 0 0 300px; width: 300px; min-width: 0;"><div style="width:100%;height:220px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#FAF6EF;border:1px dashed #C1C7C6;color:#97938A;font-size:14px;">원내 전경 사진</div></figure>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button type="button" aria-label="이전 사진" onclick="window.tourSlide && window.tourSlide(-1)" style="font-family: inherit; width: 44px; height: 44px; border-radius: 9999px; border: 1px solid #C1C7C6; background: #FFFFFF; color: #001E2B; font-size: 17px; cursor: pointer;" class="btn-outline">←</button>
+        <button type="button" aria-label="다음 사진" onclick="window.tourSlide && window.tourSlide(1)" style="font-family: inherit; width: 44px; height: 44px; border-radius: 9999px; border: 1px solid #C1C7C6; background: #FFFFFF; color: #001E2B; font-size: 17px; cursor: pointer;" class="btn-outline">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="location" style="background: #FFFFFF; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">오시는 길</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 36px; text-wrap: balance;">잠실새내역 4번 출구 도보 3분</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: #FAF6EF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 12px;">주소</div>
+          <div style="font-size: 17px; line-height: 1.65; font-weight: 500;">{{ $clinic.address_line }}</div>
+          <div style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin-top: 10px;">{{ $clinic.address_transit | safeHTML }}</div>
+          <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+            <a href="{{ $clinic.google_maps_dir_url }}" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 11px 20px; border-radius: 9999px;" class="btn-primary">길찾기</a>
+            <a href="{{ $clinic.phone_tel }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">{{ $clinic.phone_display }}</a>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+          <div style="padding: 20px 24px 12px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61;">진료시간</div>
+          {{ range $clinic.hours }}
+          <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 24px; border-top: 1px solid #F1F3F2; font-size: 15px;"><span style="color: #4A4A44;">{{ .days }}{{ with .note }} <span style="color: #0F7A7E; font-weight: 600;">{{ . }}</span>{{ end }}</span><span style="font-weight: 600;{{ if eq .time "정기 휴진" }} color: #6B6960;{{ end }}">{{ .time }}</span></div>
+          {{ end }}
+          <div style="padding: 14px 24px 20px; border-top: 1px solid #F1F3F2; font-size: 14px; line-height: 1.6; color: #6B6960;">{{ $clinic.lunch_note }}</div>
+        </div>
+      </div>
+      {{ partial "kakao-map.html" (dict "height" "560px" "title" "해아림한의원 잠실점 위치") }}
+    </div>
+  </div>
+</section>
+
+<section id="reviews" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Reviews</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px;; text-wrap: balance">다녀 가신 분 후기</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">진료를 받으신 분들이 직접 남겨주신 기록입니다.</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+      <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 36px; height: 36px; border-radius: 10px; background: #03C75A; color: #FFFFFF; font-size: 18px; font-weight: 700; line-height: 36px; text-align: center;">N</span>
+          <div><div style="font-size: 19px; font-weight: 600;">네이버 방문자 리뷰</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">네이버 지도에서 확인</div></div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">진료 후 남겨주신 리뷰는 네이버 지도에 그대로 쌓입니다. 별점과 방문 시점, 어떤 진료를 받으셨는지까지 함께 보실 수 있습니다.</p>
+        <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">네이버 리뷰 보기<span style="font-size: 13px;">→</span></a>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="width: 36px; height: 36px; border-radius: 10px; background: #E3FCF7; color: #0F7A7E; font-size: 17px; font-weight: 700; line-height: 36px; text-align: center;">필</span>
+          <div><div style="font-size: 19px; font-weight: 600;">자필 후기</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">간편 로그인 후 열람</div></div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">환자분이 직접 작성해 주신 자필 후기에는 나이, 증상, 치료 경과 등 민감한 개인정보가 담겨 있습니다. 별도 회원가입 없이 네이버 또는 카카오 계정으로 확인하실 수 있습니다.</p>
+        <a href="/reviews/#handwritten" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">자필 후기 보기<span style="font-size: 13px;">→</span></a>
+      </div>
+    </div>
+    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 24px 0 0;">개별 환자의 상태에 따라 치료 효과는 상이할 수 있습니다.</p>
+  </div>
+</section>
+
+<section id="notice" style="background: #FFFFFF; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Notice</div>
+    <div style="display: flex; align-items: flex-end; gap: 20px; margin-bottom: 32px; flex-wrap: wrap;">
+      <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0; text-wrap: balance;">공지사항</h2>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+      <div style="display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; padding: 14px 24px; background: #FAF6EF; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">
+        <span>번호</span><span style="text-align: center;">구분</span><span>제목</span><span style="text-align: right;">등록일</span>
+      </div>
+      {{ range $i, $n := $notices }}
+      {{ $cat := "공지" }}{{ with $n.Params.tags }}{{ if gt (len .) 0 }}{{ $cat = index . 0 }}{{ end }}{{ end }}
+      {{ $isNew := lt (now.Sub $n.Date).Hours 336.0 }}
+      <details style="border-top: 1px solid #F1F3F2;">
+        <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
+          <span style="font-size: 14px; color: #6F6B61;">{{ sub (len $notices) $i }}</span>
+          <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ $cat }}</span>
+          <span style="font-size: 16px; font-weight: 500; color: #001E2B; display: flex; align-items: center; gap: 10px;" class="notice-title">{{ $n.Title }}{{ if $isNew }}<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF; background: #157175; padding: 3px 8px; border-radius: 9999px;">NEW</span>{{ end }}</span>
+          <span style="font-size: 14px; color: #6B6960; text-align: right;">{{ $n.Date.Format "2006.01.02" }}</span>
+        </summary>
+        <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
+          <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
+            <div style="font-size: 17px; font-weight: 600; margin-bottom: 12px;">{{ $n.Title }}</div>
+            <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ $n.Content }}</div>
+          </div>
+        </div>
+      </details>
+      {{ end }}
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 32px;">
+      <a href="/notice/" style="display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 30px; border-radius: 9999px;" class="btn-outline">공지사항 전체 보기<span style="font-size: 13px;">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="column" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">원장 컬럼</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">원장이 직접 전하는 건강 정보</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 36px;; text-wrap: pretty">해아림한의원 잠실점 원장들이 직접 전하는 건강 정보와 진료 안내입니다.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      {{ range $columns }}
+      {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
+      {{ $author := index hugo.Data.authors $authorSlug }}
+      <a href="{{ .RelPermalink }}" style="display: block; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-link">
+        {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
+        {{ with $topics }}<div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 12px;">{{ delimit . " · " }}</div>{{ end }}
+        <h3 style="font-size: 19px; font-weight: 600; line-height: 1.4; margin: 0 0 12px;">{{ .Title }}</h3>
+        <p style="font-size: 15px; line-height: 1.65; color: #4A4A44; margin: 0 0 20px;">{{ .Params.summary }}</p>
+        <div style="display: flex; align-items: center; gap: 10px; padding-top: 16px; border-top: 1px solid #F1F3F2;">
+          <img src="/media/authors/{{ $authorSlug }}.jpg" alt="{{ $author.name.display }}" style="width: 32px; height: 32px; border-radius: 9999px; object-fit: cover; display: block;" />
+          <span style="font-size: 13px; color: #6B6960;">{{ $author.name.display }} · {{ .Date.Format "2006년 1월 2일" }}</span>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 32px;">
+      <a href="/column/" style="display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 30px; border-radius: 9999px;" class="btn-outline">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="consult" style="background: #FFFFFF; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 56px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: start;">
+      <div>
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Consult</div>
+        <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 14px; text-wrap: balance;">전화 상담 신청</h2>
+        <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 28px;; text-wrap: pretty">이름과 연락처를 남겨주시면 확인 후 전화로 안내해 드립니다.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid #C0FAE6;">
+          <a href="{{ $clinic.phone_tel }}" style="font-size: 17px; font-weight: 600; color: #001E2B;">전화 {{ $clinic.phone_display }}</a>
+          <a href="{{ $clinic.kakao_channel_url }}" style="font-size: 15px; font-weight: 500;">카카오톡으로 문의하기 →</a>
+          <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 500;">네이버 예약으로 진행하기 →</a>
+        </div>
+      </div>
+      <form style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">이름 <span style="color: #0F7A7E;">*</span></span><input type="text" placeholder="홍길동" style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;" /></label>
+          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">연락처 <span style="color: #0F7A7E;">*</span></span><input type="tel" placeholder="010-0000-0000" style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;" /></label>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 14px; font-weight: 600;">상담 분야 <span style="color: #0F7A7E;">*</span></span>
+          <select style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;">
+            <option>선택해 주세요</option><option>틱장애/ADHD</option><option>공황/불안/강박/우울</option><option>불면</option><option>화병</option><option>자율신경실조증</option><option>다한증</option><option>수험생보약</option><option>신경성질환</option><option>기타</option>
+          </select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">문의사항</span><textarea rows="4" placeholder="나이, 성별, 증상과 경과를 적어 주세요." style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF; resize: vertical;"></textarea></label>
+        <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; color: #4A4A44;"><input type="checkbox" style="margin-top: 3px; accent-color: #0F7A7E;" /><span>개인정보 수집 및 이용에 동의합니다 <span style="color: #0F7A7E;">*</span> · <a href="https://home-c-e67.pages.dev/privacy/" style="font-weight: 600;">개인정보처리방침 보기</a></span></label>
+        <button type="button" style="font-family: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; border: none; padding: 15px 24px; border-radius: 9999px; cursor: pointer;" class="btn-primary">전화 상담 신청하기</button>
+      </form>
+    </div>
+    <div style="margin-top: 24px; background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 16px; padding: 28px 32px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+      <div style="flex: 1 1 380px; min-width: 0;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 6px;">해아림한의원 네트워크</div>
+        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;">전국 지점 안내와 네트워크 소개는 해아림한의원 대표 홈페이지에서 확인하실 수 있습니다.</p>
+      </div>
+      <a href="{{ $clinic.network_site_url }}" target="_blank" rel="noopener" style="flex: 0 0 auto; margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 13px 22px; border-radius: 9999px; white-space: nowrap;" class="chip-network">네트워크 홈페이지 바로가기<span style="font-size: 13px;">↗</span></a>
+    </div>
+  </div>
+</section>
+
+{{ range hugo.Data.treatments }}
+<dialog id="modal-{{ .slug }}" style="border-radius: 16px; box-shadow: rgba(0,30,43,0.16) 0px 16px 48px -8px; max-width: 620px; width: 100%; max-height: 84vh; padding: 40px 44px; border: none;" onclick="if(event.target===this) this.close()">
+  <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+    <div>
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">치료 방법</div>
+      <h3 style="font-size: 26px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0;; text-wrap: balance">{{ .name }}</h3>
+    </div>
+    <button type="button" aria-label="닫기" onclick="this.closest('dialog').close()" style="font-family: inherit; margin-left: auto; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 9999px; border: 1px solid #C1C7C6; background: #FFFFFF; color: #001E2B; font-size: 16px; cursor: pointer;" class="btn-outline">✕</button>
+  </div>
+  <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ .summary }}</p>
+  <div style="background: #FAF6EF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px 26px; margin-bottom: 20px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 14px;">진행 방식</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      {{ range .steps }}<div style="display: flex; gap: 12px; font-size: 16px; line-height: 1.7; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>{{ . }}</span></div>{{ end }}
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;">
+    <span style="font-size: 13px; font-weight: 600; color: #6F6B61;">주로 적용하는 질환</span>
+    {{ range .applies_to }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px;">{{ . }}</span>{{ end }}
+  </div>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a href="#consult" onclick="this.closest('dialog').close()" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
+    <a href="/first-visit/" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">첫 내원 안내</a>
+  </div>
+</dialog>
+{{ end }}
+
+<script src="/js/tour-slider.js"></script>
+{{ end }}

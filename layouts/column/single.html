@@ -1,0 +1,86 @@
+{{ define "main" }}
+{{ $clinic := hugo.Data.clinic }}
+{{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
+{{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
+{{ $author := index hugo.Data.authors $authorSlug }}
+{{ $related := where (where site.RegularPages "Section" "column") "File.BaseFileName" "!=" .File.BaseFileName }}
+{{ $related = (where $related "Params.authors" "intersect" .Params.authors) | first 3 }}
+
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 52px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px; flex-wrap: wrap;">
+      <a href="/" style="color: #4A4A44;" class="nav-link">홈</a><span>›</span>
+      <a href="/column/" style="color: #4A4A44;" class="nav-link">원장 컬럼</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">{{ delimit $topics " · " }}</span>
+    </div>
+    <div style="max-width: 760px;">
+      <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">{{ delimit $topics " · " }}</div>
+      <h1 style="font-size: 40px; font-weight: 500; line-height: 1.35; letter-spacing: -1px; margin: 0 0 20px;">{{ .Title }}</h1>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="/media/authors/{{ $authorSlug }}.jpg" alt="{{ $author.name.display }}" style="width: 44px; height: 44px; border-radius: 9999px; object-fit: cover; display: block;" />
+        <div>
+          <div style="font-size: 15px; font-weight: 600;">{{ $author.name.display }}</div>
+          <div style="font-size: 13px; color: #6B6960;">{{ $author.role }} · {{ .Date.Format "2006.01.02" }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: #FFFFFF; padding: 56px 0 88px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; align-items: start;">
+
+    <article style="display: flex; flex-direction: column; gap: 48px; min-width: 0; max-width: 760px;">
+
+      <div class="prose-column">{{ .Content }}</div>
+
+      <div style="display: flex; align-items: center; gap: 16px; padding: 26px 30px; background: #F4EEE2; border: 1px solid #E3D6BF; border-radius: 12px;">
+        <img src="/media/authors/{{ $authorSlug }}.jpg" alt="{{ $author.name.display }}" style="width: 56px; height: 56px; border-radius: 9999px; object-fit: cover; display: block; flex: 0 0 auto;" />
+        <div>
+          <div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">{{ $author.name.display }} · {{ $author.role }}</div>
+          <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0;">{{ $author.bio }}</p>
+        </div>
+      </div>
+
+      {{ with $related }}
+      <div id="related">
+        <h2 style="font-size: 24px; font-weight: 500; line-height: 1.4; letter-spacing: -0.5px; margin: 0 0 18px;">이어서 읽어볼 컬럼</h2>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          {{ range . }}
+          {{ $rTopics := collections.Complement (slice "칼럼") .Params.tags }}
+          <a href="{{ .RelPermalink }}" style="display: flex; gap: 16px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
+            <div>
+              <div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 6px;">{{ delimit $rTopics " · " }}</div>
+              <div style="font-size: 17px; font-weight: 600; line-height: 1.45;">{{ .Title }}</div>
+            </div>
+            <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+          </a>
+          {{ end }}
+        </div>
+        <div style="margin-top: 20px;"><a href="/column/" style="font-size: 15px; font-weight: 600;">← 컬럼 목록으로 돌아가기</a></div>
+      </div>
+      {{ end }}
+
+    </article>
+
+    <aside style="position: sticky; top: 112px; display: flex; flex-direction: column; gap: 16px;">
+      {{ if .TableOfContents }}
+      <nav style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: #6F6B61; margin-bottom: 14px;">이 글의 순서</div>
+        <div class="column-toc">{{ .TableOfContents }}</div>
+      </nav>
+      {{ end }}
+      <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: #6F6B61; margin-bottom: 14px;">진료시간</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6;">
+          {{ range $clinic.hours }}
+          <div style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: #4A4A44;">{{ .days }}{{ with .note }} ({{ . }}){{ end }}</span><span style="font-weight: 600;{{ if eq .time "정기 휴진" }} color: #6B6960;{{ end }}">{{ .time }}</span></div>
+          {{ end }}
+          <div style="font-size: 13px; color: #6B6960; margin-top: 4px;">점심 13:00~14:00 (토·공휴일 없음)</div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</section>
+{{ end }}

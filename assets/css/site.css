@@ -1,0 +1,175 @@
+/* 해아림한의원 잠실점 v3 — Claude Design mockup(handoff/design-v3/index.html)의
+   <style> 블록을 그대로 옮김. 값은 전부 mockup 원본의 리터럴 hex/px 그대로이며,
+   토큰(CSS 변수) 추상화를 새로 만들지 않음 — mockup 자체가 인라인 style 기반이므로
+   그대로 이식하는 것이 규칙 ⑦(기존 Hugo 구조에 맞추지 않음)에 부합함.
+   mockup의 hv1..hv73 번호식 hover 클래스는 의미 없는 배정이라, 동일한 시각 효과를
+   의미 있는 이름으로만 재구성함(색상·동작 값은 전부 동일). */
+
+body { margin: 0; background: #FFFFFF; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; word-break: keep-all; overflow-wrap: break-word; }
+h1, h2, h3, h4, p, li, blockquote, figcaption { text-wrap: pretty; }
+a { color: #0F7A7E; text-decoration: none; }
+a:hover { color: #22ABAF; }
+button { font-family: inherit; }
+
+/* 상단 메뉴 링크 (hv1,3,7,11,15,16,17) */
+.nav-link:hover { color: #001E2B; }
+
+/* 드롭다운 메뉴 항목 (hv2,4,5,6,8,9,10,12,13,14) */
+.nav-dropdown-link:hover { background: #E3FCF7; color: #0F7A7E; }
+
+/* 데스크톱 헤더 드롭다운 — mockup 정적 변환본은 "열린 상태 하나만" 남아있어(README 명시)
+   기본적으로 숨기고 hover/키보드 포커스일 때만 표시. */
+.nav-dropdown-panel { display: none; }
+.nav-item:hover .nav-dropdown-panel,
+.nav-item:focus-within .nav-dropdown-panel { display: block; }
+
+/* 흰색 아웃라인 버튼 (hv18,21,42,43,45,49,53,56,57,58,71,73) */
+.btn-outline:hover { border-color: #0F7A7E; color: #0F7A7E; }
+
+/* 채움 버튼(진한 청록) hover는 더 어두운 청록 (hv19,20,44,54,72) */
+.btn-primary:hover { background: #0B4F52; }
+
+/* 채움 버튼 + 텍스트가 원래 어두운 색인 경우 hover 시 흰 글자 유지 (hv34,36,41,46,47) */
+.btn-primary-dark-text:hover { background: #0B4F52; color: #FFFFFF; }
+
+/* 카드형 링크 hover — 질환/의료진/컬럼 카드 (hv22-32,50-52) */
+.card-link:hover { box-shadow: rgba(0,30,43,0.08) 0px 4px 12px 0px; transform: translateY(-2px); border-color: #C0FAE6; color: #001E2B; }
+
+/* 도서 카드 hover — 색상 변화 없이 뜨는 효과만 (hv33,35) */
+.card-lift:hover { box-shadow: rgba(0,30,43,0.08) 0px 4px 12px 0px; transform: translateY(-2px); }
+
+/* 논문 카드 hover (hv37,38,39) */
+.card-lift-ink:hover { box-shadow: rgba(0,30,43,0.08) 0px 4px 12px 0px; transform: translateY(-2px); color: #001E2B; }
+
+/* 치료 방법 카드 버튼 hover (hv40) */
+.treatment-card:hover { border-color: #22ABAF; box-shadow: rgba(0,30,43,0.04) 0px 1px 2px 0px; }
+
+/* 공지사항 제목 hover (hv48) */
+.notice-title:hover { color: #0F7A7E; }
+
+/* 네트워크 홈페이지 링크 hover (hv55) */
+.chip-network:hover { background: #C0FAE6; color: #0F7A7E; }
+
+/* 슬라이더 화살표 버튼 hover (재사용: btn-outline과 동일 시각 효과) */
+
+/* 푸터 링크(어두운 배경 위 반투명 흰 글자) hover — 완전한 흰색으로 (hv59-66,68-70) */
+.footer-link:hover { color: #FFFFFF; }
+
+/* 푸터 전화번호 hover — 민트로 (hv67) */
+.footer-phone:hover { color: #C0FAE6; }
+
+/* 원장 소개 본문(마크다운) 타이포 — doctor-ryu.html/doctor-seok.html의 "진료 철학" 섹션 기준
+   (H3 27px/500/1.4, 본문 17px/1.85, 강조 강조색) */
+.prose-body h3 { font-size: 27px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; color: #001E2B; margin: 0 0 18px; text-wrap: balance; }
+.prose-body h3:not(:first-child) { margin-top: 40px; }
+.prose-body p { margin: 0 0 18px; text-wrap: pretty; }
+.prose-body p:last-child { margin-bottom: 0; }
+.prose-body strong { font-weight: 600; color: #001E2B; }
+.prose-body a { font-weight: 600; }
+
+/* 원장 컬럼 상세 본문(마크다운) 타이포 — column-detail.html 기준
+   (H2 27px/500/1.4, 본문 17px/1.85, 리스트는 민트 점 불릿, blockquote는 좌측 강조선 콜아웃) */
+.prose-column h2 { font-size: 27px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; color: #001E2B; margin: 0 0 18px; text-wrap: balance; scroll-margin-top: 112px; }
+.prose-column h2:not(:first-child) { margin-top: 48px; }
+.prose-column p { font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 18px; text-wrap: pretty; }
+.prose-column p:last-child { margin-bottom: 0; }
+.prose-column strong { font-weight: 600; color: #001E2B; }
+.prose-column a { font-weight: 600; }
+.prose-column ul { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.prose-column ul li { display: flex; gap: 12px; font-size: 17px; line-height: 1.8; color: #4A4A44; }
+.prose-column ul li::before { content: ""; flex: 0 0 6px; width: 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 12px; }
+.prose-column blockquote { font-size: 17px; line-height: 1.85; color: #001E2B; margin: 24px 0 0; padding: 22px 26px; background: #FAF6EF; border-left: 3px solid #0F7A7E; border-radius: 8px; text-wrap: pretty; }
+.prose-column blockquote p { color: #001E2B; margin: 0; }
+
+/* 컬럼 상세 사이드바 "이 글의 순서" TOC — Hugo 자동 생성 .TableOfContents를 mockup 스타일로 재설정 */
+.column-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.column-toc li { margin: 0; }
+.column-toc ul ul { margin-top: 10px; margin-left: 14px; }
+.column-toc a { font-size: 15px; color: #4A4A44; }
+.column-toc a:hover { color: #001E2B; }
+
+/* ── 모바일 반응형 ──────────────────────────────────────────
+   mockup 정적 파일은 데스크톱 전용이라 모바일 내비/그리드 대응이 없음.
+   CLAUDE-CODE-BRIEF.md의 "반응형 디자인을 그대로 유지"를 따르되, 실제 모바일
+   레이아웃(햄버거 메뉴 등)은 이 프로젝트에서 새로 설계함(§7 모바일 확인 단계). */
+
+/* 헤더 햄버거 메뉴 — 체크박스 트릭으로 JS 없이 구현 */
+.nav-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
+.hamburger-btn { display: none; }
+.mobile-drawer { display: none; }
+
+@media (max-width: 767px) {
+  .desktop-nav, .desktop-cta { display: none !important; }
+  .hamburger-btn { display: flex !important; }
+  #nav-toggle:checked ~ .mobile-drawer { display: block !important; }
+}
+
+/* 콘텐츠 그리드 — 데스크톱 다단 그리드를 모바일에서 1열로 스택.
+   전부 인라인 style이라 최고 우선순위를 가지므로 !important + 속성 선택자로 재정의.
+   표 형태 그리드(공지 목록·검사 항목 등, 고정 px 컬럼 포함)는 표 구조를 유지해야 하므로 제외. */
+@media (max-width: 767px) {
+  [style*="grid-template-columns: repeat(3, 1fr)"],
+  [style*="grid-template-columns: repeat(2, 1fr)"],
+  [style*="grid-template-columns: repeat(2, minmax(0, 1fr))"],
+  [style*="grid-template-columns: repeat(4, minmax(0, 1fr))"],
+  [style*="grid-template-columns: 1fr 0.95fr"],
+  [style*="grid-template-columns: 1.15fr 0.85fr"],
+  [style*="grid-template-columns: 1.1fr 0.9fr"],
+  [style*="grid-template-columns: 1fr 1.1fr"],
+  [style*="grid-template-columns: 1.05fr 1fr"],
+  [style*="grid-template-columns: 1fr 1.05fr"],
+  [style*="grid-template-columns: minmax(0, 1fr) 260px"],
+  [style*="grid-template-columns: minmax(0, 1fr) 300px"],
+  [style*="grid-template-columns: 300px minmax(0, 1fr)"],
+  [style*="grid-template-columns: 1.3fr 1fr 1fr 1.1fr"],
+  [style*="grid-template-columns: 1.3fr 1fr 1.1fr"],
+  [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* CSS Grid는 fr 트랙이라도 자식의 min-content 크기 밑으로 줄지 않아(기본 min-width:auto)
+     좁은 화면에서 그리드가 다시 넘칠 수 있음 — 위에서 1열로 강제한 그리드의 직계 자식은 폭을
+     그리드 트랙에 맞추도록 min-width:0을 함께 강제. */
+  [style*="grid-template-columns: repeat(3, 1fr)"] > *,
+  [style*="grid-template-columns: repeat(2, 1fr)"] > *,
+  [style*="grid-template-columns: repeat(2, minmax(0, 1fr))"] > *,
+  [style*="grid-template-columns: repeat(4, minmax(0, 1fr))"] > *,
+  [style*="grid-template-columns: 1fr 0.95fr"] > *,
+  [style*="grid-template-columns: 1.15fr 0.85fr"] > *,
+  [style*="grid-template-columns: 1.1fr 0.9fr"] > *,
+  [style*="grid-template-columns: 1fr 1.1fr"] > *,
+  [style*="grid-template-columns: 1.05fr 1fr"] > *,
+  [style*="grid-template-columns: 1fr 1.05fr"] > *,
+  [style*="grid-template-columns: minmax(0, 1fr) 260px"] > *,
+  [style*="grid-template-columns: minmax(0, 1fr) 300px"] > *,
+  [style*="grid-template-columns: 300px minmax(0, 1fr)"] > *,
+  [style*="grid-template-columns: 1.3fr 1fr 1fr 1.1fr"] > *,
+  [style*="grid-template-columns: 1.3fr 1fr 1.1fr"] > *,
+  [style*="grid-template-columns: 1fr 1fr"] > * {
+    min-width: 0 !important;
+  }
+  [style*="grid-template-columns: 1fr 1fr"] input,
+  [style*="grid-template-columns: 1fr 1fr"] select,
+  [style*="grid-template-columns: 1fr 1fr"] textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 표 형태 그리드(공지 목록 64/76/1fr/120px, 검사 항목 200px/1fr)는 좁은 화면에서 고정 컬럼을 살짝 줄여 최소한의 여유 확보 */
+@media (max-width: 480px) {
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] {
+    grid-template-columns: 24px 56px 1fr 74px !important;
+    gap: 8px !important;
+  }
+  [style*="grid-template-columns: 200px 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
+}
+
+/* 헤더 안쪽 여백 — 모바일에서 살짝 축소 */
+@media (max-width: 480px) {
+  header > div:first-of-type { padding-left: 16px !important; padding-right: 16px !important; }
+}
+

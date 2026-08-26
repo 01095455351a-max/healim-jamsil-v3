@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+{{ with .Description }}<meta name="description" content="{{ . }}" />{{ else }}<meta name="description" content="{{ .Site.Params.description }}" />{{ end }}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+{{ with resources.Get "css/site.css" }}
+  {{ $css := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />
+{{ end }}
+</head>
+<body>
+<div style="font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; color: #001E2B; background: #FFFFFF;">
+
+{{ partial "header.html" . }}
+
+{{ block "main" . }}{{ end }}
+
+{{ partial "footer.html" . }}
+
+</div>
+</body>
+</html>

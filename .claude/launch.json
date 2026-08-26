@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "healim-v3-hugo-dev",
+      "runtimeExecutable": "cmd.exe",
+      "runtimeArgs": ["/c", "C:\\Users\\Ryu08\\OneDrive\\바탕 화면\\healim-jamsil-v3\\run-hugo-server.bat"],
+      "port": 1315
+    }
+  ]
+}

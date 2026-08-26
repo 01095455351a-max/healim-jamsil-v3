@@ -1,0 +1,168 @@
+{{ define "main" }}
+{{ $p := .Params }}
+{{ $clinic := hugo.Data.clinic }}
+{{ $doctorSlug := $p.doctor }}
+{{ $doctor := index hugo.Data.authors $doctorSlug }}
+
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px;">
+      <a href="/" style="color: #4A4A44;">홈</a><span>›</span>
+      <a href="/#diseases" style="color: #4A4A44;">특화 질환</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">{{ .Title }}</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: end;">
+      <div>
+        <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">특화 질환 · {{ .Title }}</div>
+        <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0; text-wrap: balance;">{{ $p.headline }}</h1>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 20px;">
+          {{ range $p.tags }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 6px 12px; border-radius: 4px;">{{ . }}</span>{{ end }}
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
+        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">네이버 예약</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: #FFFFFF; padding: 64px 0 88px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 56px; align-items: start;">
+    <article style="display: flex; flex-direction: column; gap: 56px; min-width: 0;">
+
+      <div><p style="font-size: 18px; line-height: 1.85; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $p.intro | markdownify }}</p></div>
+
+      <div id="signs">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.signs_heading }}</h2>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px;">
+          {{ range $p.signs }}<li style="display: flex; gap: 12px; font-size: 17px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>{{ . }}</span></li>{{ end }}
+        </ul>
+        {{ with $p.signs_note }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 24px 0 0; padding: 20px 24px; background: #FAF6EF; border-left: 3px solid #0F7A7E; border-radius: 8px;; text-wrap: pretty">{{ . }}</p>{{ end }}
+      </div>
+
+      {{ with $p.differential }}
+      <div id="differential">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.differential_heading }}</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          {{ range . }}
+          <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px;">
+            <div style="font-size: 17px; font-weight: 600; margin-bottom: 8px;">{{ .title }}</div>
+            <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ .text }}</p>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+
+      <div id="cause">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.cause_heading }}</h2>
+        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 28px;; text-wrap: pretty">{{ $p.cause_intro }}</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+          {{ range $i, $c := $p.causes }}
+          <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px;">
+            <div style="font-size: 13px; font-weight: 700; color: #0F7A7E; margin-bottom: 10px;">{{ printf "%02d" (add $i 1) }}</div>
+            <div style="font-size: 17px; font-weight: 600; margin-bottom: 6px;">{{ $c.title }}</div>
+            <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0;">{{ $c.text }}</p>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div id="exam">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.exam_heading }}</h2>
+        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ $p.exam_intro }}</p>
+        <div style="border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+          {{ range $i, $e := $p.exam }}
+          <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 24px;{{ if gt $i 0 }} border-top: 1px solid #F1F3F2;{{ end }} font-size: 16px; line-height: 1.7;"><span style="font-weight: 600;">{{ $e.label }}</span><span style="color: #4A4A44;">{{ $e.text }}</span></div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div id="approach">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.approach_heading }}</h2>
+        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 28px;; text-wrap: pretty">{{ $p.approach_intro | markdownify }}</p>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          {{ range $i, $s := $p.approach_steps }}
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="flex: 0 0 28px; height: 28px; border-radius: 9999px; background: #E3FCF7; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ add $i 1 }}</div>
+            <div><div style="font-size: 17px; font-weight: 600; margin-bottom: 5px;">{{ $s.title }}</div><p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $s.text | markdownify }}</p></div>
+          </div>
+          {{ end }}
+        </div>
+        {{ with $p.approach_note }}<p style="font-size: 17px; line-height: 1.8; color: #001E2B; margin: 28px 0 0; padding: 22px 26px; background: #E3FCF7; border-radius: 12px;; text-wrap: pretty">{{ . }}</p>{{ end }}
+      </div>
+
+      {{ with $p.related_columns }}
+      <div id="related">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">관련 원장 컬럼</h2>
+        {{ range . }}
+        {{ $col := site.GetPage . }}
+        {{ if $col }}
+        {{ $topics := collections.Complement (slice "칼럼") $col.Params.tags }}
+        <a href="{{ $col.RelPermalink }}" style="display: flex; gap: 20px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
+          <img src="/media/authors/{{ $doctorSlug }}.jpg" alt="{{ $doctor.name.display }}" style="width: 48px; height: 48px; border-radius: 9999px; object-fit: cover; display: block;" />
+          <div>
+            <div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 6px;">{{ delimit $topics " · " }}</div>
+            <div style="font-size: 18px; font-weight: 600; line-height: 1.45;">{{ $col.Title }}</div>
+          </div>
+          <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+        </a>
+        {{ end }}
+        {{ end }}
+      </div>
+      {{ end }}
+
+    </article>
+
+    <aside style="position: sticky; top: 112px;">
+      <nav style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 14px;">이 페이지에서</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="#signs" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.signs_heading }}</a>
+          {{ if $p.differential }}<a href="#differential" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.differential_heading }}</a>{{ end }}
+          <a href="#cause" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.cause_heading }}</a>
+          <a href="#exam" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.exam_heading }}</a>
+          <a href="#approach" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.approach_heading }}</a>
+        </div>
+      </nav>
+    </aside>
+  </div>
+</section>
+
+<section id="consult" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 80px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Consult · Hours · Location</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 36px; text-wrap: balance;">전화 상담 신청 · 오시는 길</h2>
+    <div style="display: grid; grid-template-columns: 1.05fr 1fr; gap: 24px; align-items: start;">
+      <form style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">이름 <span style="color: #0F7A7E;">*</span></span><input type="text" placeholder="홍길동" style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;" /></label>
+          <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">연락처 <span style="color: #0F7A7E;">*</span></span><input type="tel" placeholder="010-0000-0000" style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;" /></label>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 14px; font-weight: 600;">상담 분야 <span style="color: #0F7A7E;">*</span></span>
+          <select style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF;">
+            <option>틱장애/ADHD</option><option>공황/불안/강박/우울</option><option>불면</option><option>화병</option><option>자율신경실조증</option><option>다한증</option><option>수험생보약</option><option>신경성질환</option><option>기타</option>
+          </select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">문의사항</span><textarea rows="4" placeholder="나이, 성별, 증상과 경과를 적어 주세요." style="font-family: inherit; font-size: 15px; color: #001E2B; padding: 12px 14px; border: 1px solid #C1C7C6; border-radius: 8px; background: #FFFFFF; resize: vertical;"></textarea></label>
+        <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; color: #4A4A44;"><input type="checkbox" style="margin-top: 3px; accent-color: #0F7A7E;" /><span>개인정보 수집 및 이용에 동의합니다 <span style="color: #0F7A7E;">*</span> · <a href="https://home-c-e67.pages.dev/privacy/" style="font-weight: 600;">개인정보처리방침 보기</a></span></label>
+        <button type="button" style="font-family: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; border: none; padding: 15px 24px; border-radius: 9999px; cursor: pointer;" class="btn-primary">전화 상담 신청하기</button>
+      </form>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 12px;">오시는 길</div>
+          <div style="font-size: 17px; line-height: 1.65; font-weight: 500;">{{ $clinic.address_line }}</div>
+          <div style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin-top: 10px;">{{ $clinic.address_transit | safeHTML }}</div>
+          <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+            <a href="{{ $clinic.google_maps_dir_url }}" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 11px 20px; border-radius: 9999px;" class="btn-primary">길찾기</a>
+            <a href="/#location" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">지도로 크게 보기</a>
+          </div>
+        </div>
+        {{ partial "kakao-map.html" (dict "height" "300px" "title" "해아림한의원 잠실점 위치") }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
