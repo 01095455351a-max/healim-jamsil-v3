@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 {{ $flowSteps := slice
   (dict "title" "접수와 문진표 작성" "time" "약 10분" "text" "증상이 시작된 시기, 경과, 복용 중인 약, 다른 병원에서의 검사 이력을 적습니다. 미리 정리해 오시면 시간을 줄일 수 있습니다.")
   (dict "title" "상태 확인 검사" "time" "약 20분" "text" "자율신경 균형과 뇌 기능 상태를 확인합니다. 증상만 보지 않고 수면, 소화, 정서 상태를 함께 살펴봅니다.")

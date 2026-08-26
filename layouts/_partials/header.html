@@ -2,7 +2,7 @@
      특화 질환 드롭다운은 mockup에서 "준비 중"이던 8개가 이제 전부 실제 링크(질환 9개 range). */}}
 {{ $diseases := where site.RegularPages "Section" "diseases" }}
 {{ $diseases = $diseases.ByWeight }}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 <header style="background: #FFFFFF; border-bottom: 1px solid #EDE6DA; position: sticky; top: 0; z-index: 20;">
   <input type="checkbox" id="nav-toggle" class="nav-toggle-input" />
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; min-height: 84px; display: flex; flex-wrap: wrap; row-gap: 10px; align-items: center; gap: clamp(14px, 2vw, 40px); padding-top: 12px; padding-bottom: 12px;">

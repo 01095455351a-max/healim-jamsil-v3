@@ -1,5 +1,5 @@
 {{/* 하단 푸터 — handoff/design-v3/index.html §footer 그대로 이식. */}}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 {{ $diseases := where site.RegularPages "Section" "diseases" }}
 {{ $diseases = ($diseases.ByWeight) | first 8 }}
 <footer style="background: #001E2B; color: #FFFFFF; padding: 64px 0 40px;">
@@ -24,7 +24,7 @@
       </div>
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">진료 시간표</div>
-        {{ range hugo.Data.clinic.hours }}
+        {{ range site.Data.clinic.hours }}
         <span style="font-size: 14px; color: rgba(255,255,255,0.70);">{{ .days }}{{ with .note }} ({{ . }}){{ end }} {{ .time }}</span>
         {{ end }}
         <span style="font-size: 13px; color: rgba(255,255,255,0.70); margin-top: 6px;">※ {{ $clinic.lunch_note }}</span>

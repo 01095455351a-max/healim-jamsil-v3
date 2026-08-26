@@ -80,7 +80,7 @@ faqs:
 
 관련 컬럼: [ADHD와 단순한 산만함은 어떻게 다를까요?](/column/adhd-vs-normal-distractibility/)
 
-**작성자**: [류석균 원장](/about/doctors/) ｜ 임상 22년
+**작성자**: [류석균 원장](/doctors/ryu-seokgyun/) ｜ 임상 22년
 **작성일**: 2026년 8월 23일
 **검토일**: 2026년 8월 23일
 

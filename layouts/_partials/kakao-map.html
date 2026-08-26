@@ -1,6 +1,6 @@
 {{/* 카카오맵 — home-c의 clinic-map 블록과 동일한 패턴(JS SDK 우선, 실패 시 구글 지도 iframe으로 자동 대체).
      사용: {{ partial "kakao-map.html" (dict "height" "560px" "title" "...") }} */}}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 {{ $height := .height | default "400px" }}
 {{ $title := .title | default "해아림한의원 잠실점 위치" }}
 {{ $extraStyle := .style | default "" }}

@@ -80,7 +80,7 @@ faqs:
 
 관련 컬럼: [불면증은 왜 오래 지속될까요?](/column/why-insomnia-becomes-chronic/)
 
-**작성자**: [석선희 원장](/about/doctors/) ｜ 한방신경정신과 전문의
+**작성자**: [석선희 원장](/doctors/seok-seonhui/) ｜ 한방신경정신과 전문의
 **작성일**: 2026년 8월 23일
 **검토일**: 2026년 8월 23일
 

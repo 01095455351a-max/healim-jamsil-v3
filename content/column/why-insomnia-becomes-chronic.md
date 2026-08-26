@@ -84,7 +84,7 @@ faqs:
 
 관련 컬럼: [불안하면 왜 가슴이 두근거릴까요?](/column/why-anxiety-causes-heart-palpitations/)
 
-**작성자**: [석선희 원장](/about/doctors/) ｜ 한방신경정신과 전문의
+**작성자**: [석선희 원장](/doctors/seok-seonhui/) ｜ 한방신경정신과 전문의
 **작성일**: 2026년 8월 23일
 **검토일**: 2026년 8월 23일
 

@@ -173,3 +173,35 @@ button { font-family: inherit; }
   header > div:first-of-type { padding-left: 16px !important; padding-right: 16px !important; }
 }
 
+
+/* ── 치료 방법 팝업(<dialog>) ──────────────────────────────
+   mockup의 인라인 style은 width:100% + padding 40px 44px인데 전역 box-sizing이 없어
+   좌우 패딩 88px이 폭에 그대로 더해졌다(390px 화면에서 팝업 폭 478px → 오른쪽 잘림,
+   닫기 ✕가 화면 밖). box-sizing을 바로잡고, 데스크톱은 기존에 보이던 렌더 폭(708px =
+   mockup의 max-width 620px + 패딩 88px)을 그대로 유지한다. */
+dialog { box-sizing: border-box; max-width: 708px !important; }
+
+/* 모바일에서는 하단 시트 형태로 전환하고, 제목+닫기 줄을 상단에 고정해
+   내용을 끝까지 스크롤해도 닫기 버튼이 보이도록 한다. */
+@media (max-width: 767px) {
+  dialog {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 88vh !important;
+    margin: auto 0 0 !important;
+    padding: 0 20px 24px !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+  dialog > div:first-of-type {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #FFFFFF;
+    margin: 0 -20px 18px !important;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #EDE6DA;
+  }
+}
+
+/* 팝업이 열려 있는 동안 배경 페이지 스크롤 잠금 */
+html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }

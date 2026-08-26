@@ -1,8 +1,8 @@
 {{ define "main" }}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
 {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
-{{ $author := index hugo.Data.authors $authorSlug }}
+{{ $author := index site.Data.authors $authorSlug }}
 {{ $related := where (where site.RegularPages "Section" "column") "File.BaseFileName" "!=" .File.BaseFileName }}
 {{ $related = (where $related "Params.authors" "intersect" .Params.authors) | first 3 }}
 

@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse }}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
@@ -29,7 +29,7 @@
       {{ range $columns }}
       {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
       {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
-      {{ $author := index hugo.Data.authors $authorSlug }}
+      {{ $author := index site.Data.authors $authorSlug }}
       <a href="{{ .RelPermalink }}" data-tags="{{ delimit $topics "," }}" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 30px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
           <span style="font-size: 12px; font-weight: 600; color: #0F7A7E;">{{ delimit $topics " · " }}</span>

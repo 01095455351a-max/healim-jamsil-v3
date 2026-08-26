@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $clinic := hugo.Data.clinic }}
+{{ $clinic := site.Data.clinic }}
 {{ $diseases := (where site.RegularPages "Section" "diseases").ByWeight }}
 {{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse | first 3 }}
 {{ $notices := (where site.RegularPages "Section" "notice").ByDate.Reverse }}
@@ -54,7 +54,7 @@
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
       {{ range (where site.RegularPages "Section" "doctors") }}
       {{ $slug := .File.BaseFileName }}
-      {{ $author := index hugo.Data.authors $slug }}
+      {{ $author := index site.Data.authors $slug }}
       <a href="{{ .RelPermalink }}" style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1), border-color 170ms;" class="card-link">
         <div style="display: flex; gap: 20px; align-items: center;">
           <img src="/media/authors/{{ $slug }}.jpg" alt="{{ .Title }}" style="width: 96px; height: 96px; border-radius: 9999px; object-fit: cover; display: block;" />
@@ -159,7 +159,7 @@
     <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">진료안내 · 치료 방법</h2>
     <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">증상과 체질에 맞춰 조합해 진행하는 9가지 치료 방법입니다.</p>
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-      {{ range hugo.Data.treatments }}
+      {{ range site.Data.treatments }}
       <button type="button" onclick="document.getElementById('modal-{{ .slug }}').showModal()" style="font-family: inherit; text-align: left; cursor: pointer; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; transition: border-color 170ms cubic-bezier(0.4,0,0.2,1), box-shadow 170ms cubic-bezier(0.4,0,0.2,1);" class="treatment-card">
         <span style="display: flex; flex-direction: column; align-items: flex-start; align-self: flex-start; margin-bottom: 4px;">
           <span style="font-size: 17px; font-weight: 600; color: #001E2B;">{{ .name }}</span>
@@ -303,7 +303,7 @@
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
       {{ range $columns }}
       {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
-      {{ $author := index hugo.Data.authors $authorSlug }}
+      {{ $author := index site.Data.authors $authorSlug }}
       <a href="{{ .RelPermalink }}" style="display: block; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-link">
         {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
         {{ with $topics }}<div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 12px;">{{ delimit . " · " }}</div>{{ end }}
@@ -361,7 +361,7 @@
   </div>
 </section>
 
-{{ range hugo.Data.treatments }}
+{{ range site.Data.treatments }}
 <dialog id="modal-{{ .slug }}" style="border-radius: 16px; box-shadow: rgba(0,30,43,0.16) 0px 16px 48px -8px; max-width: 620px; width: 100%; max-height: 84vh; padding: 40px 44px; border: none;" onclick="if(event.target===this) this.close()">
   <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
     <div>
@@ -389,4 +389,5 @@
 {{ end }}
 
 <script src="/js/tour-slider.js"></script>
+<script src="/js/treatment-modal.js"></script>
 {{ end }}

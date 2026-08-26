@@ -88,7 +88,7 @@ faqs:
 
 관련 컬럼: [검사에는 이상이 없는데 왜 자꾸 어지러울까요?](/column/dizziness-despite-normal-tests/), [다한증은 왜 긴장할 때 심해질까요?](/column/why-anxiety-worsens-hyperhidrosis/)
 
-**작성자**: [류석균 원장](/about/doctors/) ｜ 임상 22년
+**작성자**: [류석균 원장](/doctors/ryu-seokgyun/) ｜ 임상 22년
 **작성일**: 2026년 8월 23일
 **검토일**: 2026년 8월 23일
 

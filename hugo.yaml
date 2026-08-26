@@ -1,7 +1,6 @@
 baseURL: https://example.org/
 locale: ko-KR
 title: 해아림한의원 잠실점
-theme: ""
 
 params:
   description: "해아림한의원 잠실점 — 한방신경정신과 전문의 · 임상 22년 원장"
