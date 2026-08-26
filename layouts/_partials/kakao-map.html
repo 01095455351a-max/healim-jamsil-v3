@@ -3,11 +3,10 @@
 {{ $clinic := site.Data.clinic }}
 {{ $height := .height | default "400px" }}
 {{ $title := .title | default "해아림한의원 잠실점 위치" }}
-{{ $extraStyle := .style | default "" }}
 {{ $mapId := printf "kakao-map-%s" (substr (md5 $title) 0 8) }}
 {{ $jsKey := $clinic.kakao_map_js_key }}
 
-<div style="position: relative; width: 100%; height: {{ $height }}; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;{{ $extraStyle }}">
+<div style="position: relative; width: 100%; height: {{ $height }}; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
   {{ if $jsKey }}
   <div id="{{ $mapId }}" style="position: absolute; inset: 0; width: 100%; height: 100%;"></div>
   <iframe id="{{ $mapId }}-fallback" src="{{ $clinic.google_maps_embed_url | safeURL }}" title="{{ $title }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: none;"></iframe>
