@@ -41,7 +41,7 @@
     </div>
     <div style="display: flex; flex-direction: column; gap: 32px; min-width: 0;">
       <div class="prose-body" style="font-size: 17px; line-height: 1.85; color: #4A4A44;">
-        {{ .Content }}
+        {{ partial "kr.html" .Content }}
       </div>
       {{ with $author.research }}
       <div>

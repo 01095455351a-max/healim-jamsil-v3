@@ -48,7 +48,7 @@
           {{ range . }}
           <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px;">
             <div style="font-size: 17px; font-weight: 600; margin-bottom: 8px;">{{ .title }}</div>
-            <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ .text }}</p>
+            <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" .text }}</p>
           </div>
           {{ end }}
         </div>
@@ -71,7 +71,7 @@
 
       <div id="exam">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.exam_heading }}</h2>
-        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ $p.exam_intro }}</p>
+        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ partial "kr.html" $p.exam_intro }}</p>
         <div style="border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
           {{ range $i, $e := $p.exam }}
           <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 24px;{{ if gt $i 0 }} border-top: 1px solid #F1F3F2;{{ end }} font-size: 16px; line-height: 1.7;"><span style="font-weight: 600;">{{ $e.label }}</span><span style="color: #4A4A44;">{{ $e.text }}</span></div>
@@ -81,7 +81,7 @@
 
       <div id="approach">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.approach_heading }}</h2>
-        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 28px;; text-wrap: pretty">{{ $p.approach_intro | markdownify }}</p>
+        <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 28px;; text-wrap: pretty">{{ partial "kr.html" ($p.approach_intro | markdownify) }}</p>
         <div style="display: flex; flex-direction: column; gap: 16px;">
           {{ range $i, $s := $p.approach_steps }}
           <div style="display: flex; gap: 16px; align-items: flex-start;">
@@ -90,7 +90,7 @@
           </div>
           {{ end }}
         </div>
-        {{ with $p.approach_note }}<p style="font-size: 17px; line-height: 1.8; color: #001E2B; margin: 28px 0 0; padding: 22px 26px; background: #E3FCF7; border-radius: 12px;; text-wrap: pretty">{{ . | markdownify }}</p>{{ end }}
+        {{ with $p.approach_note }}<p style="font-size: 17px; line-height: 1.8; color: #001E2B; margin: 28px 0 0; padding: 22px 26px; background: #E3FCF7; border-radius: 12px;; text-wrap: pretty">{{ partial "kr.html" (. | markdownify) }}</p>{{ end }}
       </div>
 
       {{ with $p.related_columns }}

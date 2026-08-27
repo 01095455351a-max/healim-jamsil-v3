@@ -32,7 +32,7 @@
 
     <article style="display: flex; flex-direction: column; gap: 48px; min-width: 0; max-width: 760px;">
 
-      <div class="prose-column">{{ .Content }}</div>
+      <div class="prose-column">{{ partial "kr.html" .Content }}</div>
 
       <div style="display: flex; align-items: center; gap: 16px; padding: 26px 30px; background: #F4EEE2; border: 1px solid #E3D6BF; border-radius: 12px;">
         {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $authorSlug) "w" 160 "alt" $author.name.display "style" "width: 56px; height: 56px; border-radius: 9999px; object-fit: cover; display: block; flex: 0 0 auto;") }}
