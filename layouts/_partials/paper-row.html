@@ -5,8 +5,5 @@
   <div style="min-width: 0;">
     <div style="font-size: 15px; font-weight: 500; line-height: 1.6; color: #3A3A34; text-wrap: pretty;">{{ .title }}</div>
     <div style="font-size: 13px; line-height: 1.6; color: #6F6B61; margin-top: 4px;">{{ .journal }}{{ with .citation }} {{ . }}{{ end }}</div>
-    {{ with .url }}
-    <a href="{{ . }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 14px; font-weight: 600;">논문 상세보기<span style="font-size: 12px;">→</span></a>
-    {{ end }}
   </div>
 </div>
