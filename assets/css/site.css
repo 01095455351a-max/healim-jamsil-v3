@@ -268,9 +268,12 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
      전체를 한 단계씩 낮춘다. */
   [style*="font-size: 52px"] { font-size: 32px !important; letter-spacing: -1px !important; }
   [style*="font-size: 44px"] { font-size: 30px !important; letter-spacing: -0.6px !important; }
+  [style*="font-size: 40px"] { font-size: 28px !important; letter-spacing: -0.6px !important; }
   [style*="font-size: 38px"] { font-size: 27px !important; }
   [style*="font-size: 34px"] { font-size: 25px !important; }
+  [style*="font-size: 32px"] { font-size: 24px !important; }
   [style*="font-size: 30px"] { font-size: 23px !important; }
+  [style*="font-size: 28px"] { font-size: 22px !important; }
   [style*="font-size: 27px"] { font-size: 21px !important; }
   [style*="font-size: 26px"] { font-size: 21px !important; }
   [style*="font-size: 24px"] { font-size: 20px !important; }
@@ -322,6 +325,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 22px 26px"]                                  { padding: 16px 14px !important; }
   [style*="padding: 22px 24px"]                                  { padding: 16px 14px !important; }
   [style*="padding: 20px 26px"]                                  { padding: 16px 14px !important; }
+  [style*="padding: 20px 24px"]:not([style*="padding: 20px 24px 12px"]) { padding: 16px 14px !important; }
   [style*="padding: 4px 24px 26px"]                              { padding: 4px 16px 18px !important; }
   [style*="padding: 8px 24px 24px"]                              { padding: 8px 16px 16px !important; }
   [style*="padding: 20px 24px 12px"]                             { padding: 16px 14px 10px !important; }
