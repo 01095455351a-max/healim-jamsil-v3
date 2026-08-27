@@ -1,11 +1,6 @@
 {{ define "main" }}
 {{ $clinic := site.Data.clinic }}
-{{ $flowSteps := slice
-  (dict "title" "접수와 문진표 작성" "time" "약 10분" "text" "증상이 시작된 시기, 경과, 복용 중인 약, 다른 병원에서의 검사 이력을 적습니다. 미리 정리해 오시면 시간을 줄일 수 있습니다.")
-  (dict "title" "상태 확인 검사" "time" "약 20분" "text" "자율신경 균형과 뇌 기능 상태를 확인합니다. 증상만 보지 않고 수면, 소화, 정서 상태를 함께 살펴봅니다.")
-  (dict "title" "원장 진료와 상담" "time" "약 20분" "text" "검사 결과를 근거로 현재 상태와 치료 방향, 예상 기간을 설명드립니다. 확인된 것과 확인되지 않은 것을 구분해 말씀드립니다.")
-  (dict "title" "치료 시작과 다음 일정" "time" "약 10분" "text" "동의하신 계획에 따라 침 치료를 진행하고 한약을 처방합니다. 다음 내원 시점과 집에서 관찰할 항목을 함께 정합니다.")
-}}
+{{ $fv := index site.Data "first-visit" }}
 
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
@@ -16,87 +11,114 @@
     </div>
     <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: end;">
       <div>
-        <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">First Visit</div>
+        <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">처음 방문하시나요?</div>
         <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 18px;; text-wrap: balance">첫 내원 안내</h1>
-        <p style="font-size: 18px; line-height: 1.8; color: #4A4A44; margin: 0; max-width: 560px;; text-wrap: pretty">처음 오시는 날에는 검사와 상담을 포함해 약 60분이 소요됩니다. 무엇을 준비하고 어떤 순서로 진행되는지 미리 확인하시면 진료 시간을 더 충실히 쓸 수 있습니다.</p>
+        <p style="font-size: 18px; line-height: 1.8; color: #4A4A44; margin: 0; max-width: 560px;; text-wrap: pretty">첫 진료에서는 현재 가장 불편한 증상뿐 아니라 수면, 소화, 식욕, 정서 상태와 생활 패턴까지 함께 살펴봅니다. 필요한 검사를 진행한 뒤 원장 진료를 통해 현재 상태와 치료 방향을 설명드립니다.</p>
       </div>
-      <div style="display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;">
-        <a href="/#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
-        <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">{{ $clinic.phone_display }}</a>
+      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 26px 28px;">
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">첫 진료 소요시간</div>
+        <div style="font-size: 30px; font-weight: 600; letter-spacing: -0.5px; color: #001E2B;">{{ $fv.duration.first }}</div>
+        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 12px 0 0;; text-wrap: pretty">첫 방문은 문진과 검사, 원장 진료와 상담, 치료 계획 안내까지 충분한 시간이 필요합니다. 예약하실 때 약 1시간 30분~2시간 정도 여유를 두고 방문해 주세요.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section style="background: #FFFFFF; padding: 72px 0;">
+<section id="flow" style="background: #FFFFFF; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Flow</div>
-    <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px;; text-wrap: balance">진료는 이 순서로 진행됩니다</h2>
-    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">예약제로 운영되어 대기 시간 없이 순서대로 진행됩니다.</p>
-    <div style="background: #FAF6EF; border: 1px solid #E8EDEB; border-radius: 16px; padding: 40px 32px 34px; margin-bottom: 24px;">
-      <div style="display: flex; align-items: flex-start; gap: 0;">
-        {{ range $i, $s := $flowSteps }}
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; flex: 1 1 0; min-width: 0; text-align: center;">
-          <div style="display: flex; align-items: center; width: 100%;">
-            <span style="flex: 1 1 auto; height: 2px; background: {{ if eq $i 0 }}transparent{{ else }}#C0FAE6{{ end }};"></span>
-            <span style="flex: 0 0 auto; width: 52px; height: 52px; border-radius: 9999px; background: {{ if eq $i 0 }}#0F7A7E{{ else }}#E3FCF7{{ end }}; color: {{ if eq $i 0 }}#FFFFFF{{ else }}#0F7A7E{{ end }}; border: 1px solid {{ if eq $i 0 }}#0F7A7E{{ else }}#C0FAE6{{ end }}; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ add $i 1 }}</span>
-            <span style="flex: 1 1 auto; height: 2px; background: {{ if eq $i 3 }}transparent{{ else }}#C0FAE6{{ end }};"></span>
-          </div>
-          <div>
-            <div style="font-size: 16px; font-weight: 600; line-height: 1.45;">{{ $s.title }}</div>
-            <div style="font-size: 13px; font-weight: 600; color: #0F7A7E; margin-top: 6px; white-space: nowrap;">{{ $s.time }}</div>
-          </div>
+    <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px;; text-wrap: balance">진료는 이렇게 진행됩니다</h2>
+    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">예약제로 운영되어 순서대로 진행됩니다. 각 단계에 걸리는 시간은 증상과 검사 내용에 따라 달라집니다.</p>
+    <ol class="fv-flow" style="list-style: none; margin: 0; padding: 0;">
+      {{ range $i, $s := $fv.steps }}
+      <li class="fv-step">
+        <div class="fv-step-rail" aria-hidden="true">
+          <span class="fv-step-num">{{ printf "%02d" (add $i 1) }}</span>
+          {{ if ne (add $i 1) (len $fv.steps) }}<span class="fv-step-line"></span>{{ end }}
         </div>
-        {{ end }}
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; margin-top: 34px; padding-top: 22px; border-top: 1px solid #EDE6DA;">
-        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">전체 소요 시간</span>
-        <span style="font-size: 17px; font-weight: 600; color: #001E2B;">약 60분</span>
-        <span style="margin-left: auto; font-size: 14px; color: #6B6960;">재진은 20~30분 정도 소요됩니다.</span>
-      </div>
-    </div>
-    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch;">
-      {{ range $i, $s := $flowSteps }}
-      <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="flex: 0 0 26px; width: 26px; height: 26px; border-radius: 9999px; background: #E3FCF7; color: #0F7A7E; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ add $i 1 }}</span>
-          <span style="font-size: 16px; font-weight: 600; line-height: 1.4;">{{ $s.title }}</span>
+        <div class="fv-step-body">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 8px;">STEP {{ printf "%02d" (add $i 1) }}</div>
+          <h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0 0 12px;; text-wrap: balance">{{ $s.title }}</h3>
+          <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $s.text }}</p>
+          {{ with $s.note }}<p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 14px 0 0; padding-left: 14px; border-left: 2px solid #C0FAE6;; text-wrap: pretty">{{ . }}</p>{{ end }}
+          {{ if eq (add $i 1) 4 }}
+          <ul style="margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            {{ range $fv.step4_focus }}
+            <li style="display: flex; gap: 12px; font-size: 15px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>{{ . }}</span></li>
+            {{ end }}
+          </ul>
+          {{ end }}
         </div>
-        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;">{{ $s.text }}</p>
-      </div>
+      </li>
       {{ end }}
+    </ol>
+  </div>
+</section>
+
+<section id="assessment" style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 72px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Assessment</div>
+    <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px;; text-wrap: balance">어떤 검사를 하나요?</h2>
+    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 8px; max-width: 720px;; text-wrap: pretty">검사는 현재 증상을 보다 객관적으로 이해하고 원장 진료에 필요한 정보를 보완하기 위해 활용합니다. 신체의 긴장과 회복 상태, 뇌기능과 집중력, 정서 상태 등을 여러 측면에서 함께 살펴봅니다.</p>
+    <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 0 0 40px; max-width: 720px;; text-wrap: pretty">기본적으로 일정한 검사 체계를 바탕으로 진행하며, 증상과 연령에 따라 필요한 평가 항목을 조정합니다.</p>
+
+    <div class="fv-exams">
+      {{ range $i, $e := $fv.exams }}
+      <article style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="flex: 0 0 auto; font-size: 12px; font-weight: 700; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px; border-radius: 9999px; font-variant-numeric: tabular-nums;">{{ printf "%02d" (add $i 1) }}</span>
+          <h3 style="font-size: 19px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0;">{{ $e.name }}</h3>
+          {{ with $e.abbr }}<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">{{ . }}</span>{{ end }}
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $e.text }}</p>
+        <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 0;; text-wrap: pretty">{{ $e.note }}</p>
+      </article>
+      {{ end }}
+    </div>
+
+    <div style="margin-top: 24px; background: #FAF6EF; border: 1px solid #E3D6BF; border-radius: 16px; padding: 32px;">
+      <h3 style="font-size: 20px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.45; margin: 0 0 14px;; text-wrap: balance">검사는 진료를 더 잘 이해하기 위한 자료입니다</h3>
+      <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">검사는 현재 상태를 여러 측면에서 확인하기 위한 참고자료입니다. 검사 결과 하나만으로 상태를 판단하지 않으며, 증상이 시작된 과정과 생활환경, 수면과 식사, 신체 상태, 복용약, 정서적 어려움 등을 원장의 진료 내용과 함께 종합적으로 살펴봅니다.</p>
+      <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 12px 0 0;; text-wrap: pretty">기본 검사 체계를 바탕으로 진행하며 증상과 연령에 따라 필요한 평가 항목을 조정할 수 있습니다.</p>
     </div>
   </div>
 </section>
 
-<section style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 72px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+<section id="philosophy" style="background: #FFFFFF; padding: 72px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 48px 56px;">
+      <h2 style="font-size: 28px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 16px; max-width: 720px;; text-wrap: balance">검사 결과보다 중요한 것은 전체적인 상태를 이해하는 것입니다</h2>
+      <p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0; max-width: 720px;; text-wrap: pretty">같은 공황장애나 불면증이라도 증상이 시작된 배경과 몸의 상태, 수면과 식사, 스트레스와 생활습관은 사람마다 다를 수 있습니다. 해아림한의원 잠실점에서는 검사 수치만을 보는 것이 아니라 환자가 실제로 겪고 있는 증상과 신체·정서 상태를 함께 살펴 치료 방향을 정합니다.</p>
+      <p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 16px 0 0; max-width: 720px;; text-wrap: pretty">2인의 전담 원장이 질환에 따라 진료를 나누어 맡고, 한약 치료를 중심으로 필요한 경우 상담치료를 함께 진행합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="prepare" style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 72px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
     <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px;">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">Checklist</div>
-      <h2 style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; margin: 0 0 20px;">준비해 오시면 좋은 것</h2>
-      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>복용 중인 약과 영양제 목록 (약 봉투나 사진도 좋습니다)</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>다른 병원의 검사 결과지나 진단서가 있다면 함께</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>증상이 시작된 시기와 최근 변화의 흐름</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>최근 2주간의 취침·기상 시간</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>아이 진료의 경우, 학교·학원 생활에서 관찰한 내용</span></li>
+      <h2 style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; margin: 0 0 20px;; text-wrap: balance">준비해 오시면 진료에 도움이 됩니다</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 18px;">
+        {{ range $fv.prepare }}
+        <li style="display: flex; gap: 12px;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span><span style="display: block; font-size: 16px; font-weight: 600; line-height: 1.6; color: #001E2B;">{{ .title }}</span><span style="display: block; font-size: 15px; line-height: 1.7; color: #4A4A44; margin-top: 4px;">{{ .text }}</span></span></li>
+        {{ end }}
       </ul>
+      <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid #C0FAE6;; text-wrap: pretty">모두 준비하지 못하셔도 진료에는 문제가 없습니다. 가지고 계신 자료가 있다면 가져와 주세요.</p>
     </div>
     <div style="background: #F4EEE2; border: 1px solid #E3D6BF; border-radius: 16px; padding: 36px;">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">Notice</div>
-      <h2 style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; margin: 0 0 20px;">미리 알아두실 점</h2>
+      <h2 style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; margin: 0 0 20px;; text-wrap: balance">미리 알아두실 점</h2>
       <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px;">
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>예약제로 운영되므로 방문 전 전화 또는 네이버 예약으로 시간을 정해 주세요.</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>첫 진료는 검사가 포함되어 마지막 접수가 진료 마감 1시간 전에 마감됩니다.</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>미성년자는 보호자와 함께 오셔야 상담이 가능합니다.</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>검사 정확도를 위해 진료 2시간 전에는 커피와 에너지 음료를 피해 주세요.</span></li>
-        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>일정 변경은 하루 전까지 알려주시면 다른 분께 시간을 안내할 수 있습니다.</span></li>
+        {{ range $fv.notices }}
+        <li style="display: flex; gap: 12px; font-size: 16px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #0F7A7E; margin-top: 11px;"></span><span>{{ . }}</span></li>
+        {{ end }}
       </ul>
     </div>
   </div>
 </section>
 
-<section style="background: #FFFFFF; padding: 72px 0;">
+<section id="visit" style="background: #FFFFFF; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: stretch;">
     <div style="display: flex; flex-direction: column;">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Visit</div>
@@ -113,13 +135,7 @@
           {{ with .note }}<span style="margin-left: auto; flex: 0 0 auto; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 5px 10px; border-radius: 9999px; white-space: nowrap;">{{ . }}</span>{{ end }}
         </div>
         {{ end }}
-      </div>
-      <div style="margin-top: 16px; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 26px 28px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-        <div style="flex: 1 1 auto; min-width: 0;">
-          <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">휴진일</div>
-          <div style="font-size: 17px; line-height: 1.65; font-weight: 600;">목요일 · 일요일 · 공휴일</div>
-          <div style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin-top: 12px;">대체공휴일은 10:00 ~ 16:00 진료합니다.<br />휴진일에 남기신 문의는 다음 진료일에 순서대로 답변드립니다.</div>
-        </div>
+        <div style="padding: 18px 26px; border-top: 1px solid #F1F3F2; font-size: 15px; line-height: 1.75; color: #4A4A44;">{{ $clinic.lunch_note }}</div>
       </div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
@@ -135,16 +151,18 @@
   </div>
 </section>
 
-<section style="background: #FFFFFF; padding: 72px 0;">
+<section id="reserve" style="background: #FFFFFF; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 48px 56px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
-      <div style="flex: 1 1 380px;">
-        <h2 style="font-size: 28px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 10px;; text-wrap: balance">예약 후 방문해 주세요</h2>
-        <p style="font-size: 17px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">첫 진료는 검사와 상담이 포함되어 시간이 넉넉히 필요합니다.<br />미리 시간을 정해 두시면 대기 없이 진행됩니다.</p>
+    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 48px 56px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center;">
+      <div>
+        <h2 style="font-size: 28px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 12px;; text-wrap: balance">첫 진료는 예약 후 방문해 주세요</h2>
+        <p style="font-size: 17px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">첫 진료는 검사와 상담에 충분한 시간이 필요합니다. 약 1시간 30분~2시간 정도 여유를 두고 예약해 주세요.</p>
+        <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 10px 0 0;">예약 상황에 따라 대기 시간이 발생할 수 있습니다.</p>
       </div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <a href="/#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">전화 상담 신청</a>
-        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">네이버 예약</a>
+      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 380px; justify-self: end;">
+        <a href="{{ $clinic.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 18px 28px; border-radius: 9999px;" class="btn-primary">전화 {{ $clinic.phone_display }}</a>
+        <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 18px 26px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
+        <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 18px 26px; border-radius: 9999px;" class="btn-kakao">카카오톡 문의<span style="font-size: 13px;">↗</span></a>
       </div>
     </div>
   </div>

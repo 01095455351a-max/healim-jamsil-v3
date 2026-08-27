@@ -457,3 +457,38 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .review-slide { width: 140px; }
   .review-strip { gap: 12px; }
 }
+
+
+/* ── 첫 내원 안내 — 진료 흐름 세로 타임라인 ────────────────────
+   5단계는 설명이 길어 가로 5칸에 넣으면 글자가 작아진다.
+   PC·모바일 모두 세로로 두고, 왼쪽 레일의 번호와 선으로 순서를 보인다. */
+.fv-flow { display: flex; flex-direction: column; }
+.fv-step { display: flex; gap: 24px; }
+.fv-step-rail { flex: 0 0 52px; display: flex; flex-direction: column; align-items: center; }
+.fv-step-num {
+  flex: 0 0 auto;
+  width: 52px; height: 52px;
+  border-radius: 9999px;
+  background: #E3FCF7;
+  color: #0F7A7E;
+  border: 1px solid #C0FAE6;
+  font-size: 16px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  display: flex; align-items: center; justify-content: center;
+}
+.fv-step:first-child .fv-step-num { background: #0F7A7E; color: #FFFFFF; border-color: #0F7A7E; }
+.fv-step-line { flex: 1 1 auto; width: 2px; background: #C0FAE6; margin: 10px 0; }
+.fv-step-body { flex: 1 1 auto; min-width: 0; padding-bottom: 40px; }
+.fv-step:last-child .fv-step-body { padding-bottom: 0; }
+
+/* 검사 카드 — 모바일 1열, 태블릿 2열, 넓은 화면 3열.
+   auto-fit이라 카드를 늘리거나 줄여도 배치가 알아서 맞는다. */
+.fv-exams { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+@media (max-width: 767px) {
+  .fv-step { gap: 16px; }
+  .fv-step-rail { flex: 0 0 40px; }
+  .fv-step-num { width: 40px; height: 40px; font-size: 14px; }
+  .fv-step-body { padding-bottom: 32px; }
+  .fv-exams { gap: 14px; }
+}
