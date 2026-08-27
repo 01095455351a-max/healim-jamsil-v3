@@ -299,6 +299,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 64px 0 40px"] { padding-top: 44px !important; padding-bottom: 28px !important; }
   [style*="padding: 56px 0 88px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
   [style*="padding: 56px 0 80px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
+  [style*="padding: 56px 0 0"]:not([style*="padding: 56px 0 0px"]) { padding-top: 40px !important; }
   [style*="padding: 48px 0 88px"] { padding-top: 34px !important; padding-bottom: 56px !important; }
   [style*="padding: 48px 0 56px"] { padding-top: 34px !important; padding-bottom: 40px !important; }
   [style*="padding: 44px 0 56px"] { padding-top: 32px !important; padding-bottom: 40px !important; }

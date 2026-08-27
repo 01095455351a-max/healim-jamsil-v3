@@ -149,7 +149,7 @@
           <div style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin-top: 10px;">{{ $clinic.address_transit | safeHTML }}</div>
           <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
             <a href="{{ $clinic.google_maps_dir_url }}" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 11px 20px; border-radius: 9999px;" class="btn-primary">길찾기</a>
-            <a href="/#location" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">지도로 크게 보기</a>
+            <a href="/directions/" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">오시는 길 자세히 보기</a>
           </div>
         </div>
         {{ partial "kakao-map.html" (dict "height" "300px" "title" "해아림한의원 잠실점 위치") }}
