@@ -17,41 +17,35 @@
 
 <section id="handwritten" style="background: #FFFFFF; padding: 56px 0 80px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 auto 32px; max-width: 700px; text-align: center; text-wrap: pretty;">나이, 증상, 치료 경과 등 민감한 개인정보가 담겨 있어 네이버 또는 카카오 로그인 후 공개합니다.</p>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 auto 8px; max-width: 700px; text-align: center; text-wrap: pretty;">진료를 받으신 분들이 직접 손으로 적어 주신 체험 후기입니다.</p>
+    <p style="font-size: 15px; line-height: 1.7; color: #6F6B61; margin: 0 auto 32px; max-width: 700px; text-align: center; text-wrap: pretty;">성명은 본인 동의 아래 가려서 게시하며, 연락처 등 신원을 알 수 있는 정보는 담지 않습니다.</p>
 
-    <div style="position: relative;">
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; filter: blur(7px); opacity: 0.75; pointer-events: none; user-select: none;" aria-hidden="true">
-        {{ range first 6 $reviews }}
-        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;">
-          <div style="height: 180px; background: #FAF6EF;"></div>
-          <div style="padding: 26px;">
-            <div style="width: 84px; height: 22px; border-radius: 4px; background: #E3FCF7; margin-bottom: 14px;"></div>
-            <div style="height: 18px; border-radius: 4px; background: #E8EDEB; margin-bottom: 16px;"></div>
-            <div style="height: 12px; border-radius: 4px; background: #F1F3F2; margin-bottom: 8px;"></div>
-            <div style="height: 12px; border-radius: 4px; background: #F1F3F2; margin-bottom: 8px; width: 82%;"></div>
-            <div style="height: 12px; border-radius: 4px; background: #F1F3F2; width: 64%;"></div>
-          </div>
-        </div>
+    {{ $scans := slice }}
+    {{ range (resources.Match "media/reviews/*.jpg") }}{{ $scans = $scans | append . }}{{ end }}
+    {{ if $scans }}
+    <div class="review-slider">
+      <button type="button" class="review-arrow review-arrow-prev" aria-label="이전 후기 보기">‹</button>
+      <div class="review-strip" tabindex="0" role="group" aria-label="자필 후기 스캔 이미지">
+        {{ range $i, $r := $scans }}
+        {{ $img := $r.Resize "440x webp q80 photo" }}
+        <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" class="review-slide" aria-label="자필 후기 {{ add $i 1 }} — 네트워크 홈페이지에서 보기">
+          <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
+        </a>
         {{ end }}
       </div>
-      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px;">
-        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 40px 44px; max-width: 560px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
-          <div>
-            <div style="display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 14px;">간편 로그인 후 열람 가능</div>
-            <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.45; margin: 0 0 12px; text-wrap: balance;">자필 후기는 간편 로그인 후 보실 수 있습니다</h3>
-            <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;">후기에는 나이, 증상, 치료 경과 등 민감한 개인정보가 담겨 있습니다.<br />별도 회원가입 없이 네이버 또는 카카오 계정으로 바로 확인하실 수 있습니다.</p>
-          </div>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
-            <button type="button" disabled title="추후 연동 예정" style="font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: none; padding: 15px 28px; border-radius: 9999px; cursor: not-allowed; white-space: nowrap; opacity: 0.85;">네이버로 로그인</button>
-            <button type="button" disabled title="추후 연동 예정" style="font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: none; padding: 15px 28px; border-radius: 9999px; cursor: not-allowed; white-space: nowrap; opacity: 0.85;">카카오로 로그인</button>
-          </div>
-          <span style="font-size: 13px; line-height: 1.6; color: #6F6B61; text-align: center; display: block; width: 100%;">이름과 프로필 정보만 확인하며, 진료 기록과 연결되지 않습니다.</span>
-          <p style="font-size: 14px; line-height: 1.7; color: #4A4A44; margin: 4px 0 0; text-align: center; width: 100%;"><a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" style="font-weight: 600; color: #0F7A7E; text-decoration: underline; text-underline-offset: 3px;">해아림한의원 네트워크 홈페이지</a>에서 더 많은 자필후기를 확인할 수 있습니다.</p>
-        </div>
-      </div>
+      <button type="button" class="review-arrow review-arrow-next" aria-label="다음 후기 보기">›</button>
+    </div>
+    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 14px 0 0; text-align: center;">좌우로 넘겨서 보실 수 있습니다 · 총 {{ len $scans }}장</p>
+    {{ end }}
+
+    <div style="margin-top: 40px; background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 28px 32px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; text-align: center;">
+      <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;">해아림한의원 네트워크 홈페이지에서 더 많은 자필후기를 확인할 수 있습니다.</p>
+      <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">네트워크 자필후기 보기<span style="font-size: 13px;">↗</span></a>
     </div>
 
     <p style="font-size: 14px; line-height: 1.7; color: #6F6B61; margin: 32px auto 0; max-width: 700px; text-align: center;">개별 환자의 상태에 따라 치료 효과는 상이할 수 있습니다. 치료 전 반드시 한의사와 1:1 진료 및 상담을 진행하시기 바랍니다.</p>
   </div>
 </section>
+
+<script src="/js/review-slider.js" defer></script>
 {{ end }}
