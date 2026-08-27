@@ -492,9 +492,3 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .fv-step-body { padding-bottom: 32px; }
   .fv-exams { gap: 14px; }
 }
-
-/* 첫 내원 '미리 알아두실 점' 아래 예약 통로 — 모바일에서는 카드가 세로로
-   쌓여 균형을 맞출 여백이 없고, 페이지 끝에 같은 버튼이 다시 나오므로 감춘다. */
-@media (max-width: 767px) {
-  .fv-notice-cta { display: none !important; }
-}
