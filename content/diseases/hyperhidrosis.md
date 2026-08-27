@@ -68,7 +68,7 @@ approach_note: "땀은 단순히 참아야 할 증상이 아니라, [류석균 �
 related_columns:
   - /column/why-anxiety-worsens-hyperhidrosis/
 cta_title: "땀 때문에 위축된 일상, 원인부터 확인해 보세요"
-cta_text: "초진에는 정밀 검사와 심층 상담이 함께 진행되므로 50분~1시간 정도 여유 있게 내원해 주시길 권장합니다."
+cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "교감신경 절제술과 한방 치료는 어떻게 다른가요?"
     answer: |

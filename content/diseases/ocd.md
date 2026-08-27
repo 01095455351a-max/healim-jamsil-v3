@@ -68,7 +68,7 @@ approach_note: "치료 목표는 강박적 생각을 완전히 지우는 것이 
 related_columns:
   - /column/why-obsessive-thoughts-are-hard-to-stop/
 cta_title: "반복되는 생각과 행동, 더 늦기 전에 상담받아 보세요"
-cta_text: "초진에는 정밀 검사와 심층 상담이 함께 진행되므로 50분~1시간 정도 여유 있게 내원해 주시길 권장합니다."
+cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "강박적인 생각은 성격 문제인가요, 병인가요?"
     answer: |

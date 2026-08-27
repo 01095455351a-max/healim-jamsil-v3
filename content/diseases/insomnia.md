@@ -69,7 +69,7 @@ related_columns:
   - /column/why-insomnia-becomes-chronic/
   - /column/panic-insomnia-care/
 cta_title: "잠 못 이루는 밤, 원인부터 정확히 짚어보세요"
-cta_text: "초진에는 정밀 검사와 심층 상담이 함께 진행되므로 50분~1시간 정도 여유 있게 내원해 주시길 권장합니다."
+cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "수면제를 복용 중인데 한약도 같이 먹을 수 있나요?"
     answer: |

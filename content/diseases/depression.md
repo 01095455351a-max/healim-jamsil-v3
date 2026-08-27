@@ -72,7 +72,7 @@ approach_note: "기분은 마음만의 문제가 아니라 몸 전체의 상태�
 related_columns:
   - /column/depression-vs-low-motivation/
 cta_title: "혼자 버티지 마세요, 함께 회복의 방향을 찾습니다"
-cta_text: "초진에는 정밀 검사와 심층 상담이 함께 진행되므로 50분~1시간 정도 여유 있게 내원해 주시길 권장합니다."
+cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "우울증도 한약으로 치료가 되나요?"
     answer: |
