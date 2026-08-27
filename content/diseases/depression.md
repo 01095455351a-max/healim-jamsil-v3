@@ -1,5 +1,7 @@
 ---
 image: "disease-depression.png"
+# 질환 상세 하단 오시는 길 카드에 붙는 안내. 질환마다 다르게 쓴다.
+visit_note: "아침에 움직이기 어려운 경우 오후 시간대 예약도 가능합니다. 화·금은 야간진료를 운영합니다."
 weight: 50
 title: "우울장애"
 headline: "의지의 문제가 아닙니다"

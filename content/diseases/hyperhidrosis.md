@@ -1,5 +1,7 @@
 ---
 image: "disease-hyperhidrosis.png"
+# 질환 상세 하단 오시는 길 카드에 붙는 안내. 질환마다 다르게 쓴다.
+visit_note: "땀이 심해지는 상황과 부위를 미리 정리해 오시면 진료 시간을 줄일 수 있습니다."
 weight: 80
 title: "다한증"
 headline: "더워서 나는 땀이 아닙니다"

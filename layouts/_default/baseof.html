@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{ if site.Params.noindex }}<meta name="robots" content="noindex, nofollow" />{{ end }}
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ with .Params.title_seo }}{{ . }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}{{ end }}</title>
-{{ with .Description }}<meta name="description" content="{{ . }}" />{{ else }}<meta name="description" content="{{ .Site.Params.description }}" />{{ end }}
+{{/* 페이지 설명 — description이 없으면 summary를 쓴다. 컬럼 12편과 약관·방침은
+     summary만 가지고 있어 그대로 두면 전부 사이트 기본 설명이 나간다. */}}
+{{- $desc := or .Description .Params.summary site.Params.description -}}
+<meta name="description" content="{{ $desc }}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -20,7 +23,7 @@
 
 {{/* 카카오톡·네이버·문자로 링크를 보낼 때 뜨는 미리보기 카드 */}}
 {{- $ogTitle := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
-{{- $ogDesc := or .Description site.Params.description -}}
+{{- $ogDesc := $desc -}}
 {{- $ogImg := "" -}}
 {{- with resources.Get "media/clinic/reception.jpg" -}}
   {{- $ogImg = (.Resize "1200x630 webp q82 photo smart").Permalink -}}

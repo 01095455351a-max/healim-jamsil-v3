@@ -1,5 +1,6 @@
 ---
 title: "류석균 원장"
+description: "류석균 원장은 틱장애·ADHD·자율신경실조증·다한증 등 두뇌 기능과 자율신경 관련 증상을 진료합니다. 약력과 진료분야를 안내합니다."
 date: 2026-08-21
 doctor: ryu-seokgyun
 clinic_panel_title: "두뇌 기능 & 자율신경 특화 클리닉"
