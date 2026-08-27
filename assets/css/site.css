@@ -231,3 +231,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 1200ms ease-in-out; }
 .hero-slides img.is-active { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .hero-slides img { transition: none; } }
+
+/* 법적 고지 본문의 표 (개인정보 위탁업체 등) */
+.prose-column table { width: 100%; border-collapse: collapse; margin: 20px 0 0; font-size: 15px; }
+.prose-column th, .prose-column td { border: 1px solid #E8EDEB; padding: 10px 14px; text-align: left; line-height: 1.6; }
+.prose-column th { background: #FAF6EF; font-weight: 600; color: #001E2B; }
+.prose-column td { color: #4A4A44; }
