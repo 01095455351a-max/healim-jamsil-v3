@@ -9,6 +9,8 @@ kakao_channel_url: "https://pf.kakao.com/_xkqufn"
 naver_blog_url: "https://blog.naver.com/healimjs"
 instagram_url: "https://www.instagram.com/healimjs"
 network_site_url: "https://www.healim.com"
+# 네트워크 대표 홈페이지의 자필후기 게시판
+network_handwritten_url: "https://www.healim.com/5-3"
 
 address_line: "서울특별시 송파구 올림픽로 102 서일빌딩 3층"
 address_transit: "지하철 2호선 잠실새내역(4번 출구) 도보 3분<br />지하철 9호선 종합운동장역(9번 출구) 도보 5분<br />서일빌딩 뒷편 주차장 이용 가능"

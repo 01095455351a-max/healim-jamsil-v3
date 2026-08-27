@@ -156,12 +156,9 @@ button { font-family: inherit; }
   }
 }
 
-/* 표 형태 그리드(공지 목록 64/76/1fr/120px, 검사 항목 200px/1fr)는 좁은 화면에서 고정 컬럼을 살짝 줄여 최소한의 여유 확보 */
+/* 검사 항목(200px/1fr)은 좁은 화면에서 1열로.
+   공지 목록(64/76/1fr/120px)은 아래 '모바일 정돈' 블록에서 2행 구조로 바꾼다. */
 @media (max-width: 480px) {
-  [style*="grid-template-columns: 64px 76px 1fr 120px"] {
-    grid-template-columns: 24px 56px 1fr 74px !important;
-    gap: 8px !important;
-  }
   [style*="grid-template-columns: 200px 1fr"] {
     grid-template-columns: 1fr !important;
     gap: 4px !important;
@@ -248,4 +245,130 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 480px) {
   .price-row { flex-direction: column; gap: 8px; padding: 16px 18px; }
   .price-amount { margin-left: 0; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   모바일 정돈 (767px 이하)
+
+   mockup이 데스크톱 기준으로 만들어져 글자 크기·카드 여백·표 구조가
+   좁은 화면에 맞춰진 적이 없다. 가로 스크롤은 나지 않지만 제목이 4줄로
+   접히고 카드 안쪽 여백이 화면 폭의 30%를 먹어 내용이 정돈되어 보이지
+   않았다. 여기서는 767px 이하에서만 크기와 여백을 줄인다 —
+   색상·서체·카드 스타일·레이아웃 구조는 그대로 둔다.
+
+   인라인 style이 최고 우선순위라 속성 선택자 + !important로 덮는다.
+   (기존 그리드 스택 규칙과 같은 방식)
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+  /* ── 1. 글자 크기 ────────────────────────────────────────────
+     데스크톱 값 → 모바일 값. 위계(제목 > 소제목 > 본문)는 유지한 채
+     전체를 한 단계씩 낮춘다. */
+  [style*="font-size: 52px"] { font-size: 32px !important; letter-spacing: -1px !important; }
+  [style*="font-size: 44px"] { font-size: 30px !important; letter-spacing: -0.6px !important; }
+  [style*="font-size: 38px"] { font-size: 27px !important; }
+  [style*="font-size: 34px"] { font-size: 25px !important; }
+  [style*="font-size: 30px"] { font-size: 23px !important; }
+  [style*="font-size: 27px"] { font-size: 21px !important; }
+  [style*="font-size: 26px"] { font-size: 21px !important; }
+  [style*="font-size: 24px"] { font-size: 20px !important; }
+  [style*="font-size: 22px"] { font-size: 19px !important; }
+  [style*="font-size: 20px"] { font-size: 18px !important; }
+  [style*="font-size: 19px"] { font-size: 17px !important; }
+  .prose-column h2, .prose-body h3 { font-size: 21px !important; }
+
+  /* ── 2. 구역 상하 여백 ───────────────────────────────────────
+     88px씩 두 번이면 구역 사이가 176px — 좁은 화면에서는 빈 화면이
+     한 번씩 지나간다. 3분의 2 수준으로 줄인다. */
+  [style*="padding: 88px 0"]      { padding-top: 56px !important; padding-bottom: 56px !important; }
+  [style*="padding: 80px 0"]      { padding-top: 52px !important; padding-bottom: 52px !important; }
+  [style*="padding: 76px 0 72px"] { padding-top: 44px !important; padding-bottom: 48px !important; }
+  [style*="padding: 72px 0"]      { padding-top: 48px !important; padding-bottom: 48px !important; }
+  [style*="padding: 64px 0 88px"] { padding-top: 44px !important; padding-bottom: 56px !important; }
+  [style*="padding: 64px 0 40px"] { padding-top: 44px !important; padding-bottom: 28px !important; }
+  [style*="padding: 56px 0 88px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
+  [style*="padding: 56px 0 80px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
+  [style*="padding: 48px 0 88px"] { padding-top: 34px !important; padding-bottom: 56px !important; }
+  [style*="padding: 48px 0 56px"] { padding-top: 34px !important; padding-bottom: 40px !important; }
+  [style*="padding: 44px 0 56px"] { padding-top: 32px !important; padding-bottom: 40px !important; }
+  [style*="padding: 44px 0 52px"] { padding-top: 32px !important; padding-bottom: 36px !important; }
+
+  /* ── 3. 본문 폭 ──────────────────────────────────────────────
+     좌우 32px씩이면 390px 화면에서 내용 폭이 326px밖에 안 된다. */
+  [style*="padding: 0 32px"] { padding-left: 18px !important; padding-right: 18px !important; }
+  [style*="padding: 0 24px"] { padding-left: 18px !important; padding-right: 18px !important; }
+
+  /* ── 4. 카드 안쪽 여백 ───────────────────────────────────────
+     카드 padding 56px은 좌우로만 112px — 내용 폭의 3분의 1이 사라진다.
+     버튼(첫 값이 20px 미만)은 손대지 않는다. */
+  [style*="padding: 56px"]:not([style*="padding: 56px 0"])       { padding: 22px 18px !important; }
+  [style*="padding: 48px 56px"]                                  { padding: 24px 18px !important; }
+  [style*="padding: 40px 44px"]                                  { padding: 24px 18px !important; }
+  [style*="padding: 40px 32px 34px"]                             { padding: 24px 18px 22px !important; }
+  [style*="padding: 36px"]                                       { padding: 22px 18px !important; }
+  [style*="padding: 32px"]:not([style*="padding: 32px 0"]):not([style*="padding: 0 32px"]) { padding: 20px 16px !important; }
+  [style*="padding: 30px 36px"]                                  { padding: 20px 18px !important; }
+  [style*="padding: 30px"]:not([style*="padding: 30px "])        { padding: 20px 16px !important; }
+  [style*="padding: 28px 32px"]                                  { padding: 20px 18px !important; }
+  [style*="padding: 28px"]:not([style*="padding: 28px "])        { padding: 20px 16px !important; }
+  [style*="padding: 26px 30px"]                                  { padding: 18px 16px !important; }
+  [style*="padding: 26px 28px"]                                  { padding: 18px 16px !important; }
+  [style*="padding: 26px"]:not([style*="padding: 26px "])        { padding: 18px 16px !important; }
+  [style*="padding: 24px 28px"]                                  { padding: 18px 16px !important; }
+  [style*="padding: 24px 26px"]                                  { padding: 18px 16px !important; }
+  [style*="padding: 24px"]:not([style*="padding: 24px "]):not([style*="padding: 0 24px"]) { padding: 18px 16px !important; }
+  [style*="padding: 22px 26px"]                                  { padding: 16px 14px !important; }
+  [style*="padding: 22px 24px"]                                  { padding: 16px 14px !important; }
+  [style*="padding: 20px 26px"]                                  { padding: 16px 14px !important; }
+  [style*="padding: 4px 24px 26px"]                              { padding: 4px 16px 18px !important; }
+  [style*="padding: 8px 24px 24px"]                              { padding: 8px 16px 16px !important; }
+  [style*="padding: 20px 24px 12px"]                             { padding: 16px 14px 10px !important; }
+  [style*="padding: 14px 24px 20px"]                             { padding: 12px 14px 16px !important; }
+
+  /* ── 5. 히어로 통계줄 ────────────────────────────────────────
+     3칸이 gap 32px로 벌어져 각 칸 설명이 두 줄로 접혔다. */
+  #top [style*="gap: 32px"] { gap: 14px !important; }
+
+  /* ── 6. 공지 목록 표 ─────────────────────────────────────────
+     4열(번호·구분·제목·등록일)을 390px에 밀어 넣으면 제목 칸이 98px만
+     남아 제목이 네다섯 줄로 쪼개진다. 머리글 줄을 감추고
+     [구분 · 등록일] / [제목] 두 줄 구조로 바꾼다. */
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] {
+    grid-template-columns: auto 1fr !important;
+    gap: 8px 10px !important;
+  }
+  /* 머리글 줄(배경색으로 식별) — 두 줄 구조에서는 의미가 없어 감춘다 */
+  [style*="grid-template-columns: 64px 76px 1fr 120px"][style*="background: #FAF6EF"] {
+    display: none !important;
+  }
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] > *:nth-child(1) { display: none !important; }
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] > *:nth-child(2) { justify-self: start !important; }
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] > *:nth-child(3) {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  [style*="grid-template-columns: 64px 76px 1fr 120px"] > *:nth-child(4) {
+    justify-self: end !important;
+    text-align: right !important;
+  }
+
+  /* ── 7. 진료시간 줄(첫 내원 안내) ────────────────────────────
+     요일 칸이 168px로 고정되어 있어 좁은 화면에서 '야간진료' 배지가
+     화면 밖으로 밀려났다. 요일 칸을 줄어들 수 있게 바꾼다. */
+  [style*="flex: 0 0 168px"] { flex: 1 1 auto !important; min-width: 0 !important; }
+  [style*="padding: 18px 26px"] { padding: 14px 16px !important; gap: 10px !important; }
+
+  /* ── 8. 입력칸 ───────────────────────────────────────────────
+     카드 여백이 줄어든 만큼 입력칸은 남은 폭을 다 쓰게 한다.
+     글자 16px 미만이면 iOS Safari가 입력할 때 화면을 확대한다. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  select, textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 16px !important;
+  }
 }
