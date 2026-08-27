@@ -237,3 +237,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .prose-column th, .prose-column td { border: 1px solid #E8EDEB; padding: 10px 14px; text-align: left; line-height: 1.6; }
 .prose-column th { background: #FAF6EF; font-weight: 600; color: #001E2B; }
 .prose-column td { color: #4A4A44; }
+
+/* ── 비급여 진료비용 목록 ───────────────────────────────────
+   항목이 늘어도 모바일에서 깨지지 않도록 표 대신 줄 목록으로 만든다. */
+.price-list { background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; }
+.price-row { display: flex; align-items: baseline; gap: 20px; padding: 18px 24px; border-top: 1px solid #EDE6DA; }
+.price-list > .price-row:first-child { border-top: none; }
+.price-amount { margin-left: auto; flex: 0 0 auto; font-size: 16px; font-weight: 600; color: #0F7A7E; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+@media (max-width: 480px) {
+  .price-row { flex-direction: column; gap: 8px; padding: 16px 18px; }
+  .price-amount { margin-left: 0; }
+}

@@ -1,0 +1,52 @@
+{{/* 비급여 진료비용 안내 — 항목은 data/pricing.yaml에서 읽는다.
+     표가 아니라 목록 카드로 만들어, 항목이 늘어도 모바일에서 깨지지 않게 한다. */}}
+{{ define "main" }}
+{{ $pricing := site.Data.pricing }}
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px;">
+      <a href="/" style="color: #4A4A44;" class="nav-link">홈</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">{{ .Title }}</span>
+    </div>
+    <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 16px; text-wrap: balance;">{{ .Title }}</h1>
+    {{ with .Params.summary }}<p style="font-size: 18px; line-height: 1.75; color: #4A4A44; margin: 0; max-width: 640px; text-wrap: pretty">{{ . }}</p>{{ end }}
+  </div>
+</section>
+
+<section style="background: #FFFFFF; padding: 56px 0 80px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="max-width: 760px;">
+      <div class="prose-column" style="margin-bottom: 32px;">{{ .Content }}</div>
+
+      {{ with $pricing.items }}
+      <div class="price-list">
+        {{ range . }}
+        <div class="price-row">
+          <div style="min-width: 0;">
+            <div style="font-size: 16px; font-weight: 600; color: #001E2B; line-height: 1.5;">{{ .name }}</div>
+            {{ with .unit }}<div style="font-size: 13px; color: #6F6B61; margin-top: 3px;">{{ . }}</div>{{ end }}
+            {{ with .note }}<div style="font-size: 13px; line-height: 1.6; color: #6F6B61; margin-top: 6px;">{{ . }}</div>{{ end }}
+          </div>
+          <div class="price-amount">{{ .price }}</div>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; font-size: 13px; color: #6F6B61;">
+        {{ with $pricing.updated }}<span>기준일 {{ . }}</span>{{ end }}
+        <span>금액은 변경될 수 있으며, 변경 시 이 페이지에 반영합니다.</span>
+      </div>
+
+      <div style="margin-top: 36px; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 12px; padding: 22px 26px; font-size: 15px; line-height: 1.75; color: #4A4A44;">
+        비용과 치료 기간은 증상과 체질에 따라 달라집니다. 자세한 내용은
+        <a href="{{ site.Data.clinic.phone_tel | safeURL }}" style="font-weight: 600;">{{ site.Data.clinic.phone_display }}</a>로 문의해 주세요.
+      </div>
+
+      <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #EDE6DA;">
+        <a href="/" style="font-size: 15px; font-weight: 600;">← 홈으로 돌아가기</a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

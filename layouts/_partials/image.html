@@ -5,6 +5,7 @@
        src      assets/ 기준 경로 (예: "design-v3/disease-adhd.png")
        w        내보낼 가로 픽셀. 화면 표시 폭의 2배를 준다(고해상도 화면 대응).
        alt      대체 텍스트
+       class    필요할 때만 (예: 슬라이드 첫 장의 is-active)
        style    인라인 style 문자열 (기존 마크업의 값을 그대로 넘긴다)
        eager    첫 화면에 보이는 이미지면 true — 지연 로딩을 끈다 */}}
 {{ $r := resources.Get .src }}
@@ -15,7 +16,7 @@
   {{ else }}
     {{ $img = $r.Process "webp q80 photo" }}
   {{ end }}
-  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .alt }}"{{ with .style }} style="{{ . | safeCSS }}"{{ end }} loading="{{ if .eager }}eager{{ else }}lazy{{ end }}" decoding="async" />
+  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .alt }}"{{ with .class }} class="{{ . }}"{{ end }}{{ with .style }} style="{{ . | safeCSS }}"{{ end }} loading="{{ if .eager }}eager{{ else }}lazy{{ end }}" decoding="async" />
 {{ else }}
   {{ errorf "image.html: assets/%s 를 찾을 수 없습니다" .src }}
 {{ end }}
