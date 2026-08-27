@@ -1,0 +1,134 @@
+{{/* 구조화 데이터(JSON-LD).
+
+     검색엔진과 AI가 "이 병원이 어디에 있고, 누가 어떤 질환을 진료하며,
+     이 글은 누가 썼는가"를 읽을 수 있게 한다.
+
+     쓰는 값은 전부 저장소에 이미 있는 것이다 — data/clinic.yaml의 주소·전화·
+     진료시간·좌표, data/authors/의 원장 정보, 글의 front matter.
+     확인되지 않은 값은 넣지 않는다.
+
+     내보내는 것
+       모든 페이지   MedicalClinic(병원) + BreadcrumbList
+       원장 페이지   Physician
+       컬럼 글       Article (author를 원장 페이지 URL로 연결)
+       지역 안내     FAQPage (화면에 보이는 문답과 같은 내용)
+*/}}
+{{- $c := site.Data.clinic -}}
+{{- $base := site.BaseURL | strings.TrimSuffix "/" -}}
+{{- $clinicId := printf "%s/#clinic" $base -}}
+
+{{/* ── 병원 ───────────────────────────────────────────────
+     소재지는 서울특별시 송파구 한 곳이다. 다른 지역은 내원권역일 뿐이므로
+     주소나 지점으로 넣지 않는다. */}}
+{{- $hours := slice -}}
+{{- range $c.hours -}}
+  {{- if ne .time "정기 휴진" -}}
+    {{- $days := slice -}}
+    {{- range (split (replace (replace .days " " "") "요일" "") "·") -}}
+      {{- $d := dict "월" "Monday" "화" "Tuesday" "수" "Wednesday" "목" "Thursday" "금" "Friday" "토" "Saturday" "일" "Sunday" -}}
+      {{- with index $d . }}{{ $days = $days | append . }}{{ end -}}
+    {{- end -}}
+    {{- if $days -}}
+      {{- $t := split (replace .time " " "") "~" -}}
+      {{- $hours = $hours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" $days "opens" (index $t 0) "closes" (index $t 1)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $clinic := dict
+  "@type" "MedicalClinic"
+  "@id" $clinicId
+  "name" site.Title
+  "url" (printf "%s/" $base)
+  "telephone" ($c.phone_tel | strings.TrimPrefix "tel:")
+  "address" (dict "@type" "PostalAddress" "streetAddress" "올림픽로 102 서일빌딩 3층" "addressLocality" "송파구" "addressRegion" "서울특별시" "addressCountry" "KR")
+  "geo" (dict "@type" "GeoCoordinates" "latitude" $c.map_lat "longitude" $c.map_lng)
+  "openingHoursSpecification" $hours
+  "medicalSpecialty" (slice "Psychiatry")
+  "availableService" (slice
+    (dict "@type" "MedicalTherapy" "name" "한약 치료")
+    (dict "@type" "MedicalTherapy" "name" "침 치료")
+    (dict "@type" "MedicalTherapy" "name" "상담치료"))
+-}}
+{{- with $c.naver_booking_url }}{{ $clinic = merge $clinic (dict "hasMap" .) }}{{ end -}}
+
+{{/* ── 이동 경로(breadcrumb) — 화면의 표시와 같은 단계로 맞춘다 ── */}}
+{{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" "홈" "item" (printf "%s/" $base)) -}}
+{{- if not .IsHome -}}
+  {{- $sec := .Section -}}
+  {{- $secName := dict "diseases" "특화 질환" "doctors" "의료진" "column" "원장 컬럼" "notice" "공지사항" "reviews" "치료후기" -}}
+  {{- if and $sec (index $secName $sec) -}}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" (index $secName $sec)) -}}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink) -}}
+  {{- else -}}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" .Permalink) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $graph := slice $clinic -}}
+{{- if gt (len $crumbs) 1 -}}
+  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "itemListElement" $crumbs) -}}
+{{- end -}}
+
+{{/* ── 원장(Physician) ─────────────────────────────────── */}}
+{{- with .Params.doctor -}}
+  {{- $slug := . -}}
+  {{- $docUrl := printf "%s/doctors/%s/" $base $slug -}}
+  {{- with index site.Data.authors $slug -}}
+    {{/* @id·url은 늘 원장 소개 페이지를 가리킨다. 질환 페이지에서도 같은 값을
+         써야 검색엔진이 같은 사람으로 본다(페이지마다 다른 개체가 되지 않게). */}}
+    {{- $p := dict
+      "@type" "Physician"
+      "@id" (printf "%s#physician" $docUrl)
+      "name" .name.display
+      "url" $docUrl
+      "jobTitle" .role
+      "worksFor" (dict "@id" $clinicId)
+      "medicalSpecialty" (slice "Psychiatry")
+      "knowsAbout" (or .specialties .interests)
+    -}}
+    {{- with .affiliations -}}
+      {{- $m := slice -}}{{- range . }}{{ $m = $m | append (dict "@type" "Organization" "name" .name) }}{{ end -}}
+      {{- $p = merge $p (dict "memberOf" $m) -}}
+    {{- end -}}
+    {{- $graph = $graph | append $p -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* ── 컬럼(Article) — 저자를 원장 페이지와 연결한다 ────── */}}
+{{- if eq .Section "column" -}}
+  {{- if .Params.authors -}}
+    {{- $authors := slice -}}
+    {{- range .Params.authors -}}
+      {{- $slug := . -}}
+      {{- with index site.Data.authors $slug -}}
+        {{- $authors = $authors | append (dict "@type" "Physician" "@id" (printf "%s/doctors/%s/#physician" $base $slug) "name" .name.display "url" (printf "%s/doctors/%s/" $base $slug)) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $authors -}}
+      {{- $a := dict
+        "@type" "Article"
+        "headline" .Title
+        "description" (or .Params.summary .Summary)
+        "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
+        "dateModified" ((or .Lastmod .Date).Format "2006-01-02T15:04:05-07:00")
+        "author" $authors
+        "publisher" (dict "@id" $clinicId)
+        "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+        "inLanguage" "ko-KR"
+      -}}
+      {{- $graph = $graph | append $a -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* ── 지역 안내의 FAQ — 화면에 보이는 문답과 글자까지 같다 ── */}}
+{{- if eq .Layout "directions" -}}
+  {{- $qa := slice -}}
+  {{- range site.Data.directions.faq -}}
+    {{- $qa = $qa | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" .a)) -}}
+  {{- end -}}
+  {{- if $qa }}{{ $graph = $graph | append (dict "@type" "FAQPage" "mainEntity" $qa) }}{{ end -}}
+{{- end -}}
+
+<script type="application/ld+json">{{ (dict "@context" "https://schema.org" "@graph" $graph) | jsonify | safeJS }}</script>

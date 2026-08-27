@@ -13,6 +13,38 @@
   {{ $css := . | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />
 {{ end }}
+
+{{/* canonical — 배포 주소가 여러 개(pages.dev·정식 도메인)여도 정본을 하나로 고정한다.
+     값은 hugo.yaml의 baseURL을 따른다. */}}
+<link rel="canonical" href="{{ .Permalink }}" />
+
+{{/* 카카오톡·네이버·문자로 링크를 보낼 때 뜨는 미리보기 카드 */}}
+{{- $ogTitle := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
+{{- $ogDesc := or .Description site.Params.description -}}
+{{- $ogImg := "" -}}
+{{- with resources.Get "media/clinic/reception.jpg" -}}
+  {{- $ogImg = (.Resize "1200x630 webp q82 photo smart").Permalink -}}
+{{- end }}
+<meta property="og:type" content="{{ cond (eq .Section "column") "article" "website" }}" />
+<meta property="og:site_name" content="{{ site.Title }}" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="{{ $ogTitle }}" />
+<meta property="og:description" content="{{ $ogDesc }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+{{- with $ogImg }}
+<meta property="og:image" content="{{ . }}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="해아림한의원 잠실점 접수 데스크" />
+{{- end }}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ $ogTitle }}" />
+<meta name="twitter:description" content="{{ $ogDesc }}" />
+{{- with $ogImg }}
+<meta name="twitter:image" content="{{ . }}" />
+{{- end }}
+
+{{ partial "schema.html" . }}
 </head>
 <body>
 <div style="font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; color: #001E2B; background: #FFFFFF;">
