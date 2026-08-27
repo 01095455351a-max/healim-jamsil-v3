@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+{{ if site.Params.noindex }}<meta name="robots" content="noindex, nofollow" />{{ end }}
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 {{ with .Description }}<meta name="description" content="{{ . }}" />{{ else }}<meta name="description" content="{{ .Site.Params.description }}" />{{ end }}
 <link rel="preconnect" href="https://fonts.googleapis.com" />

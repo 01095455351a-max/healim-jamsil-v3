@@ -88,6 +88,12 @@ site.css는 hover·반응형·컴포넌트 동작처럼 인라인으로 표현�
 `w`는 화면 표시 폭의 2배를 준다. 첫 화면에 보이는 이미지는 `"eager" true`.
 원본을 압축하지 말고 그대로 넣으면 된다.
 
+## 검토 모드
+
+`hugo.yaml`의 `params.noindex: true`인 동안에는 모든 페이지에 `noindex, nofollow`
+메타가 붙고 `robots.txt`가 전체 수집을 막는다. 정식 공개할 때 이 값을 `false`로
+바꾸면 메타가 사라지고 robots.txt가 sitemap을 안내하는 내용으로 바뀐다.
+
 ## 아직 남은 일
 
 - **아직 배포되지 않았다.** 어디에도 올라가 있지 않다. Cloudflare Pages에 GitHub를

@@ -2,7 +2,12 @@ baseURL: https://healim-jamsil.com/
 locale: ko-KR
 title: 해아림한의원 잠실점
 
+enableRobotsTXT: true
+
 params:
+  # 검토 기간에만 true. 검색엔진 수집을 막고 robots.txt로도 차단한다.
+  # 정식 공개할 때 false로 바꾸면 두 가지가 함께 풀린다.
+  noindex: true
   description: "해아림한의원 잠실점 — 한방신경정신과 전문의 · 임상 22년 원장"
 
 markup:
