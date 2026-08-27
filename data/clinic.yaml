@@ -4,7 +4,9 @@ phone_display: "0507-1469-7578"
 # 전화 버튼이 실제로 거는 번호(안심번호). 화면에 보이는 번호는 phone_display 쪽이다.
 phone_tel: "tel:0507-1469-7578"
 naver_booking_url: "https://map.naver.com/p/entry/place/1887559338?placePath=%2Fhome%3Fentry%3Dplt%26from%3Dmap%26fromPanelNum%3D1%26additionalHeight%3D76%26timestamp%3D202608220007%26locale%3Dko%26svcName%3Dmap_pcv5&searchType=place&lng=127.0819814&lat=37.5114327&c=15.00,0,0,0,dh"
-naver_search_url: "https://map.naver.com/p/search/해아림한의원 잠실점"
+# 네이버 지도의 리뷰 탭. placePath=/review 가 리뷰 화면을 바로 연다.
+# (예전에는 일반 검색 주소였고, 헤더의 예약 버튼까지 이 값을 쓰고 있었다)
+naver_review_url: "https://map.naver.com/p/entry/place/1887559338?placePath=%2Freview"
 kakao_channel_url: "https://pf.kakao.com/_xkqufn"
 naver_blog_url: "https://blog.naver.com/healimjs"
 instagram_url: "https://www.instagram.com/healimjs"

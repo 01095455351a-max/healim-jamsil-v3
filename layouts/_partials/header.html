@@ -40,7 +40,7 @@
         <a href="/#reviews" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
-            <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">네이버 리뷰 보기</a>
+            <a href="{{ $clinic.naver_review_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">네이버 리뷰 보기</a>
             <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">치료후기 전체 보기</a>
             <a href="/reviews/#handwritten" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">자필 후기</a>
           </div>
@@ -53,7 +53,7 @@
     </nav>
     <div class="desktop-cta" style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex: 0 0 auto; white-space: nowrap;">
       <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
-      <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 12px 22px; border-radius: 9999px; white-space: nowrap;" class="btn-primary">네이버예약</a>
+      <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 12px 22px; border-radius: 9999px; white-space: nowrap;" class="btn-primary">네이버예약</a>
     </div>
   </div>
 
@@ -90,7 +90,7 @@
     </nav>
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
       <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 연결</a>
-      <a href="{{ $clinic.naver_search_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버예약</a>
+      <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버예약</a>
     </div>
   </div>
 </header>
