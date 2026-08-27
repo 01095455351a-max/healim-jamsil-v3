@@ -4,6 +4,12 @@ title: 해아림한의원 잠실점
 
 enableRobotsTXT: true
 
+# 태그·분류 목록 페이지는 만들지 않는다.
+# 목록 레이아웃이 없어 HTML은 안 나오는데 sitemap에는 45개가 실려
+# 검색엔진이 전부 404를 만나고 있었다.
+# 글의 tags 값 자체는 그대로 쓴다 — 컬럼 필터와 칩은 .Params.tags를 읽는다.
+disableKinds: ["taxonomy", "term"]
+
 params:
   # 검토 기간에만 true. 검색엔진 수집을 막고 robots.txt로도 차단한다.
   # 정식 공개할 때 false로 바꾸면 두 가지가 함께 풀린다.
