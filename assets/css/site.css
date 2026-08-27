@@ -32,6 +32,12 @@ button { font-family: inherit; }
 /* 채움 버튼 + 텍스트가 원래 어두운 색인 경우 hover 시 흰 글자 유지 (hv34,36,41,46,47) */
 .btn-primary-dark-text:hover { background: #0B4F52; color: #FFFFFF; }
 
+/* 카카오·네이버 문의 버튼 — 각 서비스의 브랜드 색을 그대로 쓴다.
+   카카오 #FEE500(글자 #3C1E1E), 네이버 #03C75A(글자 흰색).
+   hover는 같은 색을 살짝 어둡게만 한다 — 색상 자체를 바꾸면 브랜드가 아니게 된다. */
+.btn-kakao:hover { background: #F2DC00; border-color: #F2DC00; color: #3C1E1E; }
+.btn-naver:hover { background: #02B350; border-color: #02B350; color: #FFFFFF; }
+
 /* 카드형 링크 hover — 질환/의료진/컬럼 카드 (hv22-32,50-52) */
 .card-link:hover { box-shadow: rgba(0,30,43,0.08) 0px 4px 12px 0px; transform: translateY(-2px); border-color: #C0FAE6; color: #001E2B; }
 
