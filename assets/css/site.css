@@ -64,21 +64,19 @@ button { font-family: inherit; }
 /* 푸터 전화번호 hover — 민트로 (hv67) */
 .footer-phone:hover { color: #C0FAE6; }
 
-/* 푸터의 예약 · 길찾기 · 첫 내원 안내 — 폭이 제각각인 알약이 줄바꿈으로
-   흩어지지 않도록 두 칸 격자에 넣는다. 예약이 윗줄을 다 쓰고 나머지 둘이
-   반씩 나눈다. 전역 box-sizing이 없어 border-box를 직접 준다. */
-.footer-cta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; width: 100%; margin-top: 8px; }
+/* 푸터의 예약 · 길찾기 · 첫 내원 안내 — 셋을 같은 크기로 나란히 둔다.
+   폭이 좁아지면 글자만 줄고 버튼 수는 그대로다(줄바꿈으로 흩어지지 않게
+   minmax(0, 1fr)로 못박는다). 전역 box-sizing이 없어 border-box를 직접 준다. */
+.footer-cta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; width: 100%; margin-top: 8px; }
 .footer-cta > a {
-  box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  font-size: 14px; font-weight: 600; white-space: nowrap; text-align: center;
+  box-sizing: border-box; min-width: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: clamp(12px, 0.95vw, 14px); font-weight: 600; white-space: nowrap; text-align: center;
   color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.28);
-  padding: 11px 10px; border-radius: 9999px; min-width: 0;
+  padding: 10px 6px; border-radius: 9999px;
 }
-.footer-cta > a > span { font-size: 12px; }
-.footer-cta-book {
-  grid-column: 1 / -1;
-  background: #03C75A; border-color: #03C75A !important; color: #FFFFFF;
-}
+/* 예약만 네이버 초록 — 헤더·홈과 같은 규칙이다. 크기는 나머지와 같게 둔다. */
+.footer-cta-book { background: #03C75A; border-color: #03C75A !important; color: #FFFFFF; }
 .footer-cta-book:hover { background: #02B350; border-color: #02B350 !important; color: #FFFFFF; }
 
 /* 원장 소개 본문(마크다운) 타이포 — doctor-ryu.html/doctor-seok.html의 "진료 철학" 섹션 기준
