@@ -353,10 +353,7 @@
         </div>
         <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
           <div style="padding: 20px 24px 12px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61;">진료시간</div>
-          {{ range $clinic.hours }}
-          <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 24px; border-top: 1px solid #F1F3F2; font-size: 15px;"><span style="color: #4A4A44;">{{ .days }}{{ with .note }} <span style="color: #0F7A7E; font-weight: 600;">{{ . }}</span>{{ end }}</span><span style="font-weight: 600;{{ if eq .time "정기 휴진" }} color: #6B6960;{{ end }}">{{ .time }}</span></div>
-          {{ end }}
-          <div style="padding: 14px 24px 20px; border-top: 1px solid #F1F3F2; font-size: 14px; line-height: 1.6; color: #6B6960;">{{ $clinic.lunch_note }}</div>
+          {{ partial "hours-rows.html" (dict "lunch" true) }}
         </div>
       </div>
       {{ partial "kakao-map.html" (dict "height" "560px" "title" "해아림한의원 잠실점 위치") }}

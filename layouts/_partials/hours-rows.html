@@ -1,0 +1,22 @@
+{{/* 진료 시간표 한 벌 — 홈·오시는 길·첫 내원 안내가 함께 쓴다.
+     세 곳이 각자 마크업을 갖고 있어 글자 크기와 야간진료 표시가
+     조금씩 달랐다. 여기 한 곳만 고치면 세 쪽이 같이 바뀐다.
+
+     시간은 tabular-nums로 자릿수를 맞춘다. 야간진료 같은 표시는
+     청록 알약으로 오른쪽 끝에 붙는다.
+
+     인자
+       lunch  true면 점심시간 안내를 마지막 줄로 붙인다
+
+     푸터는 어두운 배경의 좁은 칸이라 한 줄짜리 형태를 따로 쓴다. */}}
+{{ $clinic := site.Data.clinic }}
+{{ range $clinic.hours }}
+<div style="display: flex; align-items: center; gap: 16px; padding: 18px 26px; border-top: 1px solid #F1F3F2;">
+  <span style="flex: 0 0 168px; font-size: 17px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" .days }}</span>
+  <span style="flex: 0 0 auto; white-space: nowrap; font-size: 17px; font-weight: 500; color: {{ if eq .time "정기 휴진" }}#6B6960{{ else }}#001E2B{{ end }}; font-variant-numeric: tabular-nums;">{{ .time }}</span>
+  {{ with .note }}<span style="margin-left: auto; flex: 0 0 auto; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 5px 10px; border-radius: 9999px; white-space: nowrap;">{{ . }}</span>{{ end }}
+</div>
+{{ end }}
+{{ if .lunch }}
+<div style="padding: 18px 26px; border-top: 1px solid #F1F3F2; font-size: 15px; line-height: 1.75; color: #4A4A44;">{{ partial "kr.html" $clinic.lunch_note }}</div>
+{{ end }}

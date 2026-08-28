@@ -76,14 +76,7 @@
     <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 24px;; text-wrap: balance">진료시간과 위치</h2>
     <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start;">
       <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; overflow: hidden;">
-        {{ range $clinic.hours }}
-        <div style="display: flex; align-items: center; gap: 16px; padding: 18px 26px; border-top: 1px solid #F1F3F2;">
-          <span style="flex: 0 0 168px; font-size: 17px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" .days }}</span>
-          <span style="flex: 0 0 auto; white-space: nowrap; font-size: 17px; font-weight: 500; color: {{ if eq .time "정기 휴진" }}#6B6960{{ else }}#001E2B{{ end }}; font-variant-numeric: tabular-nums;">{{ .time }}</span>
-          {{ with .note }}<span style="margin-left: auto; flex: 0 0 auto; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 5px 10px; border-radius: 9999px; white-space: nowrap;">{{ . }}</span>{{ end }}
-        </div>
-        {{ end }}
-        <div style="padding: 18px 26px; border-top: 1px solid #F1F3F2; font-size: 15px; line-height: 1.75; color: #4A4A44;">{{ partial "kr.html" $clinic.lunch_note }}</div>
+        {{ partial "hours-rows.html" (dict "lunch" true) }}
       </div>
       <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
         {{ partial "kakao-map.html" (dict "height" "300px" "title" "해아림한의원 잠실점 위치") }}
