@@ -27,7 +27,7 @@
       {{ range $i, $n := $notices }}
       {{ $cat := "공지" }}{{ with $n.Params.tags }}{{ if gt (len .) 0 }}{{ $cat = index . 0 }}{{ end }}{{ end }}
       {{ $isNew := lt ($now.Sub $n.Date).Hours 336.0 }}
-      <details style="border-top: 1px solid #F1F3F2;">
+      <details name="notice" style="border-top: 1px solid #F1F3F2;">
         <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
           <span style="font-size: 14px; color: #6F6B61;">{{ sub $total $i }}</span>
           <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ $cat }}</span>
