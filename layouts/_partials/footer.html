@@ -4,7 +4,8 @@
      상호·주소·대표전화·대표자·사업자등록번호·법적 고지를 둔다.
      "주요 진료과목" 칸(질환 9개 링크)은 뺐다 — 헤더 드롭다운과
      모바일 서랍, 홈의 질환 카드에 이미 있어 세 번째 반복이었다.
-     진료시간은 남긴다. 여기서 빼면 홈과 오시는 길 두 쪽에만 남는다. */}}
+     진료시간은 남긴다 — 여기서 빼면 홈과 오시는 길 두 쪽에만 남고,
+     "토요일에 갈 수 있나"를 버튼 한 번 더 눌러야 알게 된다. */}}
 {{ $clinic := site.Data.clinic }}
 <footer style="background: #001E2B; color: #FFFFFF; padding: 64px 0 40px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
@@ -29,10 +30,17 @@
         {{ end }}
         <span style="font-size: 13px; color: rgba(255,255,255,0.70); margin-top: 6px;">※ {{ $clinic.lunch_note }}</span>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
+      {{/* 교통편(address_transit) 세 줄은 여기서 뺐다 — 홈·질환 상세·오시는 길에
+           이미 있고, 길을 찾는 사람은 길찾기 버튼을 누르지 푸터를 읽지 않는다.
+           주소와 전화는 남긴다(검색엔진이 상호·주소·전화를 한 세트로 읽는 자리). */}}
+      <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
         <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">오시는 길 &amp; 문의</div>
-        <span style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.70);">{{ $clinic.address_line }}<br />{{ $clinic.address_transit | safeHTML }}</span>
-        <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 16px; font-weight: 600; color: #FFFFFF; margin-top: 4px;" class="footer-phone">{{ $clinic.phone_display }}</a>
+        <span style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.70);">{{ $clinic.address_line }}</span>
+        <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 16px; font-weight: 600; color: #FFFFFF;" class="footer-phone">{{ $clinic.phone_display }}</a>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px;">
+          <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">길찾기<span style="font-size: 12px; margin-left: 6px;">→</span></a>
+          <a href="/first-visit/" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">첫 내원 안내<span style="font-size: 12px; margin-left: 6px;">→</span></a>
+        </div>
       </div>
     </div>
     <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 14px;">

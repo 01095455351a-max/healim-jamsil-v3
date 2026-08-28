@@ -14,6 +14,7 @@
 {{ $slug := .File.BaseFileName }}
 {{ $author := index site.Data.authors $slug }}
 {{ $p := .Params }}
+{{ $clinic := site.Data.clinic }}
 {{ $otherSlug := "" }}{{ with $p.other_doctor }}{{ $otherSlug = path.Base . }}{{ end }}
 {{ $otherAuthor := index site.Data.authors $otherSlug }}
 
@@ -90,7 +91,14 @@
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div class="doc-h2-row">
       <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
-      <a href="/column/" class="doc-h2-more">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
+      {{/* 블로그·유튜브는 한의원 계정이다 — 원장 개인 채널이 아니므로
+           "한의원"을 붙여 적는다. 유튜브 주소는 data/clinic.yaml이 비어 있으면
+           버튼이 아예 나오지 않는다(없는 링크를 만들어 두지 않는다). */}}
+      <div class="doc-h2-links">
+        <a href="/column/" class="doc-h2-more">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
+        {{ with $clinic.naver_blog_url }}<a href="{{ . }}" target="_blank" rel="noopener" class="doc-h2-chip">한의원 블로그</a>{{ end }}
+        {{ with $clinic.youtube_url }}<a href="{{ . }}" target="_blank" rel="noopener" class="doc-h2-chip">유튜브</a>{{ end }}
+      </div>
     </div>
     <div class="doc-columns">
       {{ range first 4 . }}

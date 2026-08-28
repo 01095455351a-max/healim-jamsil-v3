@@ -547,6 +547,17 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .doc-h2-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
 .doc-h2-row .doc-h2 { margin: 0; }
 .doc-h2-more { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+/* 「원장 컬럼 전체 보기」 옆의 한의원 블로그·유튜브.
+   사이트 밖으로 나가는 링크라 내부 링크와 모양을 다르게(테두리 칩) 둔다. */
+.doc-h2-links { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.doc-h2-links .doc-h2-more { margin-left: 0; }
+.doc-h2-chip {
+  display: inline-flex; align-items: center; font-size: 14px; font-weight: 600;
+  white-space: nowrap; color: #3A3A34; background: #FFFFFF;
+  border: 1px solid #C1C7C6; padding: 8px 15px; border-radius: 9999px;
+  transition: background 170ms, border-color 170ms, color 170ms;
+}
+.doc-h2-chip:hover { background: #E3FCF7; border-color: #22ABAF; color: #0F7A7E; }
 
 /* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
    1920×2560) 여기서 4:5로 맞춘다. image.html이 붙이는 height 속성이
@@ -628,6 +639,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .doc-h2 { font-size: 23px !important; margin-bottom: 18px; }
   .doc-h2-row { gap: 10px; margin-bottom: 18px; }
   .doc-h2-more { margin-left: 0; font-size: 14px; }
+  .doc-h2-links { margin-left: 0; gap: 8px; }
+  .doc-h2-chip { font-size: 13px; padding: 7px 13px; }
   .doc-columns { grid-template-columns: 1fr; }
   .doc-story { padding: 26px 20px; border-radius: 16px; }
   .doc-quote { font-size: 20px !important; padding-left: 14px; margin-bottom: 22px; }
