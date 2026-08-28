@@ -21,19 +21,29 @@
       if (mapEl) mapEl.style.display = "none";
       if (fallbackEl) fallbackEl.style.display = "block";
     }
-    var timeoutId = setTimeout(useFallback, 4000);
+    var timeoutId = setTimeout(useFallback, 8000);
     var script = document.createElement("script");
-    script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey={{ $jsKey }}";
+    // autoload=false + kakao.maps.load() 가 카카오가 정한 방식이다.
+    // 이걸 빼고 onload에서 바로 kakao.maps.LatLng을 부르면 아직 준비가
+    // 안 되어 예외가 나고, 도메인을 제대로 등록해도 구글 지도로 넘어간다.
+    script.src = "https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey={{ $jsKey }}";
     script.onload = function () {
-      try {
-        var center = new kakao.maps.LatLng({{ $clinic.map_lat }}, {{ $clinic.map_lng }});
-        var map = new kakao.maps.Map(mapEl, { center: center, level: 3 });
-        new kakao.maps.Marker({ position: center, map: map });
-        done = true;
-        clearTimeout(timeoutId);
-      } catch (e) {
+      if (typeof kakao === "undefined" || !kakao.maps || !kakao.maps.load) {
         useFallback();
+        return;
       }
+      kakao.maps.load(function () {
+        try {
+          var center = new kakao.maps.LatLng({{ $clinic.map_lat }}, {{ $clinic.map_lng }});
+          var map = new kakao.maps.Map(mapEl, { center: center, level: 3 });
+          new kakao.maps.Marker({ position: center, map: map });
+          done = true;
+          clearTimeout(timeoutId);
+          if (fallbackEl) fallbackEl.remove();
+        } catch (e) {
+          useFallback();
+        }
+      });
     };
     script.onerror = useFallback;
     document.head.appendChild(script);
