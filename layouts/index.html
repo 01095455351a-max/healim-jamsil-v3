@@ -20,14 +20,27 @@
         <div><div style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px;">9가지</div><div style="font-size: 14px; color: #6B6960; margin-top: 4px;">특화 질환 진료</div></div>
       </div>
     </div>
+    {{/* 원내 사진 슬라이드 — assets/media/clinic/ 폴더를 그대로 읽는다.
+         폴더에 넣으면 붙고 빼면 사라진다. 순서는 파일 이름순이라 앞에
+         번호를 붙여 둔다(01-, 02-, ...). 설명과 자르는 위치는
+         data/clinic-photos.yaml에서 파일 이름으로 찾아 쓴다 —
+         적지 않은 사진도 기본값으로 나온다. */}}
+    {{ $photos := sort (resources.Match "media/clinic/*.jpg") "Name" }}
+    {{ $meta := index site.Data "clinic-photos" }}
     <div class="hero-slides" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; height: 460px;">
-      {{ partial "image.html" (dict "src" "media/clinic/reception.jpg" "w" 1200 "alt" "해아림한의원 잠실점 접수 데스크" "eager" true "class" "is-active" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/waiting-room.jpg" "w" 1200 "alt" "소파와 서가가 있는 대기 공간" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/counseling-room.jpg" "w" 1200 "alt" "의자 두 개가 마주 놓인 상담실" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/treatment-room.jpg" "w" 1200 "alt" "커튼으로 분리된 치료실" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/entrance.jpg" "w" 1200 "alt" "해아림한의원 잠실점 출입구" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/hallway.jpg" "w" 1200 "alt" "진료실로 이어지는 복도" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
-      {{ partial "image.html" (dict "src" "media/clinic/reception-wide.jpg" "w" 1200 "alt" "복도에서 바라본 접수 데스크" "style" "position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;") }}
+      {{ range $i, $photo := $photos }}
+      {{ $key := replace (path.Base $photo.Name) ".jpg" "" }}
+      {{ $m := index $meta $key }}
+      {{ $alt := "해아림한의원 잠실점 원내 사진" }}{{ with $m.alt }}{{ $alt = . }}{{ end }}
+      {{ $focus := 50 }}{{ with $m.focus }}{{ $focus = . }}{{ end }}
+      {{ partial "image.html" (dict
+          "src" $photo.Name
+          "w" 1200
+          "alt" $alt
+          "eager" (eq $i 0)
+          "class" (cond (eq $i 0) "is-active" "")
+          "style" (printf "position: absolute; inset: 0; width: 100%%; height: 100%%; object-fit: cover; object-position: center %d%%; display: block;" $focus)) }}
+      {{ end }}
     </div>
   </div>
 </section>
