@@ -56,6 +56,18 @@ career:
 # 방송·강연 등 전문활동. 저서·논문과 같은 구역에 표시한다.
 activities:
   - "매일경제 TV 「건강한의사」 출연"
+
+# 원장이 직접 출연한 영상만 적는다. 줄을 추가하면 상세페이지에 저절로 붙고,
+# 지우면 사라진다(하나도 없으면 구역 자체가 나오지 않는다).
+#   title  영상에 나온 제목 그대로. 모르면 비워 둔다 — 지어내지 않는다.
+#          비어 있으면 "류석균 원장 출연 영상"으로 표시된다.
+#   source 프로그램·채널 이름(선택)
+#   date   게시일(선택). "2019-09-27"처럼 적으면 화면에는 한글로 나간다.
+# 링크는 시작 시점(&t=)과 추적 값(?si=)을 떼고 적는다.
+videos:
+  - title: ""
+    source: "매일경제 TV 「건강한의사」"
+    url: "https://www.youtube.com/watch?v=rSy1Od62OG4"
 links:
   - icon: brands/instagram
     url: https://www.instagram.com/healimjs
