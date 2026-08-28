@@ -41,6 +41,24 @@
         {{ with $p.signs_note }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 24px 0 0; padding: 20px 24px; background: #FAF6EF; border-left: 3px solid #0F7A7E; border-radius: 8px;; text-wrap: pretty">{{ . }}</p>{{ end }}
       </div>
 
+      {{/* 하위 유형 — front matter에 types가 있는 질환에서만 나온다.
+           마크업은 아래 '헷갈리기 쉬운 것들'과 같은 카드다. */}}
+      {{ with $p.types }}
+      <div id="types">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.types_heading }}</h2>
+        {{ with $p.types_intro }}<p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 20px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          {{ range . }}
+          <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px;">
+            <div style="font-size: 17px; font-weight: 600; margin-bottom: 8px;">{{ .title }}</div>
+            <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" .text }}</p>
+          </div>
+          {{ end }}
+        </div>
+        {{ with $p.types_note }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 24px 0 0; padding: 20px 24px; background: #FAF6EF; border-left: 3px solid #0F7A7E; border-radius: 8px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+      </div>
+      {{ end }}
+
       {{ with $p.differential }}
       <div id="differential">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.differential_heading }}</h2>
@@ -137,6 +155,7 @@
         <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 14px;">이 페이지에서</div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <a href="#signs" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.signs_heading }}</a>
+          {{ if $p.types }}<a href="#types" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.types_heading }}</a>{{ end }}
           {{ if $p.differential }}<a href="#differential" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.differential_heading }}</a>{{ end }}
           <a href="#cause" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.cause_heading }}</a>
           <a href="#exam" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.exam_heading }}</a>
