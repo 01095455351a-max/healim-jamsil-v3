@@ -36,9 +36,13 @@
         <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">오시는 길 &amp; 문의</div>
         <span style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.70);">{{ $clinic.address_line }}</span>
         <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 16px; font-weight: 600; color: #FFFFFF;" class="footer-phone">{{ $clinic.phone_display }}</a>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px;">
-          <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">길찾기<span style="font-size: 12px; margin-left: 6px;">→</span></a>
-          <a href="/first-visit/" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">첫 내원 안내<span style="font-size: 12px; margin-left: 6px;">→</span></a>
+        {{/* 폭이 제각각인 알약이 줄바꿈으로 흩어지지 않도록 격자에 넣는다.
+             예약이 한 줄을 다 쓰고 아래 둘이 반씩 나눠 가진다. 예약만
+             네이버 초록을 쓰는 것은 헤더·홈과 같은 규칙이다. */}}
+        <div class="footer-cta">
+          <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" class="footer-cta-book">네이버 예약<span>↗</span></a>
+          <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" class="btn-outline">길찾기<span>→</span></a>
+          <a href="/first-visit/" class="btn-outline">첫 내원 안내<span>→</span></a>
         </div>
       </div>
     </div>
