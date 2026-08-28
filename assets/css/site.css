@@ -331,6 +331,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 64px 0 40px"] { padding-top: 44px !important; padding-bottom: 28px !important; }
   [style*="padding: 56px 0 88px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
   [style*="padding: 56px 0 80px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
+  [style*="padding: 48px 0 80px"] { padding-top: 34px !important; padding-bottom: 56px !important; }
   [style*="padding: 56px 0 0"]:not([style*="padding: 56px 0 0px"]) { padding-top: 40px !important; }
   [style*="padding: 48px 0 88px"] { padding-top: 34px !important; padding-bottom: 56px !important; }
   [style*="padding: 48px 0 56px"] { padding-top: 34px !important; padding-bottom: 40px !important; }
@@ -350,6 +351,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 40px 44px"]                                  { padding: 24px 18px !important; }
   [style*="padding: 40px 32px 34px"]                             { padding: 24px 18px 22px !important; }
   [style*="padding: 36px"]                                       { padding: 22px 18px !important; }
+  [style*="padding: 32px 36px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 32px"]:not([style*="padding: 32px 0"]):not([style*="padding: 0 32px"]) { padding: 20px 16px !important; }
   [style*="padding: 30px 36px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 30px"]:not([style*="padding: 30px "])        { padding: 20px 16px !important; }

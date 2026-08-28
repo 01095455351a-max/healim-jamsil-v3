@@ -35,19 +35,23 @@
 
       <a href="/#doctors" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
 
+      {{/* 치료후기는 /reviews/ 한 곳으로 간다 — 그 페이지에 네이버 리뷰와
+           자필 후기가 함께 있어 드롭다운으로 가를 이유가 없다. */}}
+      <a href="/reviews/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기</a>
+
+      {{/* 게시판 — 읽을거리를 한 묶음으로. 미디어(언론보도)는 실제 보도
+           목록이 준비되면 여기에 한 줄 더하면 된다. */}}
       <div style="position: relative;" class="nav-item">
-        <a href="/#reviews" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <a href="/notice/" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">게시판<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
-            <a href="{{ $clinic.naver_review_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">네이버 리뷰 보기</a>
-            <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">자필 후기</a>
+            <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">공지사항</a>
+            <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">원장 컬럼</a>
           </div>
         </div>
       </div>
 
-      <a href="/column/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">원장 컬럼</a>
       <a href="/directions/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
-      <a href="/notice/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">공지사항</a>
     </nav>
     <div class="desktop-cta" style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex: 0 0 auto; white-space: nowrap;">
       <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
@@ -76,16 +80,15 @@
         </div>
       </details>
       <a href="/#doctors" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
+      <a href="/reviews/" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">치료후기</a>
       <details>
-        <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">치료후기<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
+        <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">게시판<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
         <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 12px 12px;">
-          <a href="{{ $clinic.naver_review_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">네이버 리뷰 보기</a>
-          <a href="/reviews/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">자필 후기</a>
+          <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">공지사항</a>
+          <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">원장 컬럼</a>
         </div>
       </details>
-      <a href="/column/" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">원장 컬럼</a>
       <a href="/directions/" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
-      <a href="/notice/" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">공지사항</a>
     </nav>
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
       <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>

@@ -7,7 +7,7 @@ share: false
 authors:
   - seok-seonhui
 tags:
-  - 강박증
+  - 강박장애
   - 칼럼
 title_seo: "강박적인 생각은 왜 멈추기 어려울까요? 반복되는 이유"
 faqs:

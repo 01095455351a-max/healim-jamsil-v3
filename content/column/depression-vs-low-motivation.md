@@ -7,7 +7,7 @@ share: false
 authors:
   - seok-seonhui
 tags:
-  - 우울증
+  - 우울장애
   - 칼럼
 title_seo: "우울증과 단순한 의욕 저하는 어떻게 다를까요?"
 faqs:
