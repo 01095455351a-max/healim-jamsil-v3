@@ -544,7 +544,6 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 제목 줄 — 제목 옆에 건수와 "전체 보기"를 나란히 둔다. */
 .doc-h2-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
 .doc-h2-row .doc-h2 { margin: 0; }
-.doc-h2-count { font-size: 14px; color: #6B6960; }
 .doc-h2-more { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; white-space: nowrap; }
 
 /* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
