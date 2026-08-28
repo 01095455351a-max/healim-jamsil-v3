@@ -31,7 +31,11 @@
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 56px; align-items: start;">
     <article style="display: flex; flex-direction: column; gap: 56px; min-width: 0;">
 
-      <div><p style="font-size: 18px; line-height: 1.85; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $p.intro | markdownify }}</p></div>
+      {{/* 도입글 — 마크다운이 만드는 <p>를 그대로 받아야 해서 바깥을 div로 둔다.
+           (전에는 <p> 안에 <p>가 들어가 브라우저가 바깥 태그를 끊었고,
+            문단이 둘 이상인 질환에서 글자가 기본 크기로 떨어졌다)
+           글자 크기는 site.css의 .prose-lead가 정한다. */}}
+      <div class="prose-lead">{{ $p.intro | markdownify }}</div>
 
       <div id="signs">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.signs_heading }}</h2>
@@ -90,9 +94,12 @@
       <div id="exam">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.exam_heading }}</h2>
         <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ partial "kr.html" $p.exam_intro }}</p>
-        <div style="border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
-          {{ range $i, $e := $p.exam }}
-          <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 24px;{{ if gt $i 0 }} border-top: 1px solid #F1F3F2;{{ end }} font-size: 16px; line-height: 1.7;"><span style="font-weight: 600;">{{ $e.label }}</span><span style="color: #4A4A44;">{{ $e.text }}</span></div>
+        {{/* 항목이 8~9개라 한 줄씩 쌓으면 이 구역만 700px 가까이 된다.
+             첫 내원 안내의 검사 카드와 같은 자동 배치 격자를 써서
+             넓은 화면에서는 3열, 좁은 화면에서는 1열로 접는다. */}}
+        <div class="dx-exams">
+          {{ range $p.exam }}
+          <div class="dx-exam"><b>{{ .label }}</b><span>{{ .text }}</span></div>
           {{ end }}
         </div>
       </div>

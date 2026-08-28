@@ -414,6 +414,38 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 }
 
 
+/* ── 질환 상세의 도입글 ────────────────────────────────────────
+   마크다운이 만든 <p>를 감싸는 자리라 글자 크기를 여기서 준다.
+   첫 화면에서 읽는 글이라 본문(17px)보다 한 단계 크게 둔다.
+   (markdownify는 문단이 하나면 <p>를 붙이지 않으므로 바깥 div에도 같은
+   크기를 준다 — 두 경우 모두 같게 보인다) */
+.prose-lead { font-size: 20px; line-height: 1.85; color: #4A4A44; text-wrap: pretty; }
+.prose-lead p { font-size: inherit; line-height: inherit; color: inherit; margin: 0 0 16px; }
+.prose-lead p:last-child { margin-bottom: 0; }
+.prose-lead strong { font-weight: 600; color: #001E2B; }
+.prose-lead a { font-weight: 600; }
+
+/* ── 질환 상세의 "진료에서는 무엇을 확인하나요" ────────────────
+   항목이 8~9개라 한 줄씩 쌓으면 이 구역만 700px 가까이 차지했다.
+   넓은 화면 3열 → 2열 → 1열로 내려간다. auto-fit을 쓰면 넓은 화면에서
+   4열로 쪼개져 칸이 좁아지고 글이 더 접혀 오히려 길어졌다. */
+.dx-exams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1100px) { .dx-exams { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px)  { .dx-exams { grid-template-columns: 1fr; } }
+.dx-exam {
+  border: 1px solid #E8EDEB; border-radius: 10px; padding: 14px 16px;
+  font-size: 15px; line-height: 1.65;
+}
+.dx-exam b { display: block; font-weight: 600; color: #001E2B; margin-bottom: 3px; }
+.dx-exam span { color: #4A4A44; }
+
+@media (max-width: 767px) {
+  .prose-lead { font-size: 18px; line-height: 1.8; }
+  .prose-lead p { margin-bottom: 14px; }
+  .dx-exams { gap: 10px; }
+  .dx-exam { padding: 13px 14px; }
+}
+
 /* ── 원장 소개의 사진 ──────────────────────────────────────────
    원본은 714×828(석선희)과 1920×2560(류석균)으로 비율이 다르고,
    image.html이 붙이는 height 속성(742px·853px)이 그대로 적용돼
