@@ -1,0 +1,42 @@
+{{/* 게시판 — 공지사항과 원장 컬럼을 한 화면에서 이어 본다.
+     두 목록의 마크업은 각각 _partials/notice-table.html,
+     _partials/column-cards.html 한 곳에 있고 /notice/ · /column/ 과 같은 것을 쓴다.
+     글을 추가하면 세 곳에 저절로 붙는다. */}}
+{{ define "main" }}
+{{ $notices := (where site.RegularPages "Section" "notice").ByDate.Reverse }}
+{{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse }}
+
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px;">
+      <a href="/" style="color: #4A4A44;" class="nav-link">홈</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">게시판</span>
+    </div>
+    <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">Board</div>
+    <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 16px; text-wrap: balance;">게시판</h1>
+    <p style="font-size: 18px; line-height: 1.75; color: #4A4A44; margin: 0; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" `진료 일정과 운영 안내를 담은 공지사항, 원장이 직접 쓴 건강 정보를 한 곳에서 보실 수 있습니다.` }}</p>
+  </div>
+</section>
+
+<section id="notice" style="background: #FFFFFF; padding: 56px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
+      <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0; text-wrap: balance;">공지사항</h2>
+      <span style="font-size: 14px; color: #6B6960;">전체 {{ len $notices }}건</span>
+      <a href="/notice/" style="margin-left: auto; font-size: 15px; font-weight: 600;">공지사항만 보기 →</a>
+    </div>
+    {{ partial "notice-table.html" (dict "notices" $notices) }}
+  </div>
+</section>
+
+<section id="column" style="background: #FFFFFF; padding: 56px 0 88px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
+      <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0; text-wrap: balance;">원장 컬럼</h2>
+      <span style="font-size: 14px; color: #6B6960;">전체 {{ len $columns }}편</span>
+      <a href="/column/" style="margin-left: auto; font-size: 15px; font-weight: 600;">질환별로 골라 보기 →</a>
+    </div>
+    {{ partial "column-cards.html" (dict "columns" $columns) }}
+  </div>
+</section>
+{{ end }}

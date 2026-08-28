@@ -1,7 +1,8 @@
-{{/* 고정 예약 · 전화 · 길찾기 —— 사이트 전체에서 하나만 쓴다(baseof.html).
+{{/* 고정 예약 · 전화 · 길찾기 —— 좁은 화면에서만 나온다(baseof.html).
 
-     넓은 화면  오른쪽에 세로로 붙는다.
-     좁은 화면  아래에 가로 막대로 붙는다(iPhone 홈 인디케이터 영역 피함).
+     넓은 화면에서는 헤더(sticky) 오른쪽의 같은 버튼 세 개가 이 몫을 한다.
+     좁은 화면에서는 헤더 버튼이 햄버거 안으로 들어가므로, 엄지로 닿는
+     화면 아래에 가로 막대로 둔다(iPhone 홈 인디케이터 영역을 피한다).
 
      세 가지만 둔다. 카카오톡 문의는 각 페이지의 문의 구역과 푸터에 있다.
      주소·전화·진료시간은 data/clinic.yaml 한 곳에서 읽는다.
@@ -12,23 +13,17 @@
 <nav class="qa" aria-label="예약 · 전화 · 길찾기">
   <a class="qa-item qa-book" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener"
      aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
-    <svg class="qa-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <rect x="3" y="5" width="18" height="16" rx="2.5" /><path d="M8 3v4M16 3v4M3 10h18" /><path d="M9.5 15.5l1.8 1.8 3.4-3.6" />
-    </svg>
+    {{ partial "icon-book.html" . }}
     <span class="qa-label">예약</span>
   </a>
   <a class="qa-item" href="{{ $clinic.phone_tel | safeURL }}"
      aria-label="해아림한의원 잠실점 전화하기 {{ $clinic.phone_display }}">
-    <svg class="qa-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M6.2 3.5h3l1.5 3.8-2 1.4a12.5 12.5 0 0 0 6.6 6.6l1.4-2 3.8 1.5v3a1.7 1.7 0 0 1-1.9 1.7A16.8 16.8 0 0 1 4.5 5.4 1.7 1.7 0 0 1 6.2 3.5z" />
-    </svg>
+    {{ partial "icon-tel.html" . }}
     <span class="qa-label">전화</span>
   </a>
   <a class="qa-item" href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener"
      aria-label="해아림한의원 잠실점 길찾기 — 네이버 지도 (새 창)">
-    <svg class="qa-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z" /><circle cx="12" cy="10" r="2.5" />
-    </svg>
+    {{ partial "icon-map.html" . }}
     <span class="qa-label">길찾기</span>
   </a>
 </nav>

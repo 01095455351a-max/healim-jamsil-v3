@@ -42,9 +42,10 @@
       {{/* 게시판 — 읽을거리를 한 묶음으로. 미디어(언론보도)는 실제 보도
            목록이 준비되면 여기에 한 줄 더하면 된다. */}}
       <div style="position: relative;" class="nav-item">
-        <a href="/notice/" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">게시판<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <a href="/board/" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">게시판<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
+            <a href="/board/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">전체 보기</a>
             <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">공지사항</a>
             <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">원장 컬럼</a>
           </div>
@@ -53,9 +54,18 @@
 
       <a href="/directions/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
-    <div class="desktop-cta" style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex: 0 0 auto; white-space: nowrap;">
-      <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
-      <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 12px 22px; border-radius: 9999px; white-space: nowrap;" class="btn-primary">네이버 예약</a>
+    {{/* 예약 · 전화 · 길찾기 — 헤더가 sticky라 스크롤해도 따라온다.
+         예약을 가장 앞세우고 나머지는 한 단계 낮춘다. */}}
+    <div class="desktop-cta" aria-label="예약 · 전화 · 길찾기">
+      <a class="hd-cta hd-cta-book" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
+        {{ partial "icon-book.html" . }}<span>예약</span>
+      </a>
+      <a class="hd-cta" href="{{ $clinic.phone_tel | safeURL }}" aria-label="해아림한의원 잠실점 전화하기 {{ $clinic.phone_display }}">
+        {{ partial "icon-tel.html" . }}<span>전화</span>
+      </a>
+      <a class="hd-cta" href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 길찾기 — 네이버 지도 (새 창)">
+        {{ partial "icon-map.html" . }}<span>길찾기</span>
+      </a>
     </div>
   </div>
 
@@ -84,6 +94,7 @@
       <details>
         <summary style="list-style: none; cursor: pointer; padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">게시판<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
         <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 12px 12px;">
+          <a href="/board/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">전체 보기</a>
           <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">공지사항</a>
           <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 0;" class="nav-dropdown-link">원장 컬럼</a>
         </div>
@@ -91,8 +102,9 @@
       <a href="/directions/" style="padding: 14px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
-      <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
       <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버 예약</a>
+      <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
+      <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">길찾기</a>
     </div>
   </div>
 </header>

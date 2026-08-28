@@ -1,0 +1,30 @@
+{{/* 공지 목록 표 — 홈·공지사항·게시판 세 곳이 같은 마크업을 쓴다.
+     인자: notices (RegularPages), start (번호 시작값 = 전체 건수)
+     같은 name을 준 <details>라 하나를 열면 앞서 열린 것이 닫힌다. */}}
+{{ $notices := .notices }}
+{{ $total := .start | default (len $notices) }}
+{{ $now := now }}
+<div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+  <div style="display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; padding: 14px 24px; background: #FAF6EF; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">
+    <span>번호</span><span style="text-align: center;">구분</span><span>제목</span><span style="text-align: right;">등록일</span>
+  </div>
+  {{ range $i, $n := $notices }}
+  {{ $cat := "공지" }}{{ with $n.Params.tags }}{{ if gt (len .) 0 }}{{ $cat = index . 0 }}{{ end }}{{ end }}
+  {{ $isNew := lt ($now.Sub $n.Date).Hours 336.0 }}
+  <details name="notice" style="border-top: 1px solid #F1F3F2;">
+    <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
+      <span style="font-size: 14px; color: #6F6B61;">{{ sub $total $i }}</span>
+      <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ $cat }}</span>
+      <span style="font-size: 16px; font-weight: 500; color: #001E2B; display: flex; align-items: center; gap: 10px;" class="notice-title">{{ partial "kr.html" $n.Title }}{{ if $isNew }}<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF; background: #157175; padding: 3px 8px; border-radius: 9999px;">NEW</span>{{ end }}</span>
+      <span style="font-size: 14px; color: #6B6960; text-align: right;">{{ $n.Date.Format "2006.01.02" }}</span>
+    </summary>
+    <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
+      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
+        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
+        <div style="font-size: 17px; font-weight: 600; margin-bottom: 12px;">{{ partial "kr.html" $n.Title }}</div>
+        <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" $n.Content }}</div>
+      </div>
+    </div>
+  </details>
+  {{ end }}
+</div>

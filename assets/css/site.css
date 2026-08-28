@@ -469,75 +469,65 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .dx-consult-btns a { width: 100%; box-sizing: border-box; }
 }
 
-/* ── 고정 예약 · 전화 · 길찾기 (_partials/quick-actions.html) ──────
+/* ── 헤더의 예약 · 전화 · 길찾기 ────────────────────────────
    페이지마다 반복되던 예약·지도 블록을 줄이는 대신, 어느 화면에서든
-   한 번의 클릭으로 예약에 닿을 수 있게 하는 자리다.
-   병원 홈페이지답게 조용히 있어야 하므로 원색·그림자·움직임을 쓰지 않는다.
-
-   겹침 검토 — 이 사이트의 고정 요소는 sticky 헤더(z-index 20)와
-   치료 방법 팝업(<dialog>) 둘뿐이다. 팝업은 브라우저의 최상위 레이어라
-   z-index와 무관하게 위에 뜬다. 여기서는 15를 써서 헤더 아래에 둔다.
-   모바일 서랍이 열리면 아래 막대를 내려 감춘다. */
-.qa { position: fixed; z-index: 15; }
-.qa-item {
-  display: flex; align-items: center;
-  color: #0F7A7E; background: #FFFFFF;
-  border: 1px solid #C0FAE6;
-  text-decoration: none;
+   한 번의 클릭으로 예약에 닿게 하는 자리다. 헤더가 sticky라
+   스크롤해도 따라온다. 예약을 앞세우고 나머지는 한 단계 낮춘다. */
+.desktop-cta { margin-left: auto; display: flex; gap: 8px; align-items: center; flex: 0 0 auto; }
+.hd-cta {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 14px; font-weight: 600; white-space: nowrap;
+  color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6;
+  padding: 10px 16px; border-radius: 9999px;
   transition: background 170ms, border-color 170ms, color 170ms;
 }
-.qa-ico { width: 20px; height: 20px; flex: 0 0 20px; }
-.qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
-.qa-item:hover { background: #E3FCF7; border-color: #22ABAF; color: #0F7A7E; }
-.qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
-/* 예약이 첫 번째다. 나머지는 한 단계 낮춘다. */
-.qa-book { color: #FFFFFF; background: #157175; border-color: #157175; }
-.qa-book:hover { background: #0B4F52; border-color: #0B4F52; color: #FFFFFF; }
+.hd-cta svg { width: 17px; height: 17px; flex: 0 0 17px; }
+.hd-cta:hover { background: #E3FCF7; border-color: #22ABAF; color: #0F7A7E; }
+.hd-cta:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
+.hd-cta-book {
+  color: #FFFFFF; background: #157175; border-color: #157175;
+  box-shadow: rgba(21, 113, 117, 0.22) 0px 4px 12px -2px;
+}
+.hd-cta-book:hover { background: #0B4F52; border-color: #0B4F52; color: #FFFFFF; }
 
-/* 세 가지 모습으로 나타난다.
-     1440px 이상   오른쪽 세로 — 본문(최대 1200px)과 30px 이상 떨어진다
-     768~1439px    아래 가운데 알약 — 이보다 좁으면 세로 막대가 본문에 닿는다
-     767px 이하    아래 가로 막대 — 엄지로 닿는 자리 */
-@media (min-width: 1440px) {
-  .qa { top: 50%; right: 24px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; }
-  .qa-item { flex-direction: column; gap: 5px; width: 66px; padding: 12px 6px; border-radius: 14px; }
+/* 폭이 좁아지면 예약만 글자를 남기고 나머지는 아이콘만 둔다
+   (aria-label이 있어 뜻은 그대로 전달된다). */
+@media (max-width: 1150px) {
+  .hd-cta:not(.hd-cta-book) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hd-cta:not(.hd-cta-book) { padding: 10px; gap: 0; }
 }
 
-@media (max-width: 1439px) {
+/* ── 좁은 화면의 아래 고정 막대 (_partials/quick-actions.html) ──
+   헤더 버튼이 햄버거 안으로 들어가는 767px 이하에서만 나온다.
+   겹침 검토 — 고정 요소는 sticky 헤더(z-index 20)와 치료 방법
+   팝업(<dialog>)뿐이다. 팝업은 브라우저 최상위 레이어라 위에 뜬다.
+   여기서는 15를 써서 헤더 아래에 둔다. */
+.qa { display: none; }
+
+@media (max-width: 767px) {
   .qa {
+    position: fixed; z-index: 15;
     left: 0; right: 0; bottom: 0;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
     padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-  }
-  .qa-item { justify-content: center; gap: 7px; padding: 11px 8px; border-radius: 9999px; }
-  /* 막대에 마지막 내용이 가리지 않도록 아래 여백을 확보한다. */
-  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
-  /* 모바일 메뉴가 열려 있는 동안에는 내려 감춘다. */
-  body:has(#nav-toggle:checked) .qa { transform: translateY(140%); }
-}
-
-/* 태블릿·좁은 데스크톱 — 화면을 가로지르는 막대는 과하다. 가운데 알약으로. */
-@media (min-width: 768px) and (max-width: 1439px) {
-  .qa {
-    left: 50%; right: auto; bottom: 20px;
-    transform: translateX(-50%);
-    width: min(440px, calc(100vw - 48px));
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.97);
-    border: 1px solid #EDE6DA; border-radius: 9999px;
-    box-shadow: rgba(0, 30, 43, 0.10) 0px 6px 20px -6px;
-  }
-  body { padding-bottom: 96px; }
-  body:has(#nav-toggle:checked) .qa { transform: translateX(-50%) translateY(140%); }
-}
-
-/* 모바일 — 화면 아래에 붙는 막대 */
-@media (max-width: 767px) {
-  .qa {
     background: rgba(255, 255, 255, 0.96);
     border-top: 1px solid #EDE6DA;
     backdrop-filter: saturate(140%) blur(6px);
   }
+  .qa-item {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 11px 8px; border-radius: 9999px;
+    color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6;
+    text-decoration: none;
+  }
+  .qa-item svg { width: 18px; height: 18px; flex: 0 0 18px; }
+  .qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
+  .qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
+  .qa-book { color: #FFFFFF; background: #157175; border-color: #157175; }
+  /* 막대에 마지막 내용이 가리지 않도록 아래 여백을 확보한다. */
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* 모바일 메뉴가 열려 있는 동안에는 내려 감춘다. */
+  body:has(#nav-toggle:checked) .qa { transform: translateY(140%); }
 }
 
 @media (max-width: 360px) {
@@ -545,8 +535,6 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .qa-item { gap: 5px; padding: 11px 4px; }
   .qa-label { font-size: 12px; }
 }
-
-@media (prefers-reduced-motion: reduce) { .qa, .qa-item { transition: none; } }
 
 /* ── 원장 상세페이지 ──────────────────────────────────────────
    구조: 01 프로필 · 02 주요 진료분야 · 03 이야기 · 04 약력

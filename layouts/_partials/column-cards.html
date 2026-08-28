@@ -1,0 +1,22 @@
+{{/* 원장 컬럼 카드 격자 — 컬럼 목록과 게시판이 같은 마크업을 쓴다.
+     인자: columns (RegularPages), id (선택 — 필터가 붙는 쪽에만 준다)
+     data-tags는 컬럼 목록의 필터(filters.js)가 읽는다. */}}
+<div{{ with .id }} id="{{ . }}"{{ end }} style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+  {{ range .columns }}
+  {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
+  {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
+  {{ $author := index site.Data.authors $authorSlug }}
+  <a href="{{ .RelPermalink }}" data-tags="{{ delimit $topics "," }}" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 30px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+      <span style="font-size: 12px; font-weight: 600; color: #0F7A7E;">{{ delimit $topics " · " }}</span>
+    </div>
+    <h3 style="font-size: 20px; font-weight: 600; line-height: 1.45; margin: 0 0 14px;">{{ .Title }}</h3>
+    <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0 0 24px;">{{ partial "kr.html" .Params.summary }}</p>
+    <div style="display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 18px; border-top: 1px solid #F1F3F2;">
+      {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $authorSlug) "w" 96 "alt" $author.name.display "style" "width: 32px; height: 32px; border-radius: 9999px; object-fit: cover; display: block;") }}
+      <span style="font-size: 13px; color: #6B6960;">{{ $author.name.display }} · {{ .Date.Format "2006.01.02" }}</span>
+      <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+    </div>
+  </a>
+  {{ end }}
+</div>
