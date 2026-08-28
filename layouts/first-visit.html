@@ -135,20 +135,4 @@
   </div>
 </section>
 
-<section id="reserve" style="background: #FFFFFF; padding: 72px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 48px 56px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center;">
-      <div>
-        <h2 style="font-size: 28px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 12px;; text-wrap: balance">{{ partial "kr.html" `첫 진료는 예약 후 방문해 주세요` }}</h2>
-        <p style="font-size: 17px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">첫 진료는 검사와 상담에 충분한 시간이 필요합니다. <span style="white-space: nowrap;">약 1시간 30분~2시간</span>{{ partial "kr.html" ` 정도 여유를 두고 예약해 주세요.` }}</p>
-        <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 10px 0 0;">{{ partial "kr.html" `예약 상황에 따라 대기 시간이 발생할 수 있습니다.` }}</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 380px; justify-self: end;">
-        <a href="{{ $clinic.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 18px 26px; border-radius: 9999px;" class="btn-primary">전화 걸기<span style="font-size: 13px;">↗</span></a>
-        <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 18px 26px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
-        <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 18px 26px; border-radius: 9999px;" class="btn-kakao">카카오톡 문의<span style="font-size: 13px;">↗</span></a>
-      </div>
-    </div>
-  </div>
-</section>
 {{ end }}
