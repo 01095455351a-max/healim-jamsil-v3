@@ -25,11 +25,16 @@
 <section style="background: #FFFFFF; padding: 80px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 56px; align-items: start;">
     <div style="display: flex; flex-direction: column; gap: 18px;">
-      {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $slug) "w" 640 "alt" $author.name.display "style" "width: 100%; border-radius: 16px; object-fit: cover; display: block;") }}
-      <div>
-        <h2 style="font-size: 26px; font-weight: 600; margin: 0 0 6px;; text-wrap: balance">{{ $author.name.display }}</h2>
-        <div style="font-size: 16px; font-weight: 600; color: #0F7A7E;">{{ $author.role }}</div>
-        {{ with $author.affiliations }}<div style="font-size: 14px; color: #6B6960; margin-top: 4px;">{{ (index . 0).name }}</div>{{ end }}
+      {{/* 사진과 이름은 한 덩어리로 다룬다 — 넓은 화면에서는 위아래, 좁은 화면에서는
+           나란히 놓인다. 크기·비율은 site.css의 .doc-photo가 정한다(원장마다 원본
+           비율이 달라 여기서 맞춘다). */}}
+      <div class="doc-profile">
+        {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $slug) "w" 640 "alt" $author.name.display "class" "doc-photo") }}
+        <div class="doc-idcard">
+          <h2 style="font-size: 26px; font-weight: 600; margin: 0 0 6px;; text-wrap: balance">{{ $author.name.display }}</h2>
+          <div style="font-size: 16px; font-weight: 600; color: #0F7A7E;">{{ $author.role }}</div>
+          {{ with $author.affiliations }}<div style="font-size: 14px; color: #6B6960; margin-top: 4px;">{{ (index . 0).name }}</div>{{ end }}
+        </div>
       </div>
       <div>
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 12px;">주요 진료 분야</div>

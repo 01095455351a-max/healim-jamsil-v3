@@ -414,6 +414,33 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 }
 
 
+/* ── 원장 소개의 사진 ──────────────────────────────────────────
+   원본은 714×828(석선희)과 1920×2560(류석균)으로 비율이 다르고,
+   image.html이 붙이는 height 속성(742px·853px)이 그대로 적용돼
+   사진이 세로로 길게 늘어난 틀에 잘려 들어가고 있었다.
+   여기서 비율을 4:5로 통일해 두 원장의 사진 크기를 맞춘다.
+
+   좁은 화면에서는 사진이 첫 화면을 다 채우지 않도록 이름·직함과
+   나란히 놓는다(사진 132px). 이때는 원본 비율(3:4)을 그대로 써
+   얼굴이 잘리지 않게 한다. */
+.doc-profile { display: flex; flex-direction: column; gap: 18px; }
+.doc-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 16px;
+  display: block;
+  background: #F4EEE2;
+}
+.doc-idcard { min-width: 0; }
+
+@media (max-width: 767px) {
+  .doc-profile { flex-direction: row; align-items: center; gap: 16px; }
+  .doc-photo { flex: 0 0 132px; width: 132px; aspect-ratio: 3 / 4; border-radius: 14px; }
+}
+
 /* ── 자필 후기 스캔 띠 ─────────────────────────────────────────
    가로로 넘겨 보는 형태. 넘기기는 CSS(overflow-x + scroll-snap)가 하고
    좌우 버튼만 JS로 붙인다(모바일은 손가락으로 밀면 되므로 버튼을 감춘다).
