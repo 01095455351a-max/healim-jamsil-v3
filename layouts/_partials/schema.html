@@ -83,7 +83,7 @@
 {{- end -}}
 {{/* 공식 채널 — data/clinic.yaml에 있는 것만. */}}
 {{- $same := slice -}}
-{{- range (slice $c.naver_blog_url $c.instagram_url $c.kakao_channel_url $c.naver_booking_url $c.network_site_url) -}}
+{{- range (slice $c.naver_blog_url $c.instagram_url $c.youtube_url $c.kakao_channel_url $c.naver_booking_url $c.network_site_url) -}}
   {{- with . }}{{ $same = $same | append . }}{{ end -}}
 {{- end -}}
 {{- with $same }}{{ $clinic = merge $clinic (dict "sameAs" .) }}{{ end -}}

@@ -13,6 +13,9 @@ naver_review_url: "https://map.naver.com/p/entry/place/1887559338?placePath=%2Fr
 kakao_channel_url: "https://pf.kakao.com/_xkqufn"
 naver_blog_url: "https://blog.naver.com/healimjs"
 instagram_url: "https://www.instagram.com/healimjs"
+youtube_url: "https://www.youtube.com/@healimtv"
+# 네트워크 대표 홈페이지. 푸터 칩에서는 뺐지만 구조화 데이터의
+# sameAs와 아래 자필 후기 주소가 이 도메인을 가리킨다.
 network_site_url: "https://www.healim.com"
 # 네트워크 대표 홈페이지의 자필후기 게시판
 network_handwritten_url: "https://www.healim.com/5-3"
