@@ -44,3 +44,13 @@ faqs:
 
 **작성자**: [석선희 원장](/doctors/seok-seonhui/) ｜ 한방신경정신과 전문의
 **작성일**: 2026년 7월 28일
+
+
+## 참고자료
+
+*아래 자료는 모두 외부 기관이 제공하는 정보로, 클릭하시면 새 사이트로 연결됩니다.*
+
+1. [National Institute of Mental Health, Panic Disorder: What You Need to Know](https://www.nimh.nih.gov/health/publications/panic-disorder-when-fear-overwhelms)
+2. [NHS, Panic disorder](https://www.nhs.uk/mental-health/conditions/panic-disorder/)
+3. [NHLBI, 불면증](https://www.nhlbi.nih.gov/health/insomnia)
+4. [NHLBI, 불면증 치료](https://www.nhlbi.nih.gov/health/insomnia/treatment)

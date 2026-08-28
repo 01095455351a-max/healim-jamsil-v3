@@ -45,3 +45,13 @@ faqs:
 
 **작성자**: [류석균 원장](/doctors/ryu-seokgyun/) ｜ 한의사 (임상 22년)
 **작성일**: 2026년 7월 14일
+
+
+## 참고자료
+
+*아래 자료는 모두 외부 기관이 제공하는 정보로, 클릭하시면 새 사이트로 연결됩니다.*
+
+1. [NINDS, Glossary of Neurological Terms — Dysautonomia](https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms)
+2. [Cleveland Clinic, Dysautonomia](https://my.clevelandclinic.org/health/diseases/6004-dysautonomia)
+3. [NINDS, POTS](https://www.ninds.nih.gov/health-information/disorders/postural-tachycardia-syndrome-pots)
+4. [NINDS, Functional Neurologic Disorder](https://www.ninds.nih.gov/health-information/disorders/functional-neurologic-disorder)
