@@ -12,8 +12,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
-{{/* 원장 상세페이지의 인용문에만 쓰는 서체. 다른 페이지에서는 내려받지 않는다. */}}
-{{ if eq .Section "doctors" }}<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Song+Myung&display=swap" rel="stylesheet" />{{ end }}
 {{ with resources.Get "css/site.css" }}
   {{ $css := . | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />

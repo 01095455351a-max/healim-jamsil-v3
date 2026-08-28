@@ -466,16 +466,18 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   border-radius: 16px; display: block; background: #F4EEE2;
 }
 .doc-hero-body { min-width: 0; }
+/* 원장에 따라 사진을 오른쪽에. 좁은 화면에서는 아래 규칙이 다시 1열로 되돌린다. */
+.doc-hero-right { grid-template-columns: minmax(0, 1fr) 280px; }
+.doc-hero-right .doc-photo { order: 2; }
 
-/* 02 주요 진료분야 — 질환명과 그 질환의 태그만. 설명은 질환 페이지에서 한다. */
-.doc-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.doc-field {
-  display: flex; flex-direction: column; gap: 6px;
-  border: 1px solid #E8EDEB; border-radius: 12px; padding: 18px 20px;
-  color: #001E2B; transition: box-shadow 170ms, transform 170ms;
+/* 주요 진료분야 — 히어로 안의 칩. 질환 페이지로 링크하지 않는다
+   (질환은 메뉴·홈·푸터에서 이미 연결되어 있어 여기서 또 걸면 과하다). */
+.doc-focus { display: flex; flex-wrap: wrap; gap: 6px; }
+.doc-focus span {
+  font-size: 13px; font-weight: 600; color: #0F7A7E;
+  background: #FFFFFF; border: 1px solid #C0FAE6;
+  padding: 6px 13px; border-radius: 9999px;
 }
-.doc-field-name { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600; }
-.doc-field-tags { font-size: 14px; line-height: 1.6; color: #6B6960; }
 
 /* 03 원장의 이야기 — 일반 의료정보와 눈으로 구분되도록 아주 옅은 배경만
    깐다. 편지지·종이 질감 같은 장식은 쓰지 않는다. */
@@ -484,19 +486,14 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .doc-story-body p:last-child { margin-bottom: 0; }
 .doc-story-sign { margin-top: 26px; padding-top: 18px; border-top: 1px solid #EDE6DA; font-size: 15px; font-weight: 600; color: #6B6960; }
 
-/* 인용문 — 원장의 목소리와 홈페이지의 설명을 구분하기 위한 서체다.
-   실제 친필이 아니라 타이포그래피이며, 이 한 문장에만 쓴다.
-   (이름·자격·약력·질환명·논문·버튼에는 쓰지 않는다)
-     석선희 원장  Gowun Batang — 획이 부드럽게 흐르는 붓 계열 명조
-     류석균 원장  Song Myung   — 획이 단정하고 무게가 있는 옛 활자 계열 */
+/* 인용문 — 이야기의 핵심 한 문장. 본문과는 크기와 왼쪽 선으로만 구분한다
+   (별도 서체는 쓰지 않는다). */
 .doc-quote {
-  font-size: 27px; line-height: 1.7; color: #001E2B;
+  font-size: 24px; font-weight: 500; line-height: 1.65; color: #001E2B;
   margin: 0 0 30px; padding: 0 0 0 20px;
   border-left: 3px solid #0F7A7E;
   text-wrap: pretty;
 }
-.doc-quote-warm  { font-family: 'Gowun Batang', 'Noto Serif KR', serif; font-weight: 400; }
-.doc-quote-plain { font-family: 'Song Myung', 'Noto Serif KR', serif; font-weight: 400; font-size: 25px; }
 
 /* 04 약력 — 이력서처럼 읽히게. 카드로 쪼개거나 아이콘을 붙이지 않는다. */
 .doc-career { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; }
@@ -519,20 +516,16 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 08 예약 — 네이버 예약을 앞세우고 나머지는 한 단계 낮춘다. */
 .doc-reserve { display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto; min-width: 240px; }
 
-@media (max-width: 900px) {
-  .doc-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 767px) {
   /* 사진 → 이름/자격 → 짧은 소개 순서로 쌓인다. 사진이 첫 화면을
      다 채우지 않도록 폭을 줄이고 원본 비율(3:4)을 그대로 쓴다. */
-  .doc-hero { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
+  .doc-hero, .doc-hero-right { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
+  .doc-hero-right .doc-photo { order: 0; }
   .doc-photo { width: 168px; aspect-ratio: 3 / 4; border-radius: 14px; }
   .doc-h2 { font-size: 23px !important; margin-bottom: 18px; }
-  .doc-fields, .doc-columns { grid-template-columns: 1fr; }
+  .doc-columns { grid-template-columns: 1fr; }
   .doc-story { padding: 26px 20px; border-radius: 16px; }
-  .doc-quote { font-size: 21px !important; padding-left: 14px; margin-bottom: 22px; }
-  .doc-quote-plain { font-size: 20px !important; }
+  .doc-quote { font-size: 20px !important; padding-left: 14px; margin-bottom: 22px; }
   .doc-story-body p { font-size: 16px; line-height: 1.85; }
   .doc-career { grid-template-columns: 1fr; gap: 24px; }
   .doc-career-list li { font-size: 15px; }

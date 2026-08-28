@@ -1,12 +1,15 @@
 {{/* 원장 상세페이지 — 여덟 구역으로 읽힌다.
-       01 프로필  02 주요 진료분야  03 원장의 이야기  04 약력
-       05 저서·논문·전문활동  06 관련 질환  07 원장이 작성한 글  08 예약
+       01 프로필(진료분야 포함)  02 원장의 이야기  03 약력
+       04 논문·전문활동  05 원장이 작성한 글  06 예약
 
      이 페이지의 목적은 "이 원장이 누구인가" 하나다. 치료방법·첫 내원 과정·
      진료권역·질환 설명은 각 페이지로 넘기고 여기서 다시 설명하지 않는다.
 
-     담당 질환과 컬럼은 목록을 적어 두지 않고 저장소에서 찾아 쓴다 —
-     질환의 doctor, 컬럼의 authors 값이 기준이다. 글을 추가하면 저절로 붙는다. */}}
+     컬럼은 목록을 적어 두지 않고 저장소에서 찾아 쓴다 — 글의 authors 값이
+     기준이라 실제 작성자와 어긋날 수 없고, 글을 추가하면 저절로 붙는다.
+
+     진료분야는 히어로에 한 번만 적는다. 질환 페이지 링크는 메뉴·홈·푸터에
+     이미 있어 여기서 또 걸지 않는다. */}}
 {{ define "main" }}
 {{ $slug := .File.BaseFileName }}
 {{ $author := index site.Data.authors $slug }}
@@ -15,14 +18,8 @@
 {{ $otherSlug := "" }}{{ with $p.other_doctor }}{{ $otherSlug = path.Base . }}{{ end }}
 {{ $otherAuthor := index site.Data.authors $otherSlug }}
 
-{{ $diseases := where (where site.RegularPages "Section" "diseases") "Params.doctor" $slug }}
-{{ $diseases = $diseases.ByWeight }}
 {{ $columns := where (where site.RegularPages "Section" "column") "Params.authors" "intersect" (slice $slug) }}
 {{ $columns = $columns.ByDate.Reverse }}
-
-{{/* 이야기 인용문의 서체는 원장마다 다르다. site.css의 두 클래스가 정한다. */}}
-{{ $quoteClass := cond (eq $slug "seok-seonhui") "doc-quote doc-quote-warm" "doc-quote doc-quote-plain" }}
-
 
 {{/* ── 01 프로필 ─────────────────────────────────────────── */}}
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
@@ -32,16 +29,17 @@
       <span style="color: #001E2B; font-weight: 600;">{{ $author.name.display }}</span>
     </div>
 
-    <div class="doc-hero">
+    {{/* 사진 위치는 원장별로 다르다(석선희 원장은 오른쪽). */}}
+    <div class="doc-hero{{ if $author.photo_right }} doc-hero-right{{ end }}">
       {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $slug) "w" 640 "alt" $author.name.display "eager" true "class" "doc-photo") }}
       <div class="doc-hero-body">
         <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">{{ $author.role }}</div>
         <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 8px;; text-wrap: balance">{{ $author.name.display }}</h1>
         {{ with $author.position }}<div style="font-size: 17px; font-weight: 600; color: #0F7A7E; margin-bottom: 16px;">{{ . }}</div>{{ end }}
         {{ with $author.hero_focus }}
-        <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 18px;">
-          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">주요 진료분야</span>
-          <span style="font-size: 18px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" . }}</span>
+        <div style="margin-bottom: 18px;">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 10px;">주요 진료분야</div>
+          <div class="doc-focus">{{ range . }}<span>{{ . }}</span>{{ end }}</div>
         </div>
         {{ end }}
         {{ range $p.lead }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 12px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
@@ -51,26 +49,7 @@
 </section>
 
 
-{{/* ── 02 주요 진료분야 ───────────────────────────────────
-     질환명 + 그 질환 페이지의 태그 + 링크. 설명은 질환 페이지에서 한다. */}}
-{{ with $diseases }}
-<section id="fields" style="background: #FFFFFF; padding: 64px 0 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <h2 class="doc-h2">주요 진료분야</h2>
-    <div class="doc-fields">
-      {{ range . }}
-      <a href="{{ .RelPermalink }}" class="doc-field card-lift-ink">
-        <span class="doc-field-name">{{ .Title }}<span style="font-size: 13px; color: #0F7A7E;">→</span></span>
-        <span class="doc-field-tags">{{ partial "kr.html" (delimit .Params.tags " · ") }}</span>
-      </a>
-      {{ end }}
-    </div>
-  </div>
-</section>
-{{ end }}
-
-
-{{/* ── 03 원장의 이야기 ───────────────────────────────────
+{{/* ── 02 원장의 이야기 ───────────────────────────────────
      일반 의료정보와 눈으로 구분되게 배경을 옅게 깔고, 핵심 한 문장만
      다른 서체로 둔다. 서체는 디자인 요소이며 실제 친필이 아니다. */}}
 {{ with $p.story }}
@@ -79,7 +58,7 @@
     <div class="doc-story">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">원장의 이야기</div>
       <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 28px;; text-wrap: balance">{{ partial "kr.html" .title }}</h2>
-      {{ with .quote }}<p class="{{ $quoteClass }}">{{ partial "kr.html" . }}</p>{{ end }}
+      {{ with .quote }}<p class="doc-quote">{{ partial "kr.html" . }}</p>{{ end }}
       <div class="doc-story-body">
         {{ range .body }}<p>{{ partial "kr.html" . }}</p>{{ end }}
       </div>
@@ -90,7 +69,7 @@
 {{ end }}
 
 
-{{/* ── 04 약력 ────────────────────────────────────────────
+{{/* ── 03 약력 ────────────────────────────────────────────
      data/authors/<slug>.yaml의 career를 적힌 순서 그대로 낸다. */}}
 {{ with $author.career }}
 <section id="career" style="background: #FFFFFF; padding: 64px 0 0;">
@@ -111,7 +90,7 @@
 {{ end }}
 
 
-{{/* ── 05 저서 · 논문 · 전문활동 ──────────────────────────
+{{/* ── 04 논문 · 전문활동 ──────────────────────────
      논문은 data/authors의 research.papers 한 곳에서 읽는다(홈과 같은 값).
      저서는 "해아림한의원 저"라 개별 원장의 것으로 적지 않는다. */}}
 {{ $papers := "" }}{{ with $author.research }}{{ $papers = .papers }}{{ end }}
@@ -148,7 +127,7 @@
 {{ end }}
 
 
-{{/* ── 06·07 관련 질환은 02에서 이미 다뤘다. 여기서는 원장이 쓴 글만 낸다.
+{{/* ── 05 원장이 작성한 글
      컬럼의 authors 값으로 찾으므로 실제 작성자와 어긋날 수 없다. */}}
 {{ with $columns }}
 <section id="columns" style="background: #FFFFFF; padding: 64px 0 0;">
@@ -174,7 +153,7 @@
 {{ end }}
 
 
-{{/* ── 08 예약 ─────────────────────────────────────────────
+{{/* ── 06 예약 ─────────────────────────────────────────────
      여기서는 예약 하나만 앞세운다. 전화·카카오는 다른 구역에 있다. */}}
 <section id="reserve" style="background: #FFFFFF; padding: 64px 0 80px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
