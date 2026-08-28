@@ -1,81 +1,199 @@
+{{/* 원장 상세페이지 — 여덟 구역으로 읽힌다.
+       01 프로필  02 주요 진료분야  03 원장의 이야기  04 약력
+       05 저서·논문·전문활동  06 관련 질환  07 원장이 작성한 글  08 예약
+
+     이 페이지의 목적은 "이 원장이 누구인가" 하나다. 치료방법·첫 내원 과정·
+     진료권역·질환 설명은 각 페이지로 넘기고 여기서 다시 설명하지 않는다.
+
+     담당 질환과 컬럼은 목록을 적어 두지 않고 저장소에서 찾아 쓴다 —
+     질환의 doctor, 컬럼의 authors 값이 기준이다. 글을 추가하면 저절로 붙는다. */}}
 {{ define "main" }}
 {{ $slug := .File.BaseFileName }}
 {{ $author := index site.Data.authors $slug }}
 {{ $p := .Params }}
+{{ $clinic := site.Data.clinic }}
 {{ $otherSlug := "" }}{{ with $p.other_doctor }}{{ $otherSlug = path.Base . }}{{ end }}
 {{ $otherAuthor := index site.Data.authors $otherSlug }}
 
+{{ $diseases := where (where site.RegularPages "Section" "diseases") "Params.doctor" $slug }}
+{{ $diseases = $diseases.ByWeight }}
+{{ $columns := where (where site.RegularPages "Section" "column") "Params.authors" "intersect" (slice $slug) }}
+{{ $columns = $columns.ByDate.Reverse }}
+
+{{/* 이야기 인용문의 서체는 원장마다 다르다. site.css의 두 클래스가 정한다. */}}
+{{ $quoteClass := cond (eq $slug "seok-seonhui") "doc-quote doc-quote-warm" "doc-quote doc-quote-plain" }}
+
+
+{{/* ── 01 프로필 ─────────────────────────────────────────── */}}
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #6B6960; margin-bottom: 28px;">
       <a href="/" style="color: #6B6960;" class="nav-link">홈</a><span>›</span>
       <span style="color: #001E2B; font-weight: 600;">{{ $author.name.display }}</span>
     </div>
-    <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 18px;">{{ $author.role }}</div>
-    <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 18px;; text-wrap: balance">{{ $author.name.display }}</h1>
-    {{ with $p.subtitle }}<p style="font-size: 20px; line-height: 1.6; color: #001E2B; margin: 0 0 18px; max-width: 640px; text-wrap: pretty">{{ . }}</p>{{ end }}
-    {{ with $p.intro }}
-    {{ range . }}<p style="font-size: 18px; line-height: 1.8; color: #4A4A44; margin: 0 0 14px; max-width: 640px;; text-wrap: pretty">{{ . }}</p>{{ end }}
-    {{ else }}
-    <p style="font-size: 18px; line-height: 1.8; color: #4A4A44; margin: 0; max-width: 640px;; text-wrap: pretty">{{ $author.bio }}</p>
+
+    <div class="doc-hero">
+      {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $slug) "w" 640 "alt" $author.name.display "eager" true "class" "doc-photo") }}
+      <div class="doc-hero-body">
+        <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">{{ $author.role }}</div>
+        <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 8px;; text-wrap: balance">{{ $author.name.display }}</h1>
+        {{ with $author.position }}<div style="font-size: 17px; font-weight: 600; color: #0F7A7E; margin-bottom: 16px;">{{ . }}</div>{{ end }}
+        {{ with $author.hero_focus }}
+        <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 18px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">주요 진료분야</span>
+          <span style="font-size: 18px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" . }}</span>
+        </div>
+        {{ end }}
+        {{ range $p.lead }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 12px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{{/* ── 02 주요 진료분야 ───────────────────────────────────
+     질환명 + 그 질환 페이지의 태그 + 링크. 설명은 질환 페이지에서 한다. */}}
+{{ with $diseases }}
+<section id="fields" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">주요 진료분야</h2>
+    <div class="doc-fields">
+      {{ range . }}
+      <a href="{{ .RelPermalink }}" class="doc-field card-lift-ink">
+        <span class="doc-field-name">{{ .Title }}<span style="font-size: 13px; color: #0F7A7E;">→</span></span>
+        <span class="doc-field-tags">{{ partial "kr.html" (delimit .Params.tags " · ") }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+
+{{/* ── 03 원장의 이야기 ───────────────────────────────────
+     일반 의료정보와 눈으로 구분되게 배경을 옅게 깔고, 핵심 한 문장만
+     다른 서체로 둔다. 서체는 디자인 요소이며 실제 친필이 아니다. */}}
+{{ with $p.story }}
+<section id="story" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div class="doc-story">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">원장의 이야기</div>
+      <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 28px;; text-wrap: balance">{{ partial "kr.html" .title }}</h2>
+      {{ with .quote }}<p class="{{ $quoteClass }}">{{ partial "kr.html" . }}</p>{{ end }}
+      <div class="doc-story-body">
+        {{ range .body }}<p>{{ partial "kr.html" . }}</p>{{ end }}
+      </div>
+      <div class="doc-story-sign">{{ $author.name.display }}</div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+
+{{/* ── 04 약력 ────────────────────────────────────────────
+     data/authors/<slug>.yaml의 career를 적힌 순서 그대로 낸다. */}}
+{{ with $author.career }}
+<section id="career" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">약력</h2>
+    <div class="doc-career">
+      {{ range . }}
+      <div class="doc-career-group">
+        <h3 class="doc-career-h">{{ .heading }}</h3>
+        <ul class="doc-career-list">
+          {{ range .items }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+
+{{/* ── 05 저서 · 논문 · 전문활동 ──────────────────────────
+     논문은 data/authors의 research.papers 한 곳에서 읽는다(홈과 같은 값).
+     저서는 "해아림한의원 저"라 개별 원장의 것으로 적지 않는다. */}}
+{{ $papers := "" }}{{ with $author.research }}{{ $papers = .papers }}{{ end }}
+{{ if or $papers $author.activities }}
+<section id="works" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">{{ if $papers }}논문 · 전문활동{{ else }}전문활동{{ end }}</h2>
+
+    {{ with $author.research }}
+    {{ range .intro }}<p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 16px; max-width: 820px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+    {{ end }}
+
+    {{ with $papers }}
+    {{ $featured := 3 }}
+    <div class="papers-list" style="margin-top: 20px;">
+      {{ range first $featured . }}{{ partial "paper-row.html" . }}{{ end }}
+      {{ if gt (len .) $featured }}
+      <input type="checkbox" id="papers-more-{{ $slug }}" class="papers-toggle-input" />
+      <div class="papers-more">
+        {{ range after $featured . }}{{ partial "paper-row.html" . }}{{ end }}
+      </div>
+      <label for="papers-more-{{ $slug }}" class="papers-toggle-label">논문 더 보기<span style="font-size: 12px;">↓</span></label>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{ with $author.activities }}
+    <ul class="doc-career-list" style="margin-top: 20px;">
+      {{ range . }}<li>{{ . }}</li>{{ end }}
+    </ul>
     {{ end }}
   </div>
 </section>
+{{ end }}
 
-<section style="background: #FFFFFF; padding: 80px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 56px; align-items: start;">
-    <div style="display: flex; flex-direction: column; gap: 18px;">
-      {{/* 사진과 이름은 한 덩어리로 다룬다 — 넓은 화면에서는 위아래, 좁은 화면에서는
-           나란히 놓인다. 크기·비율은 site.css의 .doc-photo가 정한다(원장마다 원본
-           비율이 달라 여기서 맞춘다). */}}
-      <div class="doc-profile">
-        {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $slug) "w" 640 "alt" $author.name.display "class" "doc-photo") }}
-        <div class="doc-idcard">
-          <h2 style="font-size: 26px; font-weight: 600; margin: 0 0 6px;; text-wrap: balance">{{ $author.name.display }}</h2>
-          <div style="font-size: 16px; font-weight: 600; color: #0F7A7E;">{{ $author.role }}</div>
-          {{ with $author.affiliations }}<div style="font-size: 14px; color: #6B6960; margin-top: 4px;">{{ (index . 0).name }}</div>{{ end }}
-        </div>
-      </div>
-      <div>
-        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 12px;">주요 진료 분야</div>
-        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-          {{ range ($author.specialties | default $author.interests) }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 6px 12px; border-radius: 9999px;">{{ . }}</span>{{ end }}
-        </div>
-      </div>
-      {{ with $p.related_column }}<a href="{{ . }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">{{ $author.name.display }}의 컬럼 읽기<span style="font-size: 13px;">→</span></a>{{ end }}
+
+{{/* ── 06·07 관련 질환은 02에서 이미 다뤘다. 여기서는 원장이 쓴 글만 낸다.
+     컬럼의 authors 값으로 찾으므로 실제 작성자와 어긋날 수 없다. */}}
+{{ with $columns }}
+<section id="columns" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
+    <div class="doc-columns">
+      {{ range first 4 . }}
+      {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
+      <a href="{{ .RelPermalink }}" class="doc-column card-lift-ink">
+        {{ with $topics }}<span class="doc-column-topic">{{ delimit . " · " }}</span>{{ end }}
+        <span class="doc-column-title">{{ .Title }}</span>
+        <span class="doc-column-date">{{ .Date.Format "2006년 1월 2일" }}</span>
+      </a>
+      {{ end }}
     </div>
-    <div style="display: flex; flex-direction: column; gap: 32px; min-width: 0;">
-      <div class="prose-body" style="font-size: 17px; line-height: 1.85; color: #4A4A44;">
-        {{ partial "kr.html" .Content }}
-      </div>
-      {{ with $author.research }}
-      <div>
-        <h2 style="font-size: 26px; font-weight: 600; margin: 0 0 16px; text-wrap: balance;">{{ .heading }}</h2>
-        {{ range .intro }}<p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 16px; text-wrap: pretty;">{{ . }}</p>{{ end }}
+    {{ if gt (len .) 4 }}
+    <div style="margin-top: 20px;">
+      <a href="/column/" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 22px; border-radius: 9999px;" class="btn-outline">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
 
-        {{/* 논문 목록은 홈 "출간 도서와 논문" 섹션에서 원장별 데이터를 모아 보여준다.
-            이 페이지에는 연구 이력 소개만 두고 목록은 중복해서 싣지 않는다. */}}
-      </div>
-      {{ end }}
 
-      {{ with $p.clinic_panel }}
-      <div style="background: #FFFFFF; border: 1px solid #E3D6BF; border-radius: 16px; padding: 32px;">
-        <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 16px;">{{ $p.clinic_panel_title }}</div>
-        <div style="display: flex; flex-direction: column; gap: 18px;">
-          {{ range $i, $c := . }}
-          <div style="display: flex; gap: 14px;">
-            <span style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #F4EEE2; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ add $i 1 }}</span>
-            <div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">{{ $c.title }}</div><div style="font-size: 15px; line-height: 1.7; color: #4A4A44;">{{ $c.text }}</div></div>
-          </div>
-          {{ end }}
-        </div>
+{{/* ── 08 예약 ─────────────────────────────────────────────
+     여기서는 예약 하나만 앞세운다. 전화·카카오는 다른 구역에 있다. */}}
+<section id="reserve" style="background: #FFFFFF; padding: 64px 0 80px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 40px 44px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+      <div style="flex: 1 1 380px; min-width: 0;">
+        <h2 style="font-size: 26px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.35; margin: 0 0 10px;; text-wrap: balance">{{ partial "kr.html" `첫 진료는 예약 후 방문해 주세요` }}</h2>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `검사와 문진, 원장 진료를 포함해 1시간 30분~2시간이 걸립니다.` }}</p>
       </div>
-      {{ end }}
+      <div class="doc-reserve">
+        <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 17px 30px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
+        <a href="/first-visit/" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 26px; border-radius: 9999px;" class="btn-outline">첫 내원 안내<span style="font-size: 13px;">→</span></a>
+        <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 14px; font-weight: 600; color: #0F7A7E;">전화 걸기</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 48px 0 56px;">
+
+<section style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 40px 0 48px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
     <a href="/" style="font-size: 15px; font-weight: 600;">← 홈으로 돌아가기</a>
     {{ with $p.other_doctor }}

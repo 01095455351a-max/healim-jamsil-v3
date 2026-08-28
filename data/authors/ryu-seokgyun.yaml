@@ -16,8 +16,35 @@ interests:
   - 자율신경실조증
   - 다한증
   - 신경성 질환
+# 소속 학회 — 화면에는 "학회명 + note"로, 구조화 데이터에는 학회명만 나간다.
+# (대한한방내과학회는 확인되지 않은 항목이라 삭제했다)
 affiliations:
-  - name: 대한한방내과학회 정회원
+  - name: 자연요법학회
+    note: 정회원
+  - name: 대한병인학회
+    note: 정회원 · 서울부지부장
+  - name: 실용한의학회
+    note: 정회원
+hero_focus: "틱 · ADHD · 자율신경 · 다한증"
+alumni_of:
+  - 성균관대학교
+  - 동국대학교 한의학과
+career:
+  - heading: "학력 및 경력"
+    items:
+      - "성균관대학교 졸업"
+      - "동국대학교 한의학과 졸업"
+      - "전) 병인한의원 성북점 대표원장"
+  - heading: "학회 및 전문과정"
+    items:
+      - "자연요법학회 정회원"
+      - "FCST요법 전문가과정 수료"
+      - "대한병인학회 정회원"
+      - "대한병인학회 서울부지부장"
+      - "실용한의학회 정회원"
+# 방송·강연 등 전문활동. 저서·논문과 같은 구역에 표시한다.
+activities:
+  - "매일경제 TV 「건강한의사」 출연"
 links:
   - icon: brands/instagram
     url: https://www.instagram.com/healimjs

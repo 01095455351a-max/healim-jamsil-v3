@@ -325,6 +325,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 72px 0"]      { padding-top: 48px !important; padding-bottom: 48px !important; }
   [style*="padding: 72px 0 0"]    { padding-top: 48px !important; padding-bottom: 0 !important; }
   [style*="padding: 64px 0 88px"] { padding-top: 44px !important; padding-bottom: 56px !important; }
+  [style*="padding: 64px 0 80px"] { padding-top: 44px !important; padding-bottom: 52px !important; }
+  [style*="padding: 64px 0 0"]    { padding-top: 40px !important; padding-bottom: 0 !important; }
+  [style*="padding: 40px 0 48px"] { padding-top: 28px !important; padding-bottom: 32px !important; }
   [style*="padding: 64px 0 40px"] { padding-top: 44px !important; padding-bottom: 28px !important; }
   [style*="padding: 56px 0 88px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
   [style*="padding: 56px 0 80px"] { padding-top: 40px !important; padding-bottom: 56px !important; }
@@ -446,31 +449,94 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .dx-exam { padding: 13px 14px; }
 }
 
-/* ── 원장 소개의 사진 ──────────────────────────────────────────
-   원본은 714×828(석선희)과 1920×2560(류석균)으로 비율이 다르고,
-   image.html이 붙이는 height 속성(742px·853px)이 그대로 적용돼
-   사진이 세로로 길게 늘어난 틀에 잘려 들어가고 있었다.
-   여기서 비율을 4:5로 통일해 두 원장의 사진 크기를 맞춘다.
+/* ── 원장 상세페이지 ──────────────────────────────────────────
+   구조: 01 프로필 · 02 주요 진료분야 · 03 이야기 · 04 약력
+         05 논문·전문활동 · 06 관련 질환(02에 포함) · 07 컬럼 · 08 예약 */
 
-   좁은 화면에서는 사진이 첫 화면을 다 채우지 않도록 이름·직함과
-   나란히 놓는다(사진 132px). 이때는 원본 비율(3:4)을 그대로 써
-   얼굴이 잘리지 않게 한다. */
-.doc-profile { display: flex; flex-direction: column; gap: 18px; }
+.doc-h2 { font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 24px; text-wrap: balance; }
+
+/* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
+   1920×2560) 여기서 4:5로 맞춘다. image.html이 붙이는 height 속성이
+   그대로 먹지 않도록 height: auto를 함께 준다. */
+.doc-hero { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 44px; align-items: start; }
 .doc-photo {
-  width: 100%;
-  height: auto;
+  width: 100%; height: auto;
   aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center 20%;
-  border-radius: 16px;
-  display: block;
-  background: #F4EEE2;
+  object-fit: cover; object-position: center 20%;
+  border-radius: 16px; display: block; background: #F4EEE2;
 }
-.doc-idcard { min-width: 0; }
+.doc-hero-body { min-width: 0; }
+
+/* 02 주요 진료분야 — 질환명과 그 질환의 태그만. 설명은 질환 페이지에서 한다. */
+.doc-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.doc-field {
+  display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid #E8EDEB; border-radius: 12px; padding: 18px 20px;
+  color: #001E2B; transition: box-shadow 170ms, transform 170ms;
+}
+.doc-field-name { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600; }
+.doc-field-tags { font-size: 14px; line-height: 1.6; color: #6B6960; }
+
+/* 03 원장의 이야기 — 일반 의료정보와 눈으로 구분되도록 아주 옅은 배경만
+   깐다. 편지지·종이 질감 같은 장식은 쓰지 않는다. */
+.doc-story { background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 20px; padding: 44px 48px; }
+.doc-story-body p { font-size: 17px; line-height: 1.9; color: #4A4A44; margin: 0 0 18px; text-wrap: pretty; }
+.doc-story-body p:last-child { margin-bottom: 0; }
+.doc-story-sign { margin-top: 26px; padding-top: 18px; border-top: 1px solid #EDE6DA; font-size: 15px; font-weight: 600; color: #6B6960; }
+
+/* 인용문 — 원장의 목소리와 홈페이지의 설명을 구분하기 위한 서체다.
+   실제 친필이 아니라 타이포그래피이며, 이 한 문장에만 쓴다.
+   (이름·자격·약력·질환명·논문·버튼에는 쓰지 않는다)
+     석선희 원장  Gowun Batang — 획이 부드럽게 흐르는 붓 계열 명조
+     류석균 원장  Song Myung   — 획이 단정하고 무게가 있는 옛 활자 계열 */
+.doc-quote {
+  font-size: 27px; line-height: 1.7; color: #001E2B;
+  margin: 0 0 30px; padding: 0 0 0 20px;
+  border-left: 3px solid #0F7A7E;
+  text-wrap: pretty;
+}
+.doc-quote-warm  { font-family: 'Gowun Batang', 'Noto Serif KR', serif; font-weight: 400; }
+.doc-quote-plain { font-family: 'Song Myung', 'Noto Serif KR', serif; font-weight: 400; font-size: 25px; }
+
+/* 04 약력 — 이력서처럼 읽히게. 카드로 쪼개거나 아이콘을 붙이지 않는다. */
+.doc-career { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; }
+.doc-career-h { font-size: 15px; font-weight: 600; color: #0F7A7E; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #EDE6DA; }
+.doc-career-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.doc-career-list li { display: flex; gap: 10px; font-size: 16px; line-height: 1.65; color: #4A4A44; }
+.doc-career-list li::before { content: ""; flex: 0 0 5px; width: 5px; height: 5px; border-radius: 9999px; background: #22ABAF; margin-top: 10px; }
+
+/* 07 원장이 작성한 글 */
+.doc-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.doc-column {
+  display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid #E8EDEB; border-radius: 12px; padding: 20px 22px;
+  color: #001E2B; transition: box-shadow 170ms, transform 170ms;
+}
+.doc-column-topic { font-size: 12px; font-weight: 600; color: #0F7A7E; }
+.doc-column-title { font-size: 17px; font-weight: 600; line-height: 1.5; }
+.doc-column-date { font-size: 13px; color: #6B6960; }
+
+/* 08 예약 — 네이버 예약을 앞세우고 나머지는 한 단계 낮춘다. */
+.doc-reserve { display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto; min-width: 240px; }
+
+@media (max-width: 900px) {
+  .doc-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 @media (max-width: 767px) {
-  .doc-profile { flex-direction: row; align-items: center; gap: 16px; }
-  .doc-photo { flex: 0 0 132px; width: 132px; aspect-ratio: 3 / 4; border-radius: 14px; }
+  /* 사진 → 이름/자격 → 짧은 소개 순서로 쌓인다. 사진이 첫 화면을
+     다 채우지 않도록 폭을 줄이고 원본 비율(3:4)을 그대로 쓴다. */
+  .doc-hero { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
+  .doc-photo { width: 168px; aspect-ratio: 3 / 4; border-radius: 14px; }
+  .doc-h2 { font-size: 23px !important; margin-bottom: 18px; }
+  .doc-fields, .doc-columns { grid-template-columns: 1fr; }
+  .doc-story { padding: 26px 20px; border-radius: 16px; }
+  .doc-quote { font-size: 21px !important; padding-left: 14px; margin-bottom: 22px; }
+  .doc-quote-plain { font-size: 20px !important; }
+  .doc-story-body p { font-size: 16px; line-height: 1.85; }
+  .doc-career { grid-template-columns: 1fr; gap: 24px; }
+  .doc-career-list li { font-size: 15px; }
+  .doc-reserve { width: 100%; min-width: 0; }
 }
 
 /* ── 자필 후기 스캔 띠 ─────────────────────────────────────────

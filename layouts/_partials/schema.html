@@ -133,11 +133,17 @@
       "@id" (printf "%s#physician" $docUrl)
       "name" .name.display
       "url" $docUrl
-      "jobTitle" .role
+      "jobTitle" (cond (ne (string (or .position "")) "") (printf "%s · %s" .role .position) .role)
       "worksFor" (dict "@id" $clinicId)
-      "medicalSpecialty" (slice "Psychiatry")
       "knowsAbout" (or .specialties .interests)
     -}}
+    {{/* medicalSpecialty는 data/authors에 적힌 원장에게만 붙인다.
+         확인되지 않은 자격을 구조화 데이터로 내보내지 않는다. */}}
+    {{- with .medical_specialty -}}{{- $p = merge $p (dict "medicalSpecialty" (slice .)) -}}{{- end -}}
+    {{- with .alumni_of -}}
+      {{- $e := slice -}}{{- range . }}{{ $e = $e | append (dict "@type" "CollegeOrUniversity" "name" .) }}{{ end -}}
+      {{- $p = merge $p (dict "alumniOf" $e) -}}
+    {{- end -}}
     {{- with .affiliations -}}
       {{- $m := slice -}}{{- range . }}{{ $m = $m | append (dict "@type" "Organization" "name" .name) }}{{ end -}}
       {{- $p = merge $p (dict "memberOf" $m) -}}

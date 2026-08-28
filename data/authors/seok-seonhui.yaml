@@ -17,8 +17,48 @@ interests:
   - 강박장애
   - 우울장애
   - 불면증
+# 소속 학회 — 화면에는 "학회명 + note"로, 구조화 데이터에는 학회명만 나간다.
 affiliations:
-  - name: 대한한방신경정신과학회 정회원
+  - name: 대한한방신경정신과학회
+    note: 평생회원
+  - name: 도정신치료학회
+    note: 회원
+  - name: 대한스트레스학회
+    note: 회원
+# 히어로에 한 줄로 보여주는 진료분야. 아래 specialties보다 짧게 간추린 표기.
+hero_focus: "공황 · 불안 · 강박 · 우울"
+# 이름 아래 직위. 없으면 표시하지 않는다.
+position: "해아림한의원 잠실점 대표원장"
+# 구조화 데이터의 medicalSpecialty. 확인된 전문 분야가 있을 때만 적는다.
+# (확인되지 않은 자격을 검색엔진에 내보내지 않기 위해 원장별로 명시한다)
+medical_specialty: "Psychiatry"
+# 구조화 데이터의 alumniOf. 아래 career의 학력과 같은 내용을 기관명만 뽑아 둔다.
+alumni_of:
+  - 서울대학교
+  - 동국대학교 한의과대학
+# 약력 — 화면에 적힌 순서 그대로 나간다. 요약하거나 바꾸지 않는다.
+career:
+  - heading: "학력 및 수련"
+    items:
+      - "서울대학교 식품영양학과 졸업"
+      - "삼성의료원 인턴영양사 과정"
+      - "동국대학교 한의과대학 졸업"
+      - "국립의료원 한방진료부 일반수련의"
+      - "동국대학교 일산한방병원 전문수련의"
+      - "한방신경정신과 전문의"
+  - heading: "주요 학회 및 활동"
+    items:
+      - "대한한방신경정신과학회 평생회원"
+      - "도정신치료학회 회원"
+      - "대한스트레스학회 회원"
+      - "전) 인의예지 심성계발원 이사"
+      - "현) 해아림한의원 잠실점 대표원장"
+  - heading: "상담·심리치료 관련 교육"
+    items:
+      - "Certified Brainspotting Practitioner"
+      - "NLP Master Practitioner"
+      - "아우토겐 트레이닝 표준과정 수료"
+      - "M&L 심리치료 Professional Training Course 수료"
 links:
   - icon: brands/instagram
     url: https://www.instagram.com/healimjs
