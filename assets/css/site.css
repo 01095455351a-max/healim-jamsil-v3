@@ -557,7 +557,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
    1920×2560) 여기서 4:5로 맞춘다. image.html이 붙이는 height 속성이
    그대로 먹지 않도록 height: auto를 함께 준다. */
-.doc-hero { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 44px; align-items: start; }
+.doc-hero { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 48px; align-items: start; }
 .doc-photo {
   width: 100%; height: auto;
   aspect-ratio: 4 / 5;
@@ -565,8 +565,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   border-radius: 16px; display: block; background: #F4EEE2;
 }
 .doc-hero-body { min-width: 0; }
+/* 약력이 길어 사진보다 아래로 내려가므로, 사진은 화면에 붙어 따라온다. */
+.doc-photo { position: sticky; top: 104px; }
 /* 원장에 따라 사진을 오른쪽에. 좁은 화면에서는 아래 규칙이 다시 1열로 되돌린다. */
-.doc-hero-right { grid-template-columns: minmax(0, 1fr) 280px; }
+.doc-hero-right { grid-template-columns: minmax(0, 1fr) 300px; }
 .doc-hero-right .doc-photo { order: 2; }
 
 /* 주요 진료분야 — 히어로 안의 칩. 질환 페이지로 링크하지 않는다
@@ -594,8 +596,16 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   text-wrap: pretty;
 }
 
-/* 04 약력 — 이력서처럼 읽히게. 카드로 쪼개거나 아이콘을 붙이지 않는다. */
-.doc-career { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; }
+/* 약력 — 사진 옆 공간에 2열로. 이력서처럼 읽히게 두고
+   카드로 쪼개거나 아이콘을 붙이지 않는다.
+   그리드 대신 단(column)으로 나눈다 — 그룹 수가 홀수여도 브라우저가
+   높이를 알아서 반씩 맞춰 준다(그리드로 하면 한쪽만 길어진다). */
+.doc-career {
+  columns: 2; column-gap: 40px;
+  margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(0, 30, 43, 0.10);
+}
+.doc-career-group { break-inside: avoid; margin-bottom: 26px; }
+.doc-career-group:last-child { margin-bottom: 0; }
 .doc-career-h { font-size: 15px; font-weight: 600; color: #0F7A7E; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #EDE6DA; }
 .doc-career-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .doc-career-list li { display: flex; gap: 10px; font-size: 16px; line-height: 1.65; color: #4A4A44; }
@@ -626,7 +636,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .doc-story { padding: 26px 20px; border-radius: 16px; }
   .doc-quote { font-size: 20px !important; padding-left: 14px; margin-bottom: 22px; }
   .doc-story-body p { font-size: 16px; line-height: 1.85; }
-  .doc-career { grid-template-columns: 1fr; gap: 24px; }
+  .doc-career { columns: 1; margin-top: 18px; padding-top: 18px; }
+  .doc-career-group { margin-bottom: 22px; }
+  .doc-photo { position: static; }
   .doc-career-list li { font-size: 15px; }
   .doc-reserve { width: 100%; min-width: 0; }
 }

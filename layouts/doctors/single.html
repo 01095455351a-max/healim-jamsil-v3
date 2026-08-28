@@ -1,6 +1,6 @@
 {{/* 원장 상세페이지 — 여덟 구역으로 읽힌다.
-       01 프로필(진료분야 포함)  02 원장의 이야기  03 약력
-       04 전문활동  05 원장이 작성한 글
+       01 프로필 — 사진 옆에 이름·진료분야·약력·전문활동
+       02 원장의 이야기   03 원장이 작성한 글
 
      이 페이지의 목적은 "이 원장이 누구인가" 하나다. 치료방법·첫 내원 과정·
      진료권역·질환 설명은 각 페이지로 넘기고 여기서 다시 설명하지 않는다.
@@ -41,14 +41,29 @@
           <div class="doc-focus">{{ range . }}<span>{{ . }}</span>{{ end }}</div>
         </div>
         {{ end }}
-        {{ range $p.lead }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 12px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+        {{/* 약력과 전문활동을 사진 옆 공간에 2열로 둔다.
+             data/authors/<slug>.yaml에 적힌 순서 그대로 나간다. */}}
+        {{ $groups := $author.career | default slice }}
+        {{ with $author.activities }}{{ $groups = $groups | append (dict "heading" "방송 · 전문활동" "items" .) }}{{ end }}
+        {{ with $groups }}
+        <div class="doc-career">
+          {{ range . }}
+          <div class="doc-career-group">
+            <h2 class="doc-career-h">{{ .heading }}</h2>
+            <ul class="doc-career-list">
+              {{ range .items }}<li>{{ . }}</li>{{ end }}
+            </ul>
+          </div>
+          {{ end }}
+        </div>
+        {{ end }}
       </div>
     </div>
   </div>
 </section>
 
 
-{{/* ── 02 원장의 이야기 ───────────────────────────────────
+{{/* ── 02 원장의 이야기 (석선희 원장은 추후 원고로 교체 예정) ───────────────────────────────────
      일반 의료정보와 눈으로 구분되게 배경을 옅게 깔고, 핵심 한 문장만
      다른 서체로 둔다. 서체는 디자인 요소이며 실제 친필이 아니다. */}}
 {{ with $p.story }}
@@ -68,43 +83,7 @@
 {{ end }}
 
 
-{{/* ── 03 약력 ────────────────────────────────────────────
-     data/authors/<slug>.yaml의 career를 적힌 순서 그대로 낸다. */}}
-{{ with $author.career }}
-<section id="career" style="background: #FFFFFF; padding: 64px 0 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <h2 class="doc-h2">약력</h2>
-    <div class="doc-career">
-      {{ range . }}
-      <div class="doc-career-group">
-        <h3 class="doc-career-h">{{ .heading }}</h3>
-        <ul class="doc-career-list">
-          {{ range .items }}<li>{{ . }}</li>{{ end }}
-        </ul>
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</section>
-{{ end }}
-
-
-{{/* ── 04 전문활동 ───────────────────────────────────────
-     논문 목록은 홈의 "출간 도서와 논문" 구역에 모아 두었다.
-     같은 값(data/authors의 research.papers)을 두 곳에 싣지 않는다. */}}
-{{ with $author.activities }}
-<section id="works" style="background: #FFFFFF; padding: 64px 0 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <h2 class="doc-h2">전문활동</h2>
-    <ul class="doc-career-list">
-      {{ range . }}<li>{{ . }}</li>{{ end }}
-    </ul>
-  </div>
-</section>
-{{ end }}
-
-
-{{/* ── 05 원장이 작성한 글
+{{/* ── 02 원장의 이야기 다음 — 원장이 작성한 글
      컬럼의 authors 값으로 찾으므로 실제 작성자와 어긋날 수 없다. */}}
 {{ with $columns }}
 <section id="columns" style="background: #FFFFFF; padding: 64px 0 0;">
