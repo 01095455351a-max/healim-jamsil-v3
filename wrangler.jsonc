@@ -2,9 +2,18 @@
 // Pages로 배포하는 경우에는 이 파일이 필요 없고, 있어도 무시된다.
 //
 // 대시보드 입력값
-//   Build command  : hugo --gc --minify
+//   Build command  : hugo --gc          ← --minify 를 붙이지 않는다(아래 이유)
 //   Deploy command : npx wrangler deploy
 //   빌드 변수      : HUGO_VERSION = 0.146.0   (Settings → Build 에서 추가)
+//
+// --minify 를 쓰면 안 되는 이유
+//   이 사이트는 스타일이 인라인 style로 들어가 있고, 모바일(767px 이하)에서
+//   글자·여백을 줄이는 규칙이 그 값을 문자열로 찾아 덮는다.
+//       [style*="font-size: 34px"] { font-size: 25px !important; }
+//   Hugo의 minify는 인라인 style의 공백까지 지우므로(font-size:34px) 위
+//   선택자가 하나도 걸리지 않는다. 화면이 깨지지는 않고 모바일에서 글자와
+//   여백만 데스크톱 크기로 나와서 알아채기 어렵다. 실제로 --minify 로 빌드하면
+//   390px에서 홈이 가로로 274px 넘친다(붙이지 않으면 0px).
 {
   "name": "healim-jamsil",
   "compatibility_date": "2026-08-27",
