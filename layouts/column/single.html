@@ -1,5 +1,4 @@
 {{ define "main" }}
-{{ $clinic := site.Data.clinic }}
 {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
 {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
 {{ $author := index site.Data.authors $authorSlug }}
@@ -63,6 +62,8 @@
 
     </article>
 
+    {{/* 글을 읽는 데 필요한 것만 둔다. 진료시간은 뺐다 — 푸터에 있고,
+         이 자리에 두면 컬럼 12쪽마다 같은 표가 반복된다. */}}
     <aside style="position: sticky; top: 112px; display: flex; flex-direction: column; gap: 16px;">
       {{ if .TableOfContents }}
       <nav style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
@@ -70,15 +71,6 @@
         <div class="column-toc">{{ .TableOfContents }}</div>
       </nav>
       {{ end }}
-      <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
-        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: #6F6B61; margin-bottom: 14px;">진료시간</div>
-        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6;">
-          {{ range $clinic.hours }}
-          <div style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: #4A4A44;">{{ .days }}{{ with .note }} ({{ . }}){{ end }}</span><span style="font-weight: 600;{{ if eq .time "정기 휴진" }} color: #6B6960;{{ end }}">{{ .time }}</span></div>
-          {{ end }}
-          <div style="font-size: 13px; color: #6B6960; margin-top: 4px;">점심 13:00~14:00 (토·공휴일 없음)</div>
-        </div>
-      </div>
     </aside>
 
   </div>
