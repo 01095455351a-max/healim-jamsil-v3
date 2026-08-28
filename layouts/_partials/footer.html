@@ -1,10 +1,14 @@
-{{/* 하단 푸터 — handoff/design-v3/index.html §footer 그대로 이식. */}}
+{{/* 하단 푸터 — handoff/design-v3/index.html §footer에서 이식.
+
+     푸터는 예약을 권하는 자리가 아니라 병원의 공식 정보 자리다.
+     상호·주소·대표전화·대표자·사업자등록번호·법적 고지를 둔다.
+     "주요 진료과목" 칸(질환 9개 링크)은 뺐다 — 헤더 드롭다운과
+     모바일 서랍, 홈의 질환 카드에 이미 있어 세 번째 반복이었다.
+     진료시간은 남긴다. 여기서 빼면 홈과 오시는 길 두 쪽에만 남는다. */}}
 {{ $clinic := site.Data.clinic }}
-{{ $diseases := where site.RegularPages "Section" "diseases" }}
-{{ $diseases = $diseases.ByWeight }}{{/* 특화 질환 전부. 질환을 추가하면 여기에도 붙는다. */}}
 <footer style="background: #001E2B; color: #FFFFFF; padding: 64px 0 40px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
-    <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 40px;">
+    <div style="display: grid; grid-template-columns: 1.3fr 1fr 1.1fr; gap: 40px;">
       <div>
         <div style="display: flex; align-items: baseline; gap: 8px;">
           {{ partial "image.html" (dict "src" "design-v3/logo-white.png" "w" 440 "alt" "해아림한의원 잠실점" "style" "height: 34px; width: auto; display: block;") }}
@@ -15,12 +19,6 @@
           <a href="{{ $clinic.instagram_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">인스타그램</a>
           <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28); padding: 9px 16px; border-radius: 9999px;" class="btn-outline">카카오톡</a>
         </div>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">주요 진료과목</div>
-        {{ range $diseases }}
-        <a href="{{ .RelPermalink }}" style="font-size: 14px; color: rgba(255,255,255,0.70);" class="footer-link">{{ .Title }}</a>
-        {{ end }}
       </div>
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">진료 시간표</div>
