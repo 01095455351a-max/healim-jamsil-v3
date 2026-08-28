@@ -489,6 +489,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   box-shadow: rgba(21, 113, 117, 0.22) 0px 4px 12px -2px;
 }
 .hd-cta-book:hover { background: #0B4F52; border-color: #0B4F52; color: #FFFFFF; }
+/* 카카오톡 상담 — 아이콘이 노란 말풍선이라 테두리만으로도 눈에 띈다. */
+.hd-cta-chat:hover { background: #FFFBE6; border-color: #F2DC00; }
 
 /* 폭이 좁아지면 예약만 글자를 남기고 나머지는 아이콘만 둔다
    (aria-label이 있어 뜻은 그대로 전달된다). */

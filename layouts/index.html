@@ -11,7 +11,7 @@
       <h1 style="font-size: 52px; font-weight: 500; line-height: 1.25; letter-spacing: -1.5px; margin: 0; text-wrap: balance;">마음의 불안부터<br />두뇌의 균형까지</h1>
       <p style="font-size: 19px; line-height: 1.7; color: #4A4A44; margin: 22px 0 30px; max-width: 480px;">{{ partial "kr.html" `2인의 전담 원장이 세밀하게 동행합니다. 단순한 증상 완화를 넘어, 치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.` }}</p>
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 28px; border-radius: 9999px;" class="btn-primary">상담 문의하기</a>
+        <a href="/first-visit/" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 28px; border-radius: 9999px;" class="btn-primary">첫 내원 안내</a>
         <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 26px; border-radius: 9999px;" class="btn-outline">네이버 예약</a>
       </div>
       <div style="display: flex; gap: 32px; margin-top: 40px; padding-top: 26px; border-top: 1px solid #EDE6DA;">
@@ -351,30 +351,6 @@
   </div>
 </section>
 
-<section id="consult" style="background: #FFFFFF; padding: 88px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
-    <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 20px; padding: 56px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center;">
-      <div>
-        <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Consult</div>
-        <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 14px; text-wrap: balance;">예약과 문의</h2>
-        <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `편하신 방법으로 문의해 주세요. 진료 시간 내에 확인 후 안내해 드립니다.` }}</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 380px; justify-self: end;">
-        <a href="{{ $clinic.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 18px 28px; border-radius: 9999px;" class="btn-primary">전화 걸기<span style="font-size: 13px;">↗</span></a>
-        <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 18px 26px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
-        <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 18px 26px; border-radius: 9999px;" class="btn-kakao">카카오톡 문의<span style="font-size: 13px;">↗</span></a>
-      </div>
-    </div>
-    <div style="margin-top: 24px; background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 16px; padding: 28px 32px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-      <div style="flex: 1 1 380px; min-width: 0;">
-        <div style="font-size: 18px; font-weight: 600; margin-bottom: 6px;">해아림한의원 네트워크</div>
-        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;">{{ partial "kr.html" `전국 지점 안내와 네트워크 소개는 해아림한의원 대표 홈페이지에서 확인하실 수 있습니다.` }}</p>
-      </div>
-      <a href="{{ $clinic.network_site_url }}" target="_blank" rel="noopener" style="flex: 0 0 auto; margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 13px 22px; border-radius: 9999px; white-space: nowrap;" class="chip-network">네트워크 홈페이지 바로가기<span style="font-size: 13px;">↗</span></a>
-    </div>
-  </div>
-</section>
-
 
 {{ range site.Data.treatments }}
 <dialog id="modal-{{ .slug }}" style="border-radius: 16px; box-shadow: rgba(0,30,43,0.16) 0px 16px 48px -8px; max-width: 620px; width: 100%; max-height: 84vh; padding: 40px 44px; border: none;" onclick="if(event.target===this) this.close()">
@@ -397,7 +373,7 @@
     {{ range .applies_to }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px;">{{ . }}</span>{{ end }}
   </div>
   <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-    <a href="#consult" onclick="this.closest('dialog').close()" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">상담 문의하기</a>
+    <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 14px 26px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
     <a href="/first-visit/" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">첫 내원 안내</a>
   </div>
 </dialog>

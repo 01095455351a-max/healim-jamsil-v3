@@ -5,15 +5,15 @@
 {{ $clinic := site.Data.clinic }}
 <header style="background: #FFFFFF; border-bottom: 1px solid #EDE6DA; position: sticky; top: 0; z-index: 20;">
   <input type="checkbox" id="nav-toggle" class="nav-toggle-input" />
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; min-height: 84px; display: flex; flex-wrap: wrap; row-gap: 10px; align-items: center; gap: clamp(14px, 2vw, 40px); padding-top: 12px; padding-bottom: 12px;">
-    <a href="/" style="display: flex; align-items: baseline; gap: 8px; flex: 0 0 auto; white-space: nowrap; margin-right: clamp(12px, 2vw, 32px);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; min-height: 84px; display: flex; flex-wrap: wrap; row-gap: 10px; align-items: center; gap: clamp(14px, 2vw, 24px); padding-top: 12px; padding-bottom: 12px;">
+    <a href="/" style="display: flex; align-items: baseline; gap: 8px; flex: 0 0 auto; white-space: nowrap; margin-right: clamp(12px, 1.5vw, 20px);">
       {{ partial "image.html" (dict "src" "design-v3/logo.png" "w" 420 "alt" "해아림한의원 잠실점" "eager" true "style" "height: clamp(26px, 2.7vw, 32px); width: auto; display: block;") }}
     </a>
     <label for="nav-toggle" class="hamburger-btn" aria-label="메뉴 열기" style="width: 44px; height: 44px; margin-left: auto; border-radius: 9999px; border: 1px solid #C1C7C6; align-items: center; justify-content: center; font-size: 20px; color: #001E2B; cursor: pointer;">☰</label>
-    <nav class="desktop-nav" style="display: flex; gap: clamp(12px, 1.6vw, 26px); align-items: center; justify-content: center; white-space: nowrap; flex: 0 0 auto; min-width: max-content; overflow: visible; position: relative; z-index: 30;">
+    <nav class="desktop-nav" style="display: flex; gap: clamp(12px, 1.6vw, 22px); align-items: center; justify-content: center; white-space: nowrap; flex: 0 0 auto; min-width: max-content; overflow: visible; position: relative; z-index: 30;">
 
       <div style="position: relative;" class="nav-item">
-        <a href="/#diseases" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">특화 질환<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <a href="/#diseases" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">특화 질환<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
             {{ range $diseases }}
@@ -24,7 +24,7 @@
       </div>
 
       <div style="position: relative;" class="nav-item">
-        <a href="/#treatments" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">진료안내<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <a href="/#treatments" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">진료안내<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
             <a href="/#treatments" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">치료 방법</a>
@@ -33,16 +33,16 @@
         </div>
       </div>
 
-      <a href="/#doctors" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
+      <a href="/#doctors" style="font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
 
       {{/* 치료후기는 /reviews/ 한 곳으로 간다 — 그 페이지에 네이버 리뷰와
            자필 후기가 함께 있어 드롭다운으로 가를 이유가 없다. */}}
-      <a href="/reviews/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기</a>
+      <a href="/reviews/" style="font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">치료후기</a>
 
       {{/* 게시판 — 읽을거리를 한 묶음으로. 미디어(언론보도)는 실제 보도
            목록이 준비되면 여기에 한 줄 더하면 된다. */}}
       <div style="position: relative;" class="nav-item">
-        <a href="/board/" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">게시판<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
+        <a href="/board/" style="display: inline-flex; align-items: center; gap: 6px; font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">게시판<span style="font-size: 10px; color: #0F7A7E;">▾</span></a>
         <div class="nav-dropdown-panel" style="position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 40; min-width: 210px;">
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
             <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">공지사항</a>
@@ -51,16 +51,19 @@
         </div>
       </div>
 
-      <a href="/directions/" style="font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
+      <a href="/directions/" style="font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
     {{/* 예약 · 전화 · 길찾기 — 헤더가 sticky라 스크롤해도 따라온다.
          예약을 가장 앞세우고 나머지는 한 단계 낮춘다. */}}
-    <div class="desktop-cta" aria-label="예약 · 전화 · 길찾기">
+    <div class="desktop-cta" aria-label="예약 · 전화 · 상담 · 길찾기">
       <a class="hd-cta hd-cta-book" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
         {{ partial "icon-book.html" . }}<span>예약</span>
       </a>
       <a class="hd-cta" href="{{ $clinic.phone_tel | safeURL }}" aria-label="해아림한의원 잠실점 전화하기 {{ $clinic.phone_display }}">
         {{ partial "icon-tel.html" . }}<span>전화</span>
+      </a>
+      <a class="hd-cta hd-cta-chat" href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 카카오톡 상담 (새 창)">
+        {{ partial "icon-chat.html" . }}<span>상담</span>
       </a>
       <a class="hd-cta" href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 길찾기 — 네이버 지도 (새 창)">
         {{ partial "icon-map.html" . }}<span>길찾기</span>
@@ -96,6 +99,7 @@
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #EDE6DA;">
       <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 22px; border-radius: 9999px;" class="btn-primary">네이버 예약</a>
       <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
+      <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 13px 20px; border-radius: 9999px;" class="btn-kakao">카카오톡 상담</a>
       <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">길찾기</a>
     </div>
   </div>
