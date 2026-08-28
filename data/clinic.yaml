@@ -4,7 +4,8 @@ phone_display: "0507-1469-7578"
 # 전화 버튼이 실제로 거는 번호(안심번호). 화면에 보이는 번호는 phone_display 쪽이다.
 phone_tel: "tel:0507-1469-7578"
 # 네이버 지도의 업체 페이지. 여기서 예약 탭으로 이어진다.
-# (예약 전용 주소가 확인되면 placePath=%2Fbooking 형태로 바꾸면 된다)
+# 예약 전용 주소는 없는 것으로 확인했다(2026-08). 아래 naver_place_url과
+# 같은 곳으로 가는 것이 맞다 — 서로 다른 값으로 바꾸지 않는다.
 naver_booking_url: "https://map.naver.com/p/entry/place/1887559338"
 # 네이버 지도의 리뷰 탭. placePath=/review 가 리뷰 화면을 바로 연다.
 # (예전에는 일반 검색 주소였고, 헤더의 예약 버튼까지 이 값을 쓰고 있었다)
@@ -21,7 +22,8 @@ address_transit: "지하철 2호선 잠실새내역(4번 출구) 도보 3분<br 
 map_lat: 37.5114327
 map_lng: 127.0819814
 # 길찾기 버튼이 여는 곳. 네이버 지도의 업체 페이지에서 길찾기로 이어진다.
-# (구글 지도 길찾기 주소는 아래에 남겨 두었다 — 지도 임베드는 그대로 쓴다)
+# 위의 naver_booking_url과 같은 주소다 — 예약 전용 주소가 없기 때문이며
+# 잘못된 것이 아니다. 구글 지도 주소는 아래에 남겨 두었다(지도 임베드용).
 naver_place_url: "https://map.naver.com/p/entry/place/1887559338"
 google_maps_dir_url: "https://www.google.com/maps/dir/?api=1&destination=37.5114327,127.0819814"
 google_maps_embed_url: "https://maps.google.com/maps?q=37.5114327,127.0819814&z=17&output=embed"
