@@ -541,6 +541,11 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
          05 논문·전문활동 · 06 관련 질환(02에 포함) · 07 컬럼 · 08 예약 */
 
 .doc-h2 { font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0 0 24px; text-wrap: balance; }
+/* 제목 줄 — 제목 옆에 건수와 "전체 보기"를 나란히 둔다. */
+.doc-h2-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+.doc-h2-row .doc-h2 { margin: 0; }
+.doc-h2-count { font-size: 14px; color: #6B6960; }
+.doc-h2-more { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; white-space: nowrap; }
 
 /* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
    1920×2560) 여기서 4:5로 맞춘다. image.html이 붙이는 height 속성이
@@ -620,6 +625,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .doc-hero-right .doc-photo { order: 0; }
   .doc-photo { width: 168px; aspect-ratio: 3 / 4; border-radius: 14px; }
   .doc-h2 { font-size: 23px !important; margin-bottom: 18px; }
+  .doc-h2-row { gap: 10px; margin-bottom: 18px; }
+  .doc-h2-more { margin-left: 0; font-size: 14px; }
   .doc-columns { grid-template-columns: 1fr; }
   .doc-story { padding: 26px 20px; border-radius: 16px; }
   .doc-quote { font-size: 20px !important; padding-left: 14px; margin-bottom: 22px; }

@@ -88,7 +88,11 @@
 {{ with $columns }}
 <section id="columns" style="background: #FFFFFF; padding: 64px 0 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
+    <div class="doc-h2-row">
+      <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
+      <span class="doc-h2-count">전체 {{ len . }}편</span>
+      <a href="/column/" class="doc-h2-more">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
+    </div>
     <div class="doc-columns">
       {{ range first 4 . }}
       {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
@@ -99,11 +103,6 @@
       </a>
       {{ end }}
     </div>
-    {{ if gt (len .) 4 }}
-    <div style="margin-top: 20px;">
-      <a href="/column/" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 22px; border-radius: 9999px;" class="btn-outline">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
-    </div>
-    {{ end }}
   </div>
 </section>
 {{ end }}
