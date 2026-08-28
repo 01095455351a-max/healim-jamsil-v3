@@ -53,20 +53,20 @@
 
       <a href="/directions/" style="font-size: clamp(14px, 1.15vw, 16px); font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
-    {{/* 예약 · 전화 · 길찾기 — 헤더가 sticky라 스크롤해도 따라온다.
-         예약을 가장 앞세우고 나머지는 한 단계 낮춘다. */}}
-    <div class="desktop-cta" aria-label="예약 · 전화 · 상담 · 길찾기">
-      <a class="hd-cta hd-cta-book" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
-        {{ partial "icon-book.html" . }}<span>예약</span>
-      </a>
+    {{/* 전화 · 네이버 예약 · 카카오톡 채널 — 헤더가 sticky라 스크롤해도
+         따라온다. 버튼에는 아이콘만 두고 이름은 마우스를 올리면 뜬다
+         (aria-label에 전체 이름이 남아 화면낭독기는 언제나 읽는다).
+         좁은 화면에서는 아래 서랍의 버튼 네 개와 하단 고정 막대가 맡는다.
+         링크는 모두 data/clinic.yaml 한 곳에서 읽는다. */}}
+    <div class="desktop-cta" aria-label="전화 · 네이버 예약 · 카카오톡 채널">
       <a class="hd-cta" href="{{ $clinic.phone_tel | safeURL }}" aria-label="해아림한의원 잠실점 전화하기 {{ $clinic.phone_display }}">
-        {{ partial "icon-tel.html" . }}<span>전화</span>
+        {{ partial "icon-tile-tel.html" "#157175" }}<span class="hd-tip">전화걸기</span>
       </a>
-      <a class="hd-cta hd-cta-chat" href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 카카오톡 상담 (새 창)">
-        {{ partial "icon-chat.html" . }}<span>상담</span>
+      <a class="hd-cta" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
+        {{ partial "icon-tile-naver.html" . }}<span class="hd-tip">네이버 예약</span>
       </a>
-      <a class="hd-cta" href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 길찾기 — 네이버 지도 (새 창)">
-        {{ partial "icon-map.html" . }}<span>길찾기</span>
+      <a class="hd-cta" href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" aria-label="해아림한의원 잠실점 카카오톡 채널 (새 창)">
+        {{ partial "icon-tile-kakao.html" . }}<span class="hd-tip">카카오톡 채널</span>
       </a>
     </div>
   </div>
