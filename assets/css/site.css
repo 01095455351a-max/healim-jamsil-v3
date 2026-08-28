@@ -449,6 +449,64 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .dx-exam { padding: 13px 14px; }
 }
 
+/* ── 고정 예약 · 전화 · 길찾기 (_partials/quick-actions.html) ──────
+   페이지마다 반복되던 예약·지도 블록을 줄이는 대신, 어느 화면에서든
+   한 번의 클릭으로 예약에 닿을 수 있게 하는 자리다.
+   병원 홈페이지답게 조용히 있어야 하므로 원색·그림자·움직임을 쓰지 않는다.
+
+   겹침 검토 — 이 사이트의 고정 요소는 sticky 헤더(z-index 20)와
+   치료 방법 팝업(<dialog>) 둘뿐이다. 팝업은 브라우저의 최상위 레이어라
+   z-index와 무관하게 위에 뜬다. 여기서는 15를 써서 헤더 아래에 둔다.
+   모바일 서랍이 열리면 아래 막대를 내려 감춘다. */
+.qa { position: fixed; z-index: 15; }
+.qa-item {
+  display: flex; align-items: center;
+  color: #0F7A7E; background: #FFFFFF;
+  border: 1px solid #C0FAE6;
+  text-decoration: none;
+  transition: background 170ms, border-color 170ms, color 170ms;
+}
+.qa-ico { width: 20px; height: 20px; flex: 0 0 20px; }
+.qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
+.qa-item:hover { background: #E3FCF7; border-color: #22ABAF; color: #0F7A7E; }
+.qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
+/* 예약이 첫 번째다. 나머지는 한 단계 낮춘다. */
+.qa-book { color: #FFFFFF; background: #157175; border-color: #157175; }
+.qa-book:hover { background: #0B4F52; border-color: #0B4F52; color: #FFFFFF; }
+
+/* 넓은 화면 — 오른쪽 세로. 본문은 max-width 1200px라 1360px 아래에서는
+   여백이 좁아지므로, 그보다 좁으면 아래 가로 막대로 바꾼다. */
+@media (min-width: 1360px) {
+  .qa { top: 50%; right: 20px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; }
+  .qa-item { flex-direction: column; gap: 5px; width: 66px; padding: 12px 6px; border-radius: 14px; }
+}
+
+/* 좁은 화면 — 아래 가로 막대. 홈 인디케이터 영역만큼 아래를 띄운다. */
+@media (max-width: 1359px) {
+  .qa {
+    left: 0; right: 0; bottom: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid #EDE6DA;
+    backdrop-filter: saturate(140%) blur(6px);
+  }
+  .qa-item { justify-content: center; gap: 7px; padding: 11px 8px; border-radius: 9999px; }
+  /* 막대에 마지막 내용이 가리지 않도록 아래 여백을 확보한다.
+     (막대 높이 약 56px + 홈 인디케이터) */
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* 모바일 메뉴가 열려 있는 동안에는 내려 감춘다. */
+  body:has(#nav-toggle:checked) .qa { transform: translateY(120%); }
+}
+
+@media (max-width: 360px) {
+  .qa { gap: 6px; padding-left: 8px; padding-right: 8px; }
+  .qa-item { gap: 5px; padding: 11px 4px; }
+  .qa-label { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .qa, .qa-item { transition: none; } }
+
 /* ── 원장 상세페이지 ──────────────────────────────────────────
    구조: 01 프로필 · 02 주요 진료분야 · 03 이야기 · 04 약력
          05 논문·전문활동 · 06 관련 질환(02에 포함) · 07 컬럼 · 08 예약 */
