@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{ if site.Params.noindex }}<meta name="robots" content="noindex, nofollow" />{{ end }}
-<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ with .Params.title_seo }}{{ . }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}{{ end }}</title>
+<title>{{ if .IsHome }}{{ or site.Params.title_home .Site.Title }}{{ else }}{{ with .Params.title_seo }}{{ . }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}{{ end }}</title>
 {{/* 페이지 설명 — description이 없으면 summary를 쓴다. 컬럼 12편과 약관·방침은
      summary만 가지고 있어 그대로 두면 전부 사이트 기본 설명이 나간다. */}}
 {{- $desc := or .Description .Params.summary site.Params.description -}}

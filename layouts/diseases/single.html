@@ -113,6 +113,23 @@
       </div>
       {{ end }}
 
+      {{/* 자주 묻는 질문 — front matter의 faqs를 그대로 쓴다.
+           마크업은 /directions/ 의 FAQ와 같은 컴포넌트다.
+           같은 내용이 schema.html에서 FAQPage로도 나간다. */}}
+      {{ with $p.faqs }}
+      <div id="faq">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">자주 묻는 질문</h2>
+        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; overflow: hidden;">
+          {{ range $i, $f := . }}
+          <details{{ if ne $i 0 }} style="border-top: 1px solid #F1F3F2;"{{ end }}>
+            <summary style="list-style: none; cursor: pointer; display: flex; align-items: flex-start; gap: 14px; padding: 24px 28px; font-size: 17px; font-weight: 600; line-height: 1.6; color: #001E2B;"><span style="flex: 0 0 auto; color: #0F7A7E;">Q</span><span style="flex: 1 1 auto;; text-wrap: pretty">{{ partial "kr.html" $f.question }}</span><span style="flex: 0 0 auto; font-size: 14px; color: #6F6B61;">＋</span></summary>
+            <div style="padding: 0 28px 26px 60px; font-size: 16px; line-height: 1.85; color: #4A4A44;; text-wrap: pretty">{{ partial "kr.html" ($f.answer | markdownify) }}</div>
+          </details>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+
     </article>
 
     <aside style="position: sticky; top: 112px;">
@@ -124,6 +141,7 @@
           <a href="#cause" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.cause_heading }}</a>
           <a href="#exam" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.exam_heading }}</a>
           <a href="#approach" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.approach_heading }}</a>
+          {{ if $p.faqs }}<a href="#faq" style="font-size: 15px; color: #4A4A44;" class="nav-link">자주 묻는 질문</a>{{ end }}
         </div>
       </nav>
     </aside>

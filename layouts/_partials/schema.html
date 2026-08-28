@@ -9,9 +9,11 @@
 
      내보내는 것
        모든 페이지   MedicalClinic(병원) + BreadcrumbList
+       홈            원장 2명의 Physician
        원장 페이지   Physician
        컬럼 글       Article (author를 원장 페이지 URL로 연결)
-       지역 안내     FAQPage (화면에 보이는 문답과 같은 내용)
+       질환·컬럼     FAQPage (front matter의 faqs)
+       지역 안내     FAQPage (data/directions.yaml의 faq)
 */}}
 {{- $c := site.Data.clinic -}}
 {{- $base := site.BaseURL | strings.TrimSuffix "/" -}}
@@ -45,12 +47,53 @@
   "geo" (dict "@type" "GeoCoordinates" "latitude" $c.map_lat "longitude" $c.map_lng)
   "openingHoursSpecification" $hours
   "medicalSpecialty" (slice "Psychiatry")
-  "availableService" (slice
-    (dict "@type" "MedicalTherapy" "name" "한약 치료")
-    (dict "@type" "MedicalTherapy" "name" "침 치료")
-    (dict "@type" "MedicalTherapy" "name" "상담치료"))
+  "description" site.Params.description
+  "inLanguage" "ko-KR"
 -}}
+{{/* 진료 방법은 data/treatments.yaml 한 곳에서 읽는다 — 화면의 팝업과 같은 목록이다. */}}
+{{- $svc := slice -}}
+{{- range site.Data.treatments -}}
+  {{- $svc = $svc | append (dict "@type" "MedicalTherapy" "name" .name) -}}
+{{- end -}}
+{{- with $svc }}{{ $clinic = merge $clinic (dict "availableService" .) }}{{ end -}}
+{{/* 진료하는 질환 — 화면의 특화 질환 목록과 같다. */}}
+{{- $cond := slice -}}
+{{- range (where site.RegularPages "Section" "diseases").ByWeight -}}
+  {{- $cond = $cond | append (dict "@type" "MedicalCondition" "name" .Title "url" .Permalink) -}}
+{{- end -}}
+{{- with $cond }}{{ $clinic = merge $clinic (dict "knowsAbout" .) }}{{ end -}}
+{{/* 내원권역 — data/directions.yaml의 지역 제목을 쪼개 쓴다. 지점이 아니라 권역이다.
+     "강원 등 장거리에서 방문하시는 경우"처럼 지역명이 아닌 칸은 건너뛴다. */}}
+{{- $area := slice -}}
+{{- range site.Data.directions.areas -}}
+  {{- if not (strings.Contains .title "경우") -}}
+    {{- range (split .title "·") -}}
+      {{- with (trim . " ") }}{{ $area = $area | append (dict "@type" "Place" "name" .) }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with $area }}{{ $clinic = merge $clinic (dict "areaServed" .) }}{{ end -}}
+{{/* 사진·로고는 assets의 원본을 그대로 가리킨다. */}}
+{{- with resources.Get "media/clinic/reception.jpg" -}}
+  {{- $i := .Resize "1200x webp q82 photo" -}}
+  {{- $clinic = merge $clinic (dict "image" (printf "%s%s" $base $i.RelPermalink)) -}}
+{{- end -}}
+{{- with resources.Get "design-v3/logo.png" -}}
+  {{- $clinic = merge $clinic (dict "logo" (printf "%s%s" $base .RelPermalink)) -}}
+{{- end -}}
+{{/* 공식 채널 — data/clinic.yaml에 있는 것만. */}}
+{{- $same := slice -}}
+{{- range (slice $c.naver_blog_url $c.instagram_url $c.kakao_channel_url $c.naver_booking_url $c.network_site_url) -}}
+  {{- with . }}{{ $same = $same | append . }}{{ end -}}
+{{- end -}}
+{{- with $same }}{{ $clinic = merge $clinic (dict "sameAs" .) }}{{ end -}}
 {{- with $c.naver_booking_url }}{{ $clinic = merge $clinic (dict "hasMap" .) }}{{ end -}}
+{{/* 원장 2명을 병원에 연결한다. 실제 Physician 노드는 홈·원장 페이지·질환 페이지에서 나간다. */}}
+{{- $staff := slice -}}
+{{- range $slug, $a := site.Data.authors -}}
+  {{- $staff = $staff | append (dict "@id" (printf "%s/doctors/%s/#physician" $base $slug)) -}}
+{{- end -}}
+{{- with $staff }}{{ $clinic = merge $clinic (dict "employee" .) }}{{ end -}}
 
 {{/* ── 이동 경로(breadcrumb) — 화면의 표시와 같은 단계로 맞춘다 ── */}}
 {{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" "홈" "item" (printf "%s/" $base)) -}}
@@ -70,8 +113,16 @@
   {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "itemListElement" $crumbs) -}}
 {{- end -}}
 
-{{/* ── 원장(Physician) ─────────────────────────────────── */}}
-{{- with .Params.doctor -}}
+{{/* ── 원장(Physician) ───────────────────────────────────
+     질환 페이지는 담당 원장 1명, 홈과 원장 소개 페이지는 2명 전부.
+     어느 쪽이든 @id는 같은 값이라 검색엔진이 같은 사람으로 본다. */}}
+{{- $docs := slice -}}
+{{- with .Params.doctor }}{{ $docs = $docs | append . }}{{ end -}}
+{{- if .IsHome -}}
+  {{- $docs = slice -}}
+  {{- range $slug, $a := site.Data.authors }}{{ $docs = $docs | append $slug }}{{ end -}}
+{{- end -}}
+{{- range $docs -}}
   {{- $slug := . -}}
   {{- $docUrl := printf "%s/doctors/%s/" $base $slug -}}
   {{- with index site.Data.authors $slug -}}
@@ -122,13 +173,26 @@
   {{- end -}}
 {{- end -}}
 
-{{/* ── 지역 안내의 FAQ — 화면에 보이는 문답과 글자까지 같다 ── */}}
+{{/* ── FAQ ──────────────────────────────────────────────
+     화면에 보이는 문답과 같은 내용만 내보낸다.
+       질환 페이지   front matter의 faqs (본문 아래 아코디언)
+       컬럼 글       front matter의 faqs (본문의 Q&A 단락과 같은 내용)
+       지역 안내     data/directions.yaml의 faq */}}
+{{- $qa := slice -}}
 {{- if eq .Layout "directions" -}}
-  {{- $qa := slice -}}
   {{- range site.Data.directions.faq -}}
     {{- $qa = $qa | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" .a)) -}}
   {{- end -}}
-  {{- if $qa }}{{ $graph = $graph | append (dict "@type" "FAQPage" "mainEntity" $qa) }}{{ end -}}
+{{- else -}}
+  {{- range .Params.faqs -}}
+    {{- $q := trim .question " \n" -}}
+    {{/* answer는 블록 스칼라라 줄바꿈이 붙는다. 마크다운을 풀고 태그를 걷어낸다. */}}
+    {{- $a := trim (plainify (.answer | markdownify)) " \n" -}}
+    {{- if and $q $a -}}
+      {{- $qa = $qa | append (dict "@type" "Question" "name" $q "acceptedAnswer" (dict "@type" "Answer" "text" $a)) -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
+{{- if $qa }}{{ $graph = $graph | append (dict "@type" "FAQPage" "mainEntity" $qa) }}{{ end -}}
 
 <script type="application/ld+json">{{ (dict "@context" "https://schema.org" "@graph" $graph) | jsonify | safeJS }}</script>
