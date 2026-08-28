@@ -73,8 +73,6 @@ approach_steps:
 approach_note: "기분은 마음만의 문제가 아니라 몸 전체의 상태와 맞물려 있습니다. 몸과 마음을 함께 살피는 치료로 회복을 돕습니다."
 related_columns:
   - /column/depression-vs-low-motivation/
-cta_title: "혼자 버티지 마세요, 함께 회복의 방향을 찾습니다"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "우울증도 한약으로 치료가 되나요?"
     answer: |

@@ -71,8 +71,6 @@ approach_steps:
 approach_note: "의료적 치료에 가정의 이해와 격려가 더해질 때, 시간이 걸리더라도 분명한 변화가 나타납니다."
 related_columns:
   - /column/adhd-vs-normal-distractibility/
-cta_title: "우리 아이, 정확한 원인부터 확인해 보세요"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "성인도 ADHD 진단과 치료가 가능한가요?"
     answer: |

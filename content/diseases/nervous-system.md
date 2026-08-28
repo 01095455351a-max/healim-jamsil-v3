@@ -69,8 +69,6 @@ approach_steps:
 approach_note: "반복되는 두통과 어지럼증을 진통제로만 넘기기보다, 근본 원인을 함께 짚어보시길 권합니다."
 related_columns:
   - /column/dizziness-despite-normal-tests/
-cta_title: "반복되는 두통·어지럼증, 원인부터 확인해 보세요"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "'신경성'이라는 말은 꾀병이라는 뜻인가요?"
     answer: |

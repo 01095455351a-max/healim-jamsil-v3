@@ -1,7 +1,7 @@
 {{/* 하단 푸터 — handoff/design-v3/index.html §footer 그대로 이식. */}}
 {{ $clinic := site.Data.clinic }}
 {{ $diseases := where site.RegularPages "Section" "diseases" }}
-{{ $diseases = ($diseases.ByWeight) | first 8 }}
+{{ $diseases = $diseases.ByWeight }}{{/* 특화 질환 전부. 질환을 추가하면 여기에도 붙는다. */}}
 <footer style="background: #001E2B; color: #FFFFFF; padding: 64px 0 40px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 40px;">

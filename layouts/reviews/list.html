@@ -1,6 +1,4 @@
 {{ define "main" }}
-{{ $reviews := where site.RegularPages "Section" "reviews" }}
-{{ $reviews = $reviews.ByWeight }}
 {{ $clinic := site.Data.clinic }}
 
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">

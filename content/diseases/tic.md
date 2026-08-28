@@ -71,8 +71,6 @@ approach_steps:
 approach_note: "놀림의 대상이 되거나 스스로 위축되기 전, 조기에 원인을 파악하는 것이 아이의 자존감을 지키는 첫걸음입니다."
 related_columns:
   - /column/why-tics-wax-and-wane/
-cta_title: "아이의 틱, 지켜만 보지 마세요"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "성인에게도 틱장애가 생길 수 있나요?"
     answer: |

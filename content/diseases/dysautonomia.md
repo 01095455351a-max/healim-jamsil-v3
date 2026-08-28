@@ -72,8 +72,6 @@ related_columns:
   - /column/dysautonomia-symptoms/
   - /column/autonomic-imbalance/
   - /column/dizziness-despite-normal-tests/
-cta_title: "원인 모를 불편감, 자율신경부터 확인해 보세요"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "검사에서는 정상인데 왜 계속 증상이 있나요?"
     answer: |

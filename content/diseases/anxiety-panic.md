@@ -78,8 +78,6 @@ related_columns:
   - /column/why-panic-disorder-starts-suddenly/
   - /column/why-anxiety-causes-heart-palpitations/
   - /column/panic-insomnia-care/
-cta_title: "혼자 견디지 마세요, 지금 상담받아 보세요"
-cta_text: "초진에는 검사와 문진, 한의학적 진찰과 원장 진료가 함께 진행되므로 1시간 30분~2시간 정도 여유 있게 내원해 주시길 권장합니다."
 faqs:
   - question: "공황발작은 위험한가요?"
     answer: |
