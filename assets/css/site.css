@@ -90,6 +90,10 @@ button { font-family: inherit; }
 
 /* 원장 컬럼 상세 본문(마크다운) 타이포 — column-detail.html 기준
    (H2 27px/500/1.4, 본문 17px/1.85, 리스트는 민트 점 불릿, blockquote는 좌측 강조선 콜아웃) */
+/* 헤더가 sticky라 #앵커로 뛰면 구역 윗부분이 헤더 밑에 숨는다.
+   헤더 높이(109px)보다 조금 넉넉히 띄운다. */
+section[id], [id^="kakao-map-"] { scroll-margin-top: 124px; }
+
 .prose-column h2 { font-size: 27px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; color: #001E2B; margin: 0 0 18px; text-wrap: balance; scroll-margin-top: 112px; }
 .prose-column h2:not(:first-child) { margin-top: 48px; }
 .prose-column p { font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 18px; text-wrap: pretty; }
