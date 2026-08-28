@@ -91,13 +91,10 @@
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div class="doc-h2-row">
       <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
-      {{/* 블로그·유튜브는 한의원 계정이다 — 원장 개인 채널이 아니므로
-           "한의원"을 붙여 적는다. 유튜브 주소는 data/clinic.yaml이 비어 있으면
-           버튼이 아예 나오지 않는다(없는 링크를 만들어 두지 않는다). */}}
+      {{/* 블로그는 한의원 계정이다 — 원장 개인 채널이 아니므로 "한의원"을 붙여 적는다. */}}
       <div class="doc-h2-links">
         <a href="/column/" class="doc-h2-more">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
         {{ with $clinic.naver_blog_url }}<a href="{{ . }}" target="_blank" rel="noopener" class="doc-h2-chip">한의원 블로그</a>{{ end }}
-        {{ with $clinic.youtube_url }}<a href="{{ . }}" target="_blank" rel="noopener" class="doc-h2-chip">유튜브</a>{{ end }}
       </div>
     </div>
     <div class="doc-columns">
@@ -114,6 +111,32 @@
 </section>
 {{ end }}
 
+
+
+{{/* ── 원장이 출연한 영상 ────────────────────────────────────
+     data/authors/<slug>.yaml의 videos 목록을 그대로 읽는다. 줄을 추가하면
+     붙고 지우면 사라진다 — 레이아웃은 손댈 필요가 없다.
+     제목을 모르면 비워 두게 했다. 그때는 사실만 적힌 문구로 대신한다
+     (없는 제목을 지어내지 않는다). */}}
+{{ with $author.videos }}
+<section id="videos" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">{{ $author.name.display }}이 출연한 영상</h2>
+    <div class="doc-columns">
+      {{ range . }}
+      <a href="{{ .url }}" target="_blank" rel="noopener" class="doc-column doc-video card-lift-ink">
+        <span class="doc-video-icon">{{ partial "icon-play.html" . }}</span>
+        <span class="doc-video-body">
+          {{ with .source }}<span class="doc-column-topic">{{ . }}</span>{{ end }}
+          <span class="doc-column-title">{{ with .title }}{{ . }}{{ else }}{{ $author.name.display }} 출연 영상{{ end }}</span>
+          <span class="doc-column-date">{{ with .date }}{{ (time.AsTime .).Format "2006년 1월 2일" }} · {{ end }}유튜브에서 보기 (새 창)</span>
+        </span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
 
 <section style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 40px 0 48px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">

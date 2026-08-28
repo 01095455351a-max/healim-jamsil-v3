@@ -13,10 +13,6 @@ naver_review_url: "https://map.naver.com/p/entry/place/1887559338?placePath=%2Fr
 kakao_channel_url: "https://pf.kakao.com/_xkqufn"
 naver_blog_url: "https://blog.naver.com/healimjs"
 instagram_url: "https://www.instagram.com/healimjs"
-# 유튜브 채널 주소. 아직 확인된 주소가 없어 비워 둔다 —
-# 비어 있으면 원장 상세페이지의 유튜브 버튼이 나오지 않는다.
-# 주소가 생기면 이 줄에만 넣으면 된다.
-youtube_url: ""
 network_site_url: "https://www.healim.com"
 # 네트워크 대표 홈페이지의 자필후기 게시판
 network_handwritten_url: "https://www.healim.com/5-3"
