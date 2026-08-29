@@ -83,7 +83,7 @@
 <section id="doctors" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">의료진</div>
-    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">원장 및 진료 철학 소개</h2>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">두 원장이 진료 영역에 따라 세밀하게 살핍니다</h2>
     <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" `단순한 증상 완화를 넘어, 치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.` }}</p>
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
       {{ range (where site.RegularPages "Section" "doctors") }}
@@ -111,31 +111,24 @@
   </div>
 </section>
 
+{{/* 두 원장이 어느 증상을 맡는지만 밝히는 자리다. 전에는 원장마다 4단계
+     과정을 늘어놓아 바로 위 의료진 구역과 같은 말을 두 번 하고 있었고,
+     「정밀 진단」 「뇌혈류 순환 촉진」 같은 표현이 효과를 단정하는 쪽으로
+     읽혔다. 카드 두 장으로 줄인다. */}}
 <section id="clinics" style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 88px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
-    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">두 원장의 주요 진료영역</div>
-    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">해아림한의원 잠실점을 믿고 찾는 이유</h2>
-    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 680px;; text-wrap: pretty">원인을 짚어내는 정밀 진단부터 1:1 맞춤 한약, 심층 상담·침구 치료까지 이어지는 전담 케어 시스템입니다.</p>
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">진료 체계</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 40px; max-width: 640px; text-wrap: balance;">증상에 따라 진료 방향을 달리합니다</h2>
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
       <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px;">
-        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 8px; line-height: 1.35;">한방신경정신과 &amp; 심신 통합 클리닉</h3>
-        <div style="font-size: 15px; line-height: 1.6; color: #4A4A44; margin-bottom: 26px;"><strong style="font-weight: 600; color: #001E2B;">석선희 원장 전담</strong> · 공황장애, 불안장애, 강박장애, 우울장애, 불면증</div>
-        <div style="display: flex; flex-direction: column; gap: 18px;">
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">정밀 검진 및 원인 분석</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">자율신경 균형 검사 및 뇌기능 평가</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">1:1 맞춤 한약 치료 (핵심)</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">항진된 신경계 안정과 오장육부 균형 회복을 돕는 개인별 탕전</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">3</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">심층 상담치료 (병행)</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">전문의의 인지적 통찰 및 심신 이완 지도</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">4</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">침구 및 신경 이완 치료</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">두경부 긴장 완화 및 기혈 순환 촉진</div></div></div>
-        </div>
+        <div style="font-size: 15px; font-weight: 600; color: #0F7A7E; margin-bottom: 10px;">석선희 원장</div>
+        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 14px; line-height: 1.35;">{{ partial "kr.html" `공황·불안·강박·우울` }}</h3>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `한약치료를 중심으로, 필요한 경우 상담을 함께 진행합니다.` }}</p>
       </div>
       <div style="background: #F4EEE2; border: 1px solid #E3D6BF; border-radius: 16px; padding: 36px;">
-        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 8px; line-height: 1.35;">두뇌 기능 &amp; 자율신경 특화 클리닉</h3>
-        <div style="font-size: 15px; line-height: 1.6; color: #4A4A44; margin-bottom: 26px;"><strong style="font-weight: 600; color: #001E2B;">류석균 원장 전담</strong> · 소아·성인 틱장애, ADHD, 자율신경실조증, 다한증, 신경성 질환</div>
-        <div style="display: flex; flex-direction: column; gap: 18px;">
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">22년 임상 기반 정밀 평가</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">두뇌 발달 단계와 자율신경계 기능 상태 진단</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">두뇌 기능 맞춤 한약 처방</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">뇌 기능 균형과 신경계 과흥분 조절을 돕는 개인별 맞춤 한약</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">3</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">침구 치료 및 경추 교정</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">뇌혈류 순환 촉진 및 신체 균형 안정화</div></div></div>
-          <div style="display: flex; gap: 14px;"><div style="flex: 0 0 26px; height: 26px; border-radius: 9999px; background: #FFFFFF; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">4</div><div><div style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">생활 관리 코칭</div><div style="font-size: 15px; line-height: 1.65; color: #4A4A44;">수면 습관, 스마트폰 사용 시간, 스트레스 관리를 부모님과 함께 조율합니다</div></div></div>
-        </div>
+        <div style="font-size: 15px; font-weight: 600; color: #6F6B61; margin-bottom: 10px;">류석균 원장</div>
+        <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 14px; line-height: 1.35;">{{ partial "kr.html" `틱·ADHD·자율신경 증상` }}</h3>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `증상과 신체 상태, 생활환경을 함께 살펴 치료 계획을 세웁니다.` }}</p>
       </div>
     </div>
   </div>
@@ -180,44 +173,18 @@
       </div>
     </div>
     {{ end }}
-    <div style="margin-top: 32px; background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 30px 36px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap;">
+    {{/* 첫 내원 — 무엇을 얼마나 하는지 한눈에. 소요시간과 순서를 앞에 둔다. */}}
+    <div style="margin-top: 36px; background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 30px 36px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap;">
       <div style="flex: 1 1 400px; min-width: 0;">
-        <div style="font-size: 19px; font-weight: 600; margin-bottom: 8px;">처음 오시는 날에는 무엇을 준비할까요</div>
-        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `검사와 문진, 원장 진료를 포함해 1시간 30분~2시간이 걸립니다. 진료 순서와 검사 안내, 준비물을 미리 확인하실 수 있습니다.` }}</p>
+        <div style="font-size: 19px; font-weight: 600; margin-bottom: 10px;">처음 방문하시나요?</div>
+        <div style="font-size: 22px; font-weight: 600; color: #0F7A7E; letter-spacing: -0.5px; margin-bottom: 10px;">{{ partial "kr.html" `약 1시간 30분~2시간` }}</div>
+        <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `검사 → 문진 → 원장 진료 → 치료 방향 안내 · 소아청소년 진료는 약 2시간~2시간 30분` }}</p>
       </div>
-      <a href="/first-visit/" style="flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 30px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">첫 내원 안내 보기<span style="font-size: 13px;">→</span></a>
+      <a href="/first-visit/" style="flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 30px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">첫 내원 과정 자세히 보기<span style="font-size: 13px;">→</span></a>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="reviews" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
-    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Reviews</div>
-    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px;; text-wrap: balance">다녀 가신 분 후기</h2>
-    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" `진료를 받으신 분들이 직접 남겨주신 기록입니다.` }}</p>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
-      <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="width: 36px; height: 36px; border-radius: 10px; background: #03C75A; color: #FFFFFF; font-size: 18px; font-weight: 700; line-height: 36px; text-align: center;">N</span>
-          <div><div style="font-size: 19px; font-weight: 600;">네이버 방문자 리뷰</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">네이버 지도에서 확인</div></div>
-        </div>
-        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `진료 후 남겨주신 리뷰는 네이버 지도에 그대로 쌓입니다. 별점과 방문 시점, 어떤 진료를 받으셨는지까지 함께 보실 수 있습니다.` }}</p>
-        <a href="{{ $clinic.naver_review_url }}" target="_blank" rel="noopener" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">네이버 리뷰 보기<span style="font-size: 13px;">→</span></a>
-      </div>
-      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="width: 36px; height: 36px; border-radius: 10px; background: #E3FCF7; color: #0F7A7E; font-size: 17px; font-weight: 700; line-height: 36px; text-align: center;">필</span>
-          <div><div style="font-size: 19px; font-weight: 600;">자필 후기</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">직접 손으로 적어 주신 기록</div></div>
-        </div>
-        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `진료를 받으신 분들이 직접 손으로 적어 주신 체험 후기입니다. 치료 전 상태와 치료 후 변화를 본인의 표현 그대로 담았습니다. 성명은 가려서 게시합니다.` }}</p>
-        <a href="/reviews/#handwritten" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">자필 후기 보기<span style="font-size: 13px;">→</span></a>
-      </div>
-    </div>
-    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 24px 0 0;">{{ partial "kr.html" `개별 환자의 상태에 따라 치료 효과는 상이할 수 있습니다.` }}</p>
-  </div>
-</section>
-
-<section id="books" style="background: #FFFFFF; padding: 72px 0;">
+<section id="books" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">Books</div>
     <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 36px;; text-wrap: balance">해아림한의원 원장단 출간 도서</h2>
@@ -246,7 +213,7 @@
   </div>
 </section>
 
-<section id="column" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+<section id="column" style="background: #FFFFFF; padding: 88px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">원장 컬럼</div>
     <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px; text-wrap: balance;">원장이 직접 전하는 건강 정보</h2>
@@ -273,38 +240,57 @@
   </div>
 </section>
 
+<section id="reviews" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; border-bottom: 1px solid #EDE6DA; padding: 88px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Reviews</div>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 12px; max-width: 640px;; text-wrap: balance">다녀가신 분 후기</h2>
+    <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 0 40px; max-width: 640px;; text-wrap: pretty">{{ partial "kr.html" `진료를 받으신 분들이 직접 남겨주신 기록입니다.` }}</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+      <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width: 36px; height: 36px; border-radius: 10px; background: #03C75A; color: #FFFFFF; font-size: 18px; font-weight: 700; line-height: 36px; text-align: center;">N</span>
+          <div><div style="font-size: 19px; font-weight: 600;">네이버 방문자 리뷰</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">네이버 지도에서 확인</div></div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `진료 후 남겨주신 리뷰는 네이버 지도에 그대로 쌓입니다. 별점과 방문 시점, 어떤 진료를 받으셨는지까지 함께 보실 수 있습니다.` }}</p>
+        <a href="{{ $clinic.naver_review_url }}" target="_blank" rel="noopener" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">네이버 리뷰 보기<span style="font-size: 13px;">→</span></a>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          {{/* 「필」 글자 대신 실제 스캔 한 장을 작게 보인다. 폴더의 첫 파일을
+               쓰므로 파일이 바뀌어도 레이아웃을 손댈 필요가 없다
+               (assets/media/reviews/ — 이름순 첫 장). */}}
+          {{ with index (sort (resources.Match "media/reviews/*.jpg") "Name") 0 }}
+          <span style="flex: 0 0 auto; width: 40px; height: 56px; border-radius: 6px; overflow: hidden; border: 1px solid #C0FAE6; background: #FFFFFF;">
+            {{ partial "image.html" (dict "src" .Name "w" 120 "alt" "자필 후기 스캔 예시" "style" "width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;") }}
+          </span>
+          {{ end }}
+          <div><div style="font-size: 19px; font-weight: 600;">자필 후기</div><div style="font-size: 14px; color: #6B6960; margin-top: 2px;">직접 손으로 적어 주신 기록</div></div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `진료를 받으신 분들이 직접 손으로 적어 주신 기록입니다. 개인정보는 가려서 게시합니다.` }}</p>
+        <a href="/reviews/#handwritten" style="align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px; white-space: nowrap;" class="btn-primary-dark-text">자필 후기 보기<span style="font-size: 13px;">→</span></a>
+      </div>
+    </div>
+    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 24px 0 0;">{{ partial "kr.html" `개별 환자의 상태에 따라 치료 효과는 상이할 수 있습니다.` }}</p>
+  </div>
+</section>
+
+{{/* 홈에서는 제목만 보인다 — 번호·구분·NEW 배지가 붙은 표는 /notice/ 에 있다.
+     그 표의 마크업(_partials/notice-table.html)을 여기에 복사해 두었던 것을
+     걷어냈다. 본문은 /notice/ 에서 제목을 눌러 펼친다. */}}
 <section id="notice" style="background: #FFFFFF; padding: 88px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Notice</div>
-    <div style="display: flex; align-items: flex-end; gap: 20px; margin-bottom: 32px; flex-wrap: wrap;">
-      <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0; text-wrap: balance;">공지사항</h2>
-    </div>
-    <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
-      <div style="display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; padding: 14px 24px; background: #FAF6EF; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">
-        <span>번호</span><span style="text-align: center;">구분</span><span>제목</span><span style="text-align: right;">등록일</span>
-      </div>
-      {{ range $i, $n := $notices }}
-      {{ $cat := "공지" }}{{ with $n.Params.tags }}{{ if gt (len .) 0 }}{{ $cat = index . 0 }}{{ end }}{{ end }}
-      {{ $isNew := lt (now.Sub $n.Date).Hours 336.0 }}
-      <details name="notice" style="border-top: 1px solid #F1F3F2;">
-        <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
-          <span style="font-size: 14px; color: #6F6B61;">{{ sub (len $notices) $i }}</span>
-          <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ $cat }}</span>
-          <span style="font-size: 16px; font-weight: 500; color: #001E2B; display: flex; align-items: center; gap: 10px;" class="notice-title">{{ partial "kr.html" $n.Title }}{{ if $isNew }}<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF; background: #157175; padding: 3px 8px; border-radius: 9999px;">NEW</span>{{ end }}</span>
-          <span style="font-size: 14px; color: #6B6960; text-align: right;">{{ $n.Date.Format "2006.01.02" }}</span>
-        </summary>
-        <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
-          <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
-            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
-            <div style="font-size: 17px; font-weight: 600; margin-bottom: 12px;">{{ partial "kr.html" $n.Title }}</div>
-            <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" $n.Content }}</div>
-          </div>
-        </div>
-      </details>
+    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 28px; text-wrap: balance;">공지사항</h2>
+    <div style="display: flex; flex-direction: column; max-width: 760px;">
+      {{ range first 3 $notices }}
+      <a href="/notice/" style="display: flex; align-items: baseline; gap: 16px; padding: 16px 0; border-top: 1px solid #F1F3F2; color: #001E2B;" class="notice-link">
+        <span style="flex: 1 1 auto; min-width: 0; font-size: 17px; font-weight: 500; line-height: 1.6;">{{ partial "kr.html" .Title }}</span>
+        <span style="flex: 0 0 auto; font-size: 13px; color: #9A968C;">{{ .Date.Format "2006.01.02" }}</span>
+      </a>
       {{ end }}
     </div>
-    <div style="display: flex; justify-content: center; margin-top: 32px;">
-      <a href="/notice/" style="display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 30px; border-radius: 9999px;" class="btn-outline">공지사항 전체 보기<span style="font-size: 13px;">→</span></a>
+    <div style="margin-top: 24px;">
+      <a href="/notice/" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #0F7A7E;" class="notice-more">공지사항 전체 보기<span style="font-size: 12px;">→</span></a>
     </div>
   </div>
 </section>
@@ -331,34 +317,13 @@
   </div>
 </section>
 
-<section id="area" style="background: #FFFFFF; padding: 88px 0;">
+{{/* 지역별 상세는 /directions/ 가 맡는다. 홈에서는 어디에서 오기 편한지
+     한 문단으로만 말한다 — 전에는 카드 세 장으로 같은 말을 늘여 놓았다. */}}
+<section id="area" style="background: #FFFFFF; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Access</div>
-    <h2 style="font-size: 34px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 16px; text-wrap: balance;">{{ partial "kr.html" `잠실을 중심으로 편리하게 내원하실 수 있습니다` }}</h2>
-    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 12px; max-width: 760px;; text-wrap: pretty">{{ partial "kr.html" `해아림한의원 잠실점은 잠실새내역과 종합운동장역에서 가까워 송파구뿐 아니라 강동구·광진구·성동구, 위례·하남 등 서울 동남권과 인접 지역에서도 방문하기 편리합니다.` }}</p>
-    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 40px; max-width: 760px;; text-wrap: pretty">{{ partial "kr.html" `구리·남양주 등 경기 동북부와 강원 지역에서 내원하시는 분들도 있어, 장거리에서 방문하시는 경우 이동시간과 첫 진료시간을 고려해 예약하시는 것을 권해드립니다.` }}</p>
-
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch;">
-      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
-        <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.3px;">잠실 · 송파</div>
-        <div style="font-size: 14px; line-height: 1.7; color: #0F7A7E; font-weight: 600;">잠실새내역<br />종합운동장역</div>
-        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `잠실·송파를 중심으로 가까운 지역에서 편리하게 방문하실 수 있습니다.` }}</p>
-      </div>
-      <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
-        <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.3px;">{{ partial "kr.html" `서울 동부 · 인접지역` }}</div>
-        <div style="font-size: 14px; line-height: 1.7; color: #6F6B61; font-weight: 600;">강동 · 광진 · 성동<br />위례 · 하남</div>
-        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `서울 동부와 인접 경기 지역에서도 대중교통과 자가용을 이용해 내원하고 있습니다.` }}</p>
-      </div>
-      <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
-        <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.3px;">{{ partial "kr.html" `경기 동북부 · 장거리 내원` }}</div>
-        <div style="font-size: 14px; line-height: 1.7; color: #6F6B61; font-weight: 600;">구리 · 남양주 · 강원</div>
-        <p style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" `경기 동북부와 강원 지역 등 장거리에서 내원하시는 분들도 있습니다.` }}</p>
-      </div>
-    </div>
-
-    <div style="margin-top: 24px; display: flex; justify-content: flex-start;">
-      <a href="/directions/" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">지역별 내원 및 교통 안내<span style="font-size: 13px;">→</span></a>
-    </div>
+    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px; max-width: 760px;; text-wrap: pretty">{{ partial "kr.html" `잠실새내역과 종합운동장역에서 가까워 송파·강동 및 서울 동남권에서 편리하게 방문하실 수 있습니다. 장거리 내원 시 첫 진료시간을 고려해 예약해 주세요.` }}</p>
+    <a href="/directions/" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">지역별 교통 안내<span style="font-size: 13px;">→</span></a>
   </div>
 </section>
 
