@@ -579,8 +579,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
     color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6;
     text-decoration: none;
   }
-  .qa-item svg { width: 17px; height: 17px; flex: 0 0 17px; }
-  .qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
+  .qa-item svg { width: 19px; height: 19px; flex: 0 0 19px; }
+  .qa-label { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
   .qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
   .qa-book { color: #FFFFFF; background: #03C75A; border-color: #03C75A !important; }
   /* 카카오톡 — 서비스 브랜드 색 그대로. 노란 바탕에는 짙은 갈색 글자를 쓴다. */
@@ -594,8 +594,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 360px) {
   .qa { gap: 4px; padding-left: 6px; padding-right: 6px; }
   .qa-item { gap: 4px; padding: 11px 2px; }
-  .qa-item svg { width: 16px; height: 16px; flex: 0 0 16px; }
-  .qa-label { font-size: 12px; }
+  .qa-item svg { width: 17px; height: 17px; flex: 0 0 17px; }
+  .qa-label { font-size: 13px; }
 }
 
 /* ── 원장 상세페이지 ──────────────────────────────────────────
