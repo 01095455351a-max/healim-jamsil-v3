@@ -900,3 +900,12 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    배경을 칠하지 않는다. */
 .notice-link:hover span:first-child { text-decoration: underline; text-underline-offset: 4px; }
 .notice-more:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ── 홈 오시는 길 · 좁은 화면 순서 ─────────────────────────────
+   세로로 쌓이면 주소 → 진료시간 → 지도 순서가 된다. 처음 오는 사람은
+   「지금 문을 여는가」를 먼저 보므로 진료시간을 앞에 둔다.
+   PC(768px 이상)는 왼쪽 칸 안에서 주소가 위, 진료시간이 아래 그대로다. */
+@media (max-width: 767px) {
+  .loc-hours { order: 1; }
+  .loc-address { order: 2; }
+}
