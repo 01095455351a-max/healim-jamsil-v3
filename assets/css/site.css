@@ -7,6 +7,19 @@
 
 body { margin: 0; background: #FFFFFF; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; word-break: keep-all; overflow-wrap: break-word; }
 h1, h2, h3, h4, p, li, blockquote, figcaption { text-wrap: pretty; }
+
+/* 줄바꿈 단위 — body의 word-break: keep-all은 한국어를 띄어쓰기에서만 끊는다.
+   제목·버튼·주소처럼 짧은 글에서는 어절이 갈라지지 않아 좋지만, 긴 문단에서는
+   긴 어절 하나가 못 들어갈 때마다 그 줄이 통째로 짧아져 오른쪽이 들쭉날쭉해진다
+   (질환 도입 문단 실측: 줄 끝 편차 78px). 그래서 긴 본문을 담는 요소에서만
+   기본값으로 되돌린다 — 편차 14px. 제목·라벨은 위의 keep-all을 그대로 쓴다.
+   markdownify를 거치는 글은 모두 <p>로 나오므로 이 네 가지로 덮인다. */
+p, li, blockquote, dd,
+.prose-lead, .prose-body, .prose-column, .doc-story-body { word-break: normal; }
+/* 제목은 되돌린다 — 제목이 단어 중간에서 끊기면 바로 눈에 띈다.
+   (위 줄에서 .prose-column 같은 상자를 통째로 지정하므로 안의 제목까지
+   물려받는다. 요소에 직접 건 이 규칙이 물려받은 값을 이긴다.) */
+h1, h2, h3, h4, h5, h6, summary { word-break: keep-all; }
 a { color: #0F7A7E; text-decoration: none; }
 a:hover { color: #22ABAF; }
 button { font-family: inherit; }
