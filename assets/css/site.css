@@ -904,3 +904,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .loc-hours { order: 1; }
   .loc-address { order: 2; }
 }
+
+/* 홈 주소 카드의 길찾기·전화 버튼 — 좁은 화면에서는 아래 고정 막대가
+   같은 통로를 늘 띄워 두므로 숨긴다. PC에는 막대가 없어 그대로 둔다. */
+@media (max-width: 767px) { .loc-cta { display: none !important; } }
