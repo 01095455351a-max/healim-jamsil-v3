@@ -138,6 +138,35 @@
 </section>
 {{ end }}
 
+
+{{/* ── 학술 논문 ──────────────────────────────────────────
+     data/authors/<slug>.yaml의 research.papers를 그대로 읽는다.
+     논문이 없는 원장은 구역 자체가 나오지 않는다.
+
+     원문 링크는 걸지 않는다 — 2006~2008년 논문이라 학회 홈페이지가
+     개편되면 주소가 끊기고, 유료 열람인 곳도 있다. 학회지명·연도·
+     권호·페이지·저자를 적어 두면 찾는 데 지장이 없다.
+     data에 url을 넣으면 그때 링크로 바꾸면 된다. */}}
+{{ with $author.research }}{{ with .papers }}
+{{ $featured := 4 }}
+<section id="papers" style="background: #FFFFFF; padding: 64px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <h2 class="doc-h2">{{ $author.name.display }}이 참여한 학술 논문</h2>
+    <div class="papers-list">
+      {{ range first $featured . }}{{ partial "paper-row.html" . }}{{ end }}
+      {{ if gt (len .) $featured }}
+      <input type="checkbox" id="papers-more-doctor" class="papers-toggle-input" />
+      <div class="papers-more">
+        {{ range after $featured . }}{{ partial "paper-row.html" . }}{{ end }}
+      </div>
+      <label for="papers-more-doctor" class="papers-toggle-label">전체 연구 논문 보기<span style="font-size: 12px;">↓</span></label>
+      {{ end }}
+    </div>
+    <p style="font-size: 13px; line-height: 1.7; color: #6F6B61; margin: 16px 0 0;">{{ partial "kr.html" `학술 논문은 연구·보고 사실을 밝힌 것이며, 개별 환자의 치료 결과를 보장하지 않습니다.` }}</p>
+  </div>
+</section>
+{{ end }}{{ end }}
+
 <section style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 40px 0 48px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
     <a href="/" style="font-size: 15px; font-weight: 600;">← 홈으로 돌아가기</a>

@@ -10,7 +10,7 @@
      내보내는 것
        모든 페이지   MedicalClinic(병원) + BreadcrumbList
        홈            원장 2명의 Physician
-       원장 페이지   Physician
+       원장 페이지   Physician + ScholarlyArticle(학술 논문)
        컬럼 글       Article (author를 원장 페이지 URL로 연결)
        질환·컬럼     FAQPage (front matter의 faqs)
        지역 안내     FAQPage (data/directions.yaml의 faq)
@@ -162,6 +162,26 @@
       {{- $p = merge $p (dict "memberOf" $m) -}}
     {{- end -}}
     {{- $graph = $graph | append $p -}}
+    {{/* 학술 논문 — 원장 소개 페이지에서만 내보낸다. 화면에도 그 쪽에만 있고,
+         여러 쪽에서 같은 논문을 서로 다른 개체로 내보내지 않기 위해서다.
+         저자는 위 Physician을 @id로 가리켜 같은 사람으로 묶인다.
+         원문 링크(url)는 data에 있을 때만 붙인다 — 없는 주소를 만들지 않는다. */}}
+    {{- if eq $.Section "doctors" -}}
+      {{- with .research -}}{{- with .papers -}}
+        {{- range . -}}
+          {{- $art := dict
+            "@type" "ScholarlyArticle"
+            "headline" .title
+            "author" (dict "@id" (printf "%s#physician" $docUrl))
+            "isPartOf" (dict "@type" "Periodical" "name" .journal)
+            "inLanguage" "ko-KR"
+          -}}
+          {{- with .citation }}{{ $art = merge $art (dict "pagination" .) }}{{ end -}}
+          {{- with .url }}{{ $art = merge $art (dict "url" .) }}{{ end -}}
+          {{- $graph = $graph | append $art -}}
+        {{- end -}}
+      {{- end -}}{{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
