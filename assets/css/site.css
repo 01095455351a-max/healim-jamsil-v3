@@ -894,3 +894,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
      이 문장이 로고와 SNS 줄 사이 여백(위 14 + 아래 18)을 만든다. */
   .footer-cta { display: none !important; }
 }
+
+/* ── 홈 공지 목록 ─────────────────────────────────────────────
+   제목 줄에 마우스를 올리면 밑줄로만 반응한다. 표가 아니라 목록이므로
+   배경을 칠하지 않는다. */
+.notice-link:hover span:first-child { text-decoration: underline; text-underline-offset: 4px; }
+.notice-more:hover { text-decoration: underline; text-underline-offset: 4px; }
