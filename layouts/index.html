@@ -103,7 +103,7 @@
         <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $author.bio }}</p>
         <span style="font-size: 14px; font-weight: 600; color: #0F7A7E;">약력 및 소개글 보기 →</span>
         <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; padding-top: 4px;">
-          {{ range $author.interests }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 6px 12px; border-radius: 9999px;">{{ . }}</span>{{ end }}
+          {{ range $author.focus }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 6px 12px; border-radius: 9999px;">{{ . }}</span>{{ end }}
         </div>
       </a>
       {{ end }}

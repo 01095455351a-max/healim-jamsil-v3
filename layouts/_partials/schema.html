@@ -148,7 +148,7 @@
       "url" $docUrl
       "jobTitle" (cond (ne (string (or .position "")) "") (printf "%s · %s" .role .position) .role)
       "worksFor" (dict "@id" $clinicId)
-      "knowsAbout" (or .specialties .interests)
+      "knowsAbout" (or .specialties .focus)
     -}}
     {{/* medicalSpecialty는 data/authors에 적힌 원장에게만 붙인다.
          확인되지 않은 자격을 구조화 데이터로 내보내지 않는다. */}}
