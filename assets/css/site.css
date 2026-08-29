@@ -136,12 +136,19 @@ section[id], [id^="kakao-map-"] { scroll-margin-top: 124px; }
    CLAUDE-CODE-BRIEF.md의 "반응형 디자인을 그대로 유지"를 따르되, 실제 모바일
    레이아웃(햄버거 메뉴 등)은 이 프로젝트에서 새로 설계함(§7 모바일 확인 단계). */
 
-/* 헤더 햄버거 메뉴 — 체크박스 트릭으로 JS 없이 구현 */
+/* 헤더 햄버거 메뉴 — 체크박스 트릭으로 JS 없이 구현
+   ── 이 파일에는 기준 폭이 둘 있다. 섞지 않는다. ──
+   949px 이하  햄버거가 나오는 폭. 940px 아래에서 상단 메뉴가 두 줄로 접혀
+               헤더가 109px에서 125px로 늘어난다. 949로 두어 여유를 남겼다.
+               아래 고정 막대·히어로 오른쪽 버튼·푸터 버튼이 이 폭을 함께 쓴다
+               (헤더 버튼이 서랍으로 들어가면 막대가 유일한 예약 통로가 된다).
+   767px 이하  글자와 여백을 줄이는 폭("모바일 정돈" 블록)과 그리드 1열 스택.
+               800px짜리 태블릿은 화면이 넓어 데스크톱 글자 크기가 알맞다. */
 .nav-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
 .hamburger-btn { display: none; }
 .mobile-drawer { display: none; }
 
-@media (max-width: 767px) {
+@media (max-width: 949px) {
   .desktop-nav, .desktop-cta { display: none !important; }
   .hamburger-btn { display: flex !important; }
   #nav-toggle:checked ~ .mobile-drawer { display: block !important; }
@@ -575,13 +582,13 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .desktop-cta a:last-child .hd-tip::before { left: auto; right: 12px; transform: none; }
 
 /* ── 좁은 화면의 아래 고정 막대 (_partials/quick-actions.html) ──
-   헤더 버튼이 햄버거 안으로 들어가는 767px 이하에서만 나온다.
+   헤더 버튼이 햄버거 안으로 들어가는 949px 이하에서만 나온다.
    겹침 검토 — 고정 요소는 sticky 헤더(z-index 20)와 치료 방법
    팝업(<dialog>)뿐이다. 팝업은 브라우저 최상위 레이어라 위에 뜬다.
    여기서는 15를 써서 헤더 아래에 둔다. */
 .qa { display: none; }
 
-@media (max-width: 767px) {
+@media (max-width: 949px) {
   .qa {
     position: fixed; z-index: 15;
     left: 0; right: 0; bottom: 0;
@@ -864,7 +871,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    히어로의 네이버 예약은 같은 화면에 두 번 나오는 셈이었다.
    반대로 「의료진」은 햄버거 서랍을 열어야만 갈 수 있었다. */
 .hero-cta-mobile { display: none; }
-@media (max-width: 767px) {
+@media (max-width: 949px) {
   .hero-cta-desktop { display: none !important; }
   .hero-cta-mobile { display: inline-flex !important; }
 }
@@ -886,7 +893,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    「첫 내원 안내」는 헤더 서랍에 있다.
    태그라인은 홈 첫 화면의 큰 제목과 글자가 같다.
    PC에는 고정 막대가 없으므로 셋 다 그대로 둔다. */
-@media (max-width: 767px) {
+@media (max-width: 949px) {
   /* 예약·길찾기는 화면 아래 고정 막대에, 첫 내원 안내는 헤더 서랍에 있다. */
   .footer-cta { display: none !important; }
 }
