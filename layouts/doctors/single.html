@@ -36,7 +36,7 @@
         <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">{{ $author.role }}</div>
         <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 8px;; text-wrap: balance">{{ $author.name.display }}</h1>
         {{ with $author.position }}<div style="font-size: 17px; font-weight: 600; color: #0F7A7E; margin-bottom: 16px;">{{ . }}</div>{{ end }}
-        {{ with $author.hero_focus }}
+        {{ with $author.focus }}
         <div style="margin-bottom: 18px;">
           <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 10px;">주요 진료분야</div>
           <div class="doc-focus">{{ range . }}<span>{{ . }}</span>{{ end }}</div>
