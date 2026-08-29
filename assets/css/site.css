@@ -665,7 +665,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .doc-story { background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 20px; padding: 44px 48px; }
 .doc-story-body p { font-size: 17px; line-height: 1.9; color: #4A4A44; margin: 0 0 18px; text-wrap: pretty; }
 .doc-story-body p:last-child { margin-bottom: 0; }
-.doc-story-sign { margin-top: 26px; padding-top: 18px; border-top: 1px solid #EDE6DA; font-size: 15px; font-weight: 600; color: #6B6960; }
+/* 서명이라 오른쪽에 둔다 — 두 원장 페이지가 같은 규칙을 쓴다. */
+.doc-story-sign { margin-top: 26px; padding-top: 18px; border-top: 1px solid #EDE6DA; font-size: 15px; font-weight: 600; color: #6B6960; text-align: right; }
 
 /* 인용문 — 이야기의 핵심 한 문장. 본문과는 크기와 왼쪽 선으로만 구분한다
    (별도 서체는 쓰지 않는다). */
