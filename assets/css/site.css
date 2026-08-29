@@ -888,8 +888,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    태그라인은 홈 첫 화면의 큰 제목과 글자가 같다.
    PC에는 고정 막대가 없으므로 셋 다 그대로 둔다. */
 @media (max-width: 767px) {
-  .footer-cta, .footer-tagline { display: none !important; }
-  /* 태그라인이 로고와 SNS 줄 사이의 여백(위 14 + 아래 18)을 만들고 있었다.
-     감추면 둘이 딱 붙어 겹쳐 보인다 — 그 여백을 SNS 줄이 대신 갖는다. */
-  .footer-tagline + div { margin-top: 20px; }
+  /* 예약·길찾기는 화면 아래 고정 막대에, 첫 내원 안내는 헤더 서랍에 있다.
+     태그라인은 홈 제목과 겹치지 않는 문장이라 좁은 화면에서도 그대로 둔다 —
+     이 문장이 로고와 SNS 줄 사이 여백(위 14 + 아래 18)을 만든다. */
+  .footer-cta { display: none !important; }
 }
