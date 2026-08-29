@@ -22,15 +22,28 @@
 {{/* ── 병원 ───────────────────────────────────────────────
      소재지는 서울특별시 송파구 한 곳이다. 다른 지역은 내원권역일 뿐이므로
      주소나 지점으로 넣지 않는다. */}}
+{{/* 진료시간 — data/clinic.yaml의 hours를 그대로 옮긴다.
+     휴진일도 빠뜨리지 않는다. schema.org에서 휴무는 opens·closes를 둘 다
+     00:00으로 적는 것이 규약이다. 이걸 빼면 검색 결과의 영업시간에
+     "목·일 휴무"가 나오지 않는다.
+
+     "대체공휴일은 토요일과 같이 진료"는 schema.org에 표현할 어휘가 없다
+     (PublicHolidays 하나뿐이고 대체공휴일을 따로 가리키지 못한다).
+     공휴일을 휴진으로 적고, 대체공휴일 진료는 화면 안내로만 남긴다. */}}
+{{- $dayMap := dict
+  "월" "Monday" "화" "Tuesday" "수" "Wednesday" "목" "Thursday"
+  "금" "Friday" "토" "Saturday" "일" "Sunday"
+  "공휴일" "https://schema.org/PublicHolidays" -}}
 {{- $hours := slice -}}
 {{- range $c.hours -}}
-  {{- if ne .time "정기 휴진" -}}
-    {{- $days := slice -}}
-    {{- range (split (replace (replace .days " " "") "요일" "") "·") -}}
-      {{- $d := dict "월" "Monday" "화" "Tuesday" "수" "Wednesday" "목" "Thursday" "금" "Friday" "토" "Saturday" "일" "Sunday" -}}
-      {{- with index $d . }}{{ $days = $days | append . }}{{ end -}}
-    {{- end -}}
-    {{- if $days -}}
+  {{- $days := slice -}}
+  {{- range (split (replace (replace .days " " "") "요일" "") "·") -}}
+    {{- with index $dayMap . }}{{ $days = $days | append . }}{{ end -}}
+  {{- end -}}
+  {{- if $days -}}
+    {{- if eq .time "정기 휴진" -}}
+      {{- $hours = $hours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" $days "opens" "00:00" "closes" "00:00") -}}
+    {{- else -}}
       {{- $t := split (replace .time " " "") "~" -}}
       {{- $hours = $hours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" $days "opens" (index $t 0) "closes" (index $t 1)) -}}
     {{- end -}}
