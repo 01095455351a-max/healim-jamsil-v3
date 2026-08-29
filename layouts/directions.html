@@ -23,6 +23,23 @@
   </div>
 </section>
 
+<section id="hours" style="background: #F9FBFA; border-bottom: 1px solid #E8EDEB; padding: 72px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Hours</div>
+    <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 24px;; text-wrap: balance">진료시간과 위치</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start;">
+      {{ partial "hours-card.html" (dict) }}
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+        {{ partial "kakao-map.html" (dict "height" "300px" "title" "해아림한의원 잠실점 위치") }}
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 24px; border-radius: 9999px;" class="btn-primary">길찾기<span style="font-size: 13px;">↗</span></a>
+          <a href="{{ $clinic.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="areas" style="background: #FFFFFF; padding: 72px 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Access</div>
@@ -69,22 +86,4 @@
     </div>
   </div>
 </section>
-
-<section id="hours" style="background: #FFFFFF; padding: 72px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 14px;">Hours</div>
-    <h2 style="font-size: 32px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.3; margin: 0 0 24px;; text-wrap: balance">진료시간과 위치</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start;">
-      {{ partial "hours-card.html" (dict) }}
-      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
-        {{ partial "kakao-map.html" (dict "height" "300px" "title" "해아림한의원 잠실점 위치") }}
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 24px; border-radius: 9999px;" class="btn-primary">길찾기<span style="font-size: 13px;">↗</span></a>
-          <a href="{{ $clinic.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 14px 24px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 {{ end }}
