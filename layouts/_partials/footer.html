@@ -31,7 +31,10 @@
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.86); margin-bottom: 8px;">진료시간</div>
         {{ range site.Data.clinic.hours }}
-        <span style="font-size: 14px; color: rgba(255,255,255,0.70);">{{ .days }}{{ with .note }} ({{ . }}){{ end }} {{ .time }}</span>
+        {{/* 시간표 카드(hours-card.html)와 같은 규칙 — 야간진료는 요일 뒤에
+             작게, 늦게까지 하는 날은 끝 시각을 밝게. 어두운 바탕이라 카드의
+             청록(#0F7A7E)은 대비 1.9:1로 읽히지 않아 연한 민트를 쓴다. */}}
+        <span style="font-size: 14px; color: rgba(255,255,255,0.70);">{{ .days }}{{ with .note }} <span style="font-size: 12px; font-weight: 600; color: #7FE3D8;">{{ . }}</span>{{ end }} {{ if .highlight }}{{ $p := split .time "~" }}{{ index $p 0 }}~<span style="font-weight: 600; color: #C0FAE6;">{{ index $p 1 }}</span>{{ else }}{{ .time }}{{ end }}</span>
         {{ end }}
         <span style="font-size: 13px; color: rgba(255,255,255,0.70); margin-top: 6px;">※ {{ $clinic.lunch_note }}</span>
       </div>
