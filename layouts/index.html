@@ -89,7 +89,9 @@
           <div>
             <h3 style="font-size: 22px; font-weight: 600; margin: 0 0 6px;">{{ $author.name.display | default .Title }}</h3>
             <div style="font-size: 15px; color: #0F7A7E; font-weight: 600;">{{ $author.role }}</div>
-            {{ with $author.affiliations }}<div style="font-size: 14px; color: #6B6960; margin-top: 3px;">{{ (index . 0).name }}</div>{{ end }}
+            {{/* 이름 아래에는 직책을 보인다 — 소속 학회는 원장 상세페이지에 있다.
+                 값은 data/authors/<slug>.yaml의 position 한 곳에서 읽는다. */}}
+            {{ with $author.position }}<div style="font-size: 14px; color: #6B6960; margin-top: 3px;">{{ partial "kr.html" . }}</div>{{ end }}
           </div>
         </div>
         <p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $author.bio }}</p>
