@@ -103,11 +103,7 @@
       <a href="/board/" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">게시판</a>
       <a href="/directions/" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
-    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EDE6DA;">
-      <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 13px 22px; border-radius: 9999px;" class="btn-naver">네이버 예약</a>
-      <a href="{{ $clinic.phone_tel | safeURL }}" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
-      <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 13px 20px; border-radius: 9999px;" class="btn-kakao">카카오톡 상담</a>
-      <a href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener" style="text-align: center; font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 13px 20px; border-radius: 9999px;" class="btn-outline">길찾기</a>
-    </div>
+    {{/* 서랍에는 메뉴만 둔다. 예약·전화·카카오톡·길찾기는 화면 아래
+         고정 막대(quick-actions.html)가 맡는다 — 서랍을 닫으면 바로 나온다. */}}
   </div>
 </header>

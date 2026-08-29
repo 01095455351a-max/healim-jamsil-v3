@@ -567,22 +567,24 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .qa {
     position: fixed; z-index: 15;
     left: 0; right: 0; bottom: 0;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
     background: rgba(255, 255, 255, 0.96);
     border-top: 1px solid #EDE6DA;
     backdrop-filter: saturate(140%) blur(6px);
   }
   .qa-item {
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    padding: 11px 8px; border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    padding: 11px 4px; border-radius: 9999px;
     color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6;
     text-decoration: none;
   }
-  .qa-item svg { width: 18px; height: 18px; flex: 0 0 18px; }
+  .qa-item svg { width: 17px; height: 17px; flex: 0 0 17px; }
   .qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
   .qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
   .qa-book { color: #FFFFFF; background: #03C75A; border-color: #03C75A !important; }
+  /* 카카오톡 — 서비스 브랜드 색 그대로. 노란 바탕에는 짙은 갈색 글자를 쓴다. */
+  .qa-chat { color: #3C1E1E; background: #FEE500; border-color: #FEE500 !important; }
   /* 막대에 마지막 내용이 가리지 않도록 아래 여백을 확보한다. */
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
   /* 모바일 메뉴가 열려 있는 동안에는 내려 감춘다. */
@@ -590,9 +592,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 }
 
 @media (max-width: 360px) {
-  .qa { gap: 6px; padding-left: 8px; padding-right: 8px; }
-  .qa-item { gap: 5px; padding: 11px 4px; }
-  .qa-label { font-size: 12px; }
+  .qa { gap: 4px; padding-left: 6px; padding-right: 6px; }
+  .qa-item { gap: 4px; padding: 11px 2px; }
+  .qa-item svg { width: 16px; height: 16px; flex: 0 0 16px; }
+  .qa-label { font-size: 11px; }
 }
 
 /* ── 원장 상세페이지 ──────────────────────────────────────────
