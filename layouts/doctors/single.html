@@ -148,7 +148,8 @@
      권호·페이지·저자를 적어 두면 찾는 데 지장이 없다.
      data에 url을 넣으면 그때 링크로 바꾸면 된다. */}}
 {{ with $author.research }}{{ with .papers }}
-{{ $featured := 4 }}
+{{/* 처음에 보이는 편수. 나머지는 아래 「전체 연구 논문 보기」로 펼친다. */}}
+{{ $featured := 3 }}
 <section id="papers" style="background: #FFFFFF; padding: 64px 0 0;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <h2 class="doc-h2">{{ $author.name.display }}이 참여한 학술 논문</h2>
