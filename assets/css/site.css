@@ -841,3 +841,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 767px) {
   #consult, .dx-hero-cta { display: none !important; }
 }
+
+/* ── 홈 히어로 오른쪽 버튼 ────────────────────────────────────
+   PC는 「네이버 예약」, 좁은 화면은 「의료진」. 둘 다 마크업에 두고
+   화면 폭으로 하나씩 감춘다(layouts/index.html의 두 줄과 짝이다).
+   좁은 화면에서는 아래 고정 막대의 「예약」이 스크롤해도 따라오므로
+   히어로의 네이버 예약은 같은 화면에 두 번 나오는 셈이었다.
+   반대로 「의료진」은 햄버거 서랍을 열어야만 갈 수 있었다. */
+.hero-cta-mobile { display: none; }
+@media (max-width: 767px) {
+  .hero-cta-desktop { display: none !important; }
+  .hero-cta-mobile { display: inline-flex !important; }
+}
