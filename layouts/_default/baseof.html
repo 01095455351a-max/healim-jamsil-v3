@@ -25,11 +25,12 @@
 {{- $ogTitle := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
 {{- $ogDesc := $desc -}}
 {{- $ogImg := "" -}}
-{{/* 파일 이름이 바뀌면 여기도 함께 고쳐야 한다 — 못 찾으면 조용히
-     건너뛰고 미리보기 그림 없이 나간다(전에 그 상태였다).
-     Fill이라야 1200×630으로 잘린다. Resize는 비율을 유지해 규격이 어긋난다. */}}
-{{- with resources.Get "media/clinic/02-reception.jpg" -}}
-  {{- $ogImg = (.Fill "1200x630 webp q82 photo smart").Permalink -}}
+{{/* 카톡·문자로 링크를 보낼 때 뜨는 카드 그림. 원본을 미리 1200×630으로
+     잘라 두었으므로 여기서는 형식만 바꾼다 — 자르는 위치를 코드에 맡기면
+     두 분 머리가 잘릴 수 있다. 그림을 바꿀 때도 1200×630으로 맞춰 넣는다.
+     파일을 못 찾으면 조용히 건너뛰고 그림 없이 나간다(전에 그 상태였다). */}}
+{{- with resources.Get "media/og-card.jpg" -}}
+  {{- $ogImg = (.Process "webp q82 photo").Permalink -}}
 {{- end }}
 <meta property="og:type" content="{{ cond (eq .Section "column") "article" "website" }}" />
 <meta property="og:site_name" content="{{ site.Title }}" />
@@ -41,7 +42,7 @@
 <meta property="og:image" content="{{ . }}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="해아림한의원 잠실점 접수 데스크" />
+<meta property="og:image:alt" content="해아림한의원 잠실점 류석균 원장과 석선희 원장" />
 {{- end }}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{{ $ogTitle }}" />
