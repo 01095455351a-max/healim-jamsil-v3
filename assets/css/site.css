@@ -307,6 +307,11 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    다 나타난 뒤에 치운다(hero-slides.js). 배경색은 첫 장을 불러오는
    동안 흰 칸이 번쩍이지 않게 하는 몫이다. */
 .hero-slides { background: #EDE6DA; }
+/* 좁은 화면에서는 칸을 낮춘다 — 460px는 844px 화면의 54%를 차지해
+   첫 화면에 사진 윗부분 171px만 걸쳐 보였다. 240px면 28%다.
+   대신 세로 사진이 보이는 범위가 46% → 38%로 더 줄어든다.
+   PC는 인라인 style의 460px 그대로다. */
+@media (max-width: 767px) { .hero-slides { height: 240px !important; } }
 .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; z-index: 1; transition: opacity 900ms cubic-bezier(0.4, 0, 0.2, 1); }
 .hero-slides img.is-prev { opacity: 1; z-index: 2; transition: none; }
 .hero-slides img.is-active { opacity: 1; z-index: 3; }
