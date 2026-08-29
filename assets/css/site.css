@@ -634,7 +634,11 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 01 프로필 — 사진과 소개를 나란히. 원본 비율이 원장마다 달라(714×828,
    1920×2560) 여기서 4:5로 맞춘다. image.html이 붙이는 height 속성이
    그대로 먹지 않도록 height: auto를 함께 준다. */
-.doc-hero { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 48px; align-items: start; }
+/* 사진 칸 400px — 1200px 구역의 33%다. 더 키우면 원본 해상도가 모자라
+   2배 화면에서 뿌옇게 보인다(두 원장 사진 모두 1920×2560, 4:5로 자르면
+   CSS 960px까지 또렷하므로 여유는 있다). 글 칸은 752px로 본문 읽기에
+   무리가 없다. 좁은 화면은 아래 모바일 블록이 1열로 되돌린다. */
+.doc-hero { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 48px; align-items: start; }
 .doc-photo {
   width: 100%; height: auto;
   aspect-ratio: 4 / 5;
@@ -645,7 +649,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 약력이 길어 사진보다 아래로 내려가므로, 사진은 화면에 붙어 따라온다. */
 .doc-photo { position: sticky; top: 104px; }
 /* 원장에 따라 사진을 오른쪽에. 좁은 화면에서는 아래 규칙이 다시 1열로 되돌린다. */
-.doc-hero-right { grid-template-columns: minmax(0, 1fr) 300px; }
+.doc-hero-right { grid-template-columns: minmax(0, 1fr) 400px; }
 .doc-hero-right .doc-photo { order: 2; }
 
 /* 주요 진료분야 — 히어로 안의 칩. 질환 페이지로 링크하지 않는다
