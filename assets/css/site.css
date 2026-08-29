@@ -865,3 +865,14 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .hero-cta-desktop { display: none !important; }
   .hero-cta-mobile { display: inline-flex !important; }
 }
+
+/* ── 지도 칸 ──────────────────────────────────────────────────
+   높이는 마크업의 인라인 값(홈 560px · 오시는 길 300px)이 PC 기준이다.
+   좁은 화면에서 560px는 화면의 67%라 지도만 보이고 지나갈 수가 없었다.
+   260px로 낮춘다.
+   대체 지도(구글 iframe)는 드래그를 끄는 방법이 없어 손짓을 아예
+   받지 않게 한다 — 카카오맵 쪽은 kakao-map.html에서 setDraggable로 끈다. */
+@media (max-width: 767px) {
+  .clinic-map { height: 260px !important; }
+  .clinic-map iframe { pointer-events: none; }
+}

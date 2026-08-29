@@ -6,7 +6,9 @@
 {{ $mapId := printf "kakao-map-%s" (substr (md5 $title) 0 8) }}
 {{ $jsKey := $clinic.kakao_map_js_key }}
 
-<div style="position: relative; width: 100%; height: {{ $height }}; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+{{/* 칸 높이는 인라인 값이 PC 기준이고, 좁은 화면에서는 site.css의
+     .clinic-map 규칙이 낮춘다. */}}
+<div class="clinic-map" style="position: relative; width: 100%; height: {{ $height }}; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
   {{ if $jsKey }}
   <div id="{{ $mapId }}" style="position: absolute; inset: 0; width: 100%; height: 100%;"></div>
   <iframe id="{{ $mapId }}-fallback" src="{{ $clinic.google_maps_embed_url | safeURL }}" title="{{ $title }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: none;"></iframe>
@@ -37,6 +39,21 @@
           var center = new kakao.maps.LatLng({{ $clinic.map_lat }}, {{ $clinic.map_lng }});
           var map = new kakao.maps.Map(mapEl, { center: center, level: 3 });
           new kakao.maps.Marker({ position: center, map: map });
+
+          // 좁은 화면에서는 지도를 고정한다. 켜 두면 페이지를 내리려는
+          // 손짓이 지도를 끌어 버려서, 위치가 엉뚱한 곳으로 옮겨 가고
+          // 지도를 지나 아래로 내려갈 방법이 없어진다.
+          // 주변을 보려는 사람은 아래 「길찾기」가 지도 앱으로 보낸다.
+          var narrow = window.matchMedia("(max-width: 767px)");
+          function lockOnNarrow() {
+            map.setDraggable(!narrow.matches);
+            map.setZoomable(!narrow.matches);
+            map.relayout();
+            map.setCenter(center);
+          }
+          lockOnNarrow();
+          if (narrow.addEventListener) narrow.addEventListener("change", lockOnNarrow);
+
           done = true;
           clearTimeout(timeoutId);
           if (fallbackEl) fallbackEl.remove();
