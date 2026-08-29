@@ -127,6 +127,16 @@ section[id], [id^="kakao-map-"] { scroll-margin-top: 124px; }
   .desktop-nav, .desktop-cta { display: none !important; }
   .hamburger-btn { display: flex !important; }
   #nav-toggle:checked ~ .mobile-drawer { display: block !important; }
+  /* 서랍이 화면보다 길어지면 서랍 안에서만 스크롤한다.
+     아코디언을 펼치면 1000px을 넘어 아래쪽 항목이 잘리던 것을 막는다. */
+  .mobile-drawer {
+    max-height: calc(100dvh - 84px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* 서랍이 열려 있는 동안 뒷배경은 움직이지 않는다. */
+  body:has(#nav-toggle:checked) { overflow: hidden; }
 }
 
 /* 콘텐츠 그리드 — 데스크톱 다단 그리드를 모바일에서 1열로 스택.
@@ -444,7 +454,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    첫 화면에서 읽는 글이라 본문(17px)보다 한 단계 크게 둔다.
    (markdownify는 문단이 하나면 <p>를 붙이지 않으므로 바깥 div에도 같은
    크기를 준다 — 두 경우 모두 같게 보인다) */
-.prose-lead { font-size: 20px; line-height: 1.85; color: #4A4A44; text-wrap: pretty; }
+/* 도입 문단 — 본문 문단(17px/1.8)과 같은 크기로 둔다.
+   본문보다 크게 두면 같은 페이지 안에서 글자 크기가 두 가지가 된다. */
+.prose-lead { font-size: 17px; line-height: 1.8; color: #4A4A44; text-wrap: pretty; }
 .prose-lead p { font-size: inherit; line-height: inherit; color: inherit; margin: 0 0 16px; }
 .prose-lead p:last-child { margin-bottom: 0; }
 .prose-lead strong { font-weight: 600; color: #001E2B; }
@@ -465,13 +477,12 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .dx-exam span { color: #4A4A44; }
 
 @media (max-width: 767px) {
-  .prose-lead { font-size: 18px; line-height: 1.8; }
   .prose-lead p { margin-bottom: 14px; }
   .dx-exams { gap: 10px; }
   .dx-exam { padding: 13px 14px; }
 }
 
-/* ── 질환 상세의 "예약과 문의 · 오시는 길" ─────────────────────
+/* ── 질환 상세의 "예약 및 문의 · 오시는 길" ─────────────────────
    제목 줄 오른쪽에 문의 통로 셋, 아래는 지도(왼쪽)와 주소(오른쪽).
    좁은 화면에서는 제목 → 버튼 → 지도 → 주소 순으로 쌓인다. */
 .dx-consult-head { display: flex; gap: 24px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; margin-bottom: 32px; }
@@ -558,7 +569,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .qa-item svg { width: 18px; height: 18px; flex: 0 0 18px; }
   .qa-label { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; white-space: nowrap; }
   .qa-item:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
-  .qa-book { color: #FFFFFF; background: #157175; border-color: #157175; }
+  .qa-book { color: #FFFFFF; background: #03C75A; border-color: #03C75A !important; }
   /* 막대에 마지막 내용이 가리지 않도록 아래 여백을 확보한다. */
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
   /* 모바일 메뉴가 열려 있는 동안에는 내려 감춘다. */
@@ -801,4 +812,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .fv-step-num { width: 40px; height: 40px; font-size: 14px; }
   .fv-step-body { padding-bottom: 32px; }
   .fv-exams { gap: 14px; }
+}
+
+/* ── 질환 상세 · 모바일에서 하단 문의 구역 숨김 ─────────────────
+   「예약 및 문의 · 오시는 길」(제목·버튼 3개·지도·주소)은 화면이 좁을 때
+   페이지를 길게 늘일 뿐이다. 좁은 화면에서는 아래 고정 막대(.qa)가
+   예약·전화·길찾기를 이미 맡고 있어 통로가 사라지지 않는다.
+   PC(768px 이상)에서는 그대로 보인다.
+   히어로의 「상담 문의하기」는 이 구역으로 내려가는 링크라 함께 숨긴다 —
+   두지 않으면 눌러도 아무 데도 가지 않는다. */
+@media (max-width: 767px) {
+  #consult, .dx-to-consult { display: none !important; }
 }
