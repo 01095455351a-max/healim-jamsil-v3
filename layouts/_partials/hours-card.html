@@ -1,0 +1,33 @@
+{{/* 진료 시간표 카드 한 벌 — 홈·오시는 길·첫 내원 안내가 함께 쓴다.
+
+     전에는 표(hours-rows)만 공용이고 카드는 각자 만들어서, 같은 표인데
+     쪽마다 달라 보였다 — 홈은 12px 회색 머리에 모서리 12px, 오시는 길은
+     머리 없이 표가 바로 시작(맨 윗줄에 선이 하나 떠 있었다), 첫 내원은
+     19px 머리에 모서리 16px. 이제 카드째 여기서 만든다.
+
+     인자
+       badge  머리 오른쪽 알약 (예: "예약제 운영"). 없으면 안 나온다
+       lunch  false를 주면 점심시간 줄을 뺀다 (기본은 붙인다)
+
+     푸터는 어두운 배경의 좁은 칸이라 한 줄짜리 형태를 따로 쓴다.
+     글자 크기·색을 바꿀 일이 있으면 이 파일 한 곳만 고치면 세 쪽이
+     같이 바뀐다. */}}
+{{ $clinic := site.Data.clinic }}
+{{ $lunch := true }}{{ if eq (printf "%v" .lunch) "false" }}{{ $lunch = false }}{{ end }}
+<div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; overflow: hidden;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 20px 26px; background: #E3FCF7; border-bottom: 1px solid #C0FAE6;">
+    <span style="font-size: 19px; font-weight: 600; letter-spacing: -0.3px; color: #001E2B;">진료시간</span>
+    {{ with .badge }}<span style="font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 5px 12px; border-radius: 9999px;">{{ . }}</span>{{ end }}
+  </div>
+  {{/* 첫 줄에는 윗선을 두지 않는다 — 머리의 아랫선과 겹쳐 두 줄로 보인다. */}}
+  {{ range $i, $h := $clinic.hours }}
+  <div style="display: flex; align-items: center; gap: 16px; padding: 18px 26px;{{ if ne $i 0 }} border-top: 1px solid #F1F3F2;{{ end }}">
+    <span style="flex: 0 0 168px; font-size: 17px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" $h.days }}</span>
+    <span style="flex: 0 0 auto; white-space: nowrap; font-size: 17px; font-weight: 500; color: {{ if eq $h.time "정기 휴진" }}#6B6960{{ else }}#001E2B{{ end }}; font-variant-numeric: tabular-nums;">{{ $h.time }}</span>
+    {{ with $h.note }}<span style="margin-left: auto; flex: 0 0 auto; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 5px 10px; border-radius: 9999px; white-space: nowrap;">{{ . }}</span>{{ end }}
+  </div>
+  {{ end }}
+  {{ if $lunch }}
+  <div style="padding: 18px 26px; border-top: 1px solid #F1F3F2; font-size: 15px; line-height: 1.75; color: #4A4A44;">{{ partial "kr.html" $clinic.lunch_note }}</div>
+  {{ end }}
+</div>

@@ -876,3 +876,13 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .clinic-map { height: 260px !important; }
   .clinic-map iframe { pointer-events: none; }
 }
+
+/* ── 푸터 · 좁은 화면에서 겹치는 것을 뺀다 ─────────────────────
+   화면 아래 고정 막대(예약 · 전화 · 문의 · 길찾기)가 늘 떠 있어서
+   푸터의 「네이버 예약 · 길찾기」가 같은 통로를 두 번 두는 셈이 됐다.
+   「첫 내원 안내」는 헤더 서랍에 있다.
+   태그라인은 홈 첫 화면의 큰 제목과 글자가 같다.
+   PC에는 고정 막대가 없으므로 셋 다 그대로 둔다. */
+@media (max-width: 767px) {
+  .footer-cta, .footer-tagline { display: none !important; }
+}
