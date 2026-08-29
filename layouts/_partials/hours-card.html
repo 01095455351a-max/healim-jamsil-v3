@@ -23,8 +23,7 @@
   {{ range $i, $h := $clinic.hours }}
   <div style="display: flex; align-items: center; gap: 16px; padding: 18px 26px;{{ if ne $i 0 }} border-top: 1px solid #F1F3F2;{{ end }}">
     <span style="flex: 0 0 168px; font-size: 17px; font-weight: 600; color: #001E2B;">{{ partial "kr.html" $h.days }}</span>
-    <span style="flex: 0 0 auto; white-space: nowrap; font-size: 17px; font-weight: 500; color: {{ if eq $h.time "정기 휴진" }}#6B6960{{ else }}#001E2B{{ end }}; font-variant-numeric: tabular-nums;">{{ $h.time }}</span>
-    {{ with $h.note }}<span style="margin-left: auto; flex: 0 0 auto; font-size: 12px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 5px 10px; border-radius: 9999px; white-space: nowrap;">{{ . }}</span>{{ end }}
+    <span style="margin-left: auto; flex: 0 0 auto; white-space: nowrap; font-size: 17px; font-weight: 500; color: {{ if eq $h.time "정기 휴진" }}#6B6960{{ else }}#001E2B{{ end }}; font-variant-numeric: tabular-nums;">{{ $h.time }}</span>
   </div>
   {{ end }}
   {{ if $lunch }}
