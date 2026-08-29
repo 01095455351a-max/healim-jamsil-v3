@@ -12,8 +12,9 @@ disableKinds: ["taxonomy", "term"]
 
 params:
   # 검토 기간에만 true. 검색엔진 수집을 막고 robots.txt로도 차단한다.
-  # 정식 공개할 때 false로 바꾸면 두 가지가 함께 풀린다.
-  noindex: true
+  # 2026-08-29 정식 공개하며 false로 바꿨다 — noindex 메타가 사라지고
+  # robots.txt가 sitemap을 안내하는 내용으로 바뀐다.
+  noindex: false
   # 홈의 <title>. 다른 페이지는 "글 제목 | 사이트 제목" 형태를 쓴다.
   # 검색 결과에서 어디에 있는 무슨 병원인지가 먼저 보이도록 지역·진료분야를 넣는다.
   title_home: "잠실 한의원 · 한방신경정신과 | 해아림한의원 잠실점"
