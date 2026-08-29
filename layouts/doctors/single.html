@@ -91,10 +91,9 @@
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
     <div class="doc-h2-row">
       <h2 class="doc-h2">{{ $author.name.display }}이 작성한 글</h2>
-      {{/* 블로그는 한의원 계정이다 — 원장 개인 채널이 아니므로 "한의원"을 붙여 적는다. */}}
+      {{/* 한의원 블로그 링크는 뺐다 — 원장 개인 채널이 아니고, 푸터에 이미 있다. */}}
       <div class="doc-h2-links">
         <a href="/column/" class="doc-h2-more">원장 컬럼 전체 보기<span style="font-size: 13px;">→</span></a>
-        {{ with $clinic.naver_blog_url }}<a href="{{ . }}" target="_blank" rel="noopener" class="doc-h2-chip">한의원 블로그</a>{{ end }}
       </div>
     </div>
     <div class="doc-columns">
