@@ -12,7 +12,13 @@
       <p style="font-size: 19px; line-height: 1.7; color: #4A4A44; margin: 22px 0 30px; max-width: 480px;">{{ partial "kr.html" `두 원장이 세밀하게 동행합니다. 단순한 증상 완화를 넘어, 치료가 끝난 이후의 일상이 평온할 수 있도록 돕습니다.` }}</p>
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <a href="/first-visit/" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 15px 28px; border-radius: 9999px;" class="btn-primary">첫 내원 안내</a>
-        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 15px 26px; border-radius: 9999px;" class="btn-naver">네이버 예약</a>
+        {{/* 오른쪽 버튼은 화면 폭에 따라 갈린다 — 두 줄을 함께 고쳐야 한다.
+             PC는 네이버 예약, 좁은 화면은 의료진. 좁은 화면에서는 아래
+             고정 막대의 「예약」이 늘 떠 있어 네이버 예약이 겹치고,
+             「의료진」은 막대에도 서랍 밖에도 없던 통로다.
+             감추는 규칙은 site.css의 .hero-cta-desktop / .hero-cta-mobile. */}}
+        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 15px 26px; border-radius: 9999px;" class="btn-naver hero-cta-desktop">네이버 예약</a>
+        <a href="/#doctors" style="font-size: 15px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 15px 26px; border-radius: 9999px;" class="btn-outline hero-cta-mobile">의료진</a>
       </div>
       <div style="display: flex; gap: 32px; margin-top: 40px; padding-top: 26px; border-top: 1px solid #EDE6DA;">
         <div><div style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px;">2인</div><div style="font-size: 14px; color: #6B6960; margin-top: 4px;">진료 원장</div></div>
