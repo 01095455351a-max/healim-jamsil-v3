@@ -1,16 +1,17 @@
-{{/* 고정 예약 · 전화 · 길찾기 —— 좁은 화면에서만 나온다(baseof.html).
+{{/* 고정 예약 · 전화 · 카카오톡 · 길찾기 —— 좁은 화면에서만 나온다(baseof.html).
 
      넓은 화면에서는 헤더(sticky) 오른쪽의 같은 버튼 세 개가 이 몫을 한다.
      좁은 화면에서는 헤더 버튼이 햄버거 안으로 들어가므로, 엄지로 닿는
      화면 아래에 가로 막대로 둔다(iPhone 홈 인디케이터 영역을 피한다).
 
-     세 가지만 둔다. 카카오톡 문의는 각 페이지의 문의 구역과 푸터에 있다.
+     네 가지를 둔다. 서랍(햄버거)에는 버튼을 두지 않으므로 좁은 화면의
+     연락 통로는 이 막대와 푸터가 전부다.
      주소·전화·진료시간은 data/clinic.yaml 한 곳에서 읽는다.
 
      아이콘만으로 뜻을 전하지 않는다 — 글자를 항상 함께 보여주고
      aria-label에는 병원 이름까지 넣는다. */}}
 {{ $clinic := site.Data.clinic }}
-<nav class="qa" aria-label="예약 · 전화 · 길찾기">
+<nav class="qa" aria-label="예약 · 전화 · 카카오톡 상담 · 길찾기">
   <a class="qa-item qa-book" href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener"
      aria-label="해아림한의원 잠실점 네이버 예약하기 (새 창)">
     {{ partial "icon-book.html" . }}
@@ -20,6 +21,11 @@
      aria-label="해아림한의원 잠실점 전화하기 {{ $clinic.phone_display }}">
     {{ partial "icon-tel.html" . }}
     <span class="qa-label">전화</span>
+  </a>
+  <a class="qa-item qa-chat" href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener"
+     aria-label="해아림한의원 잠실점 카카오톡 상담 (새 창)">
+    {{ partial "icon-chat.html" . }}
+    <span class="qa-label">카톡</span>
   </a>
   <a class="qa-item" href="{{ $clinic.naver_place_url }}" target="_blank" rel="noopener"
      aria-label="해아림한의원 잠실점 길찾기 — 네이버 지도 (새 창)">
