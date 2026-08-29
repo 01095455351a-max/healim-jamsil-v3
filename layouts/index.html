@@ -335,10 +335,7 @@
             <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
           </div>
         </div>
-        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
-          <div style="padding: 20px 24px 12px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61;">진료시간</div>
-          {{ partial "hours-rows.html" (dict "lunch" true) }}
-        </div>
+        {{ partial "hours-card.html" (dict) }}
       </div>
       {{ partial "kakao-map.html" (dict "height" "560px" "title" "해아림한의원 잠실점 위치") }}
     </div>
