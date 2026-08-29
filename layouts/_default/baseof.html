@@ -25,8 +25,11 @@
 {{- $ogTitle := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
 {{- $ogDesc := $desc -}}
 {{- $ogImg := "" -}}
-{{- with resources.Get "media/clinic/reception.jpg" -}}
-  {{- $ogImg = (.Resize "1200x630 webp q82 photo smart").Permalink -}}
+{{/* 파일 이름이 바뀌면 여기도 함께 고쳐야 한다 — 못 찾으면 조용히
+     건너뛰고 미리보기 그림 없이 나간다(전에 그 상태였다).
+     Fill이라야 1200×630으로 잘린다. Resize는 비율을 유지해 규격이 어긋난다. */}}
+{{- with resources.Get "media/clinic/02-reception.jpg" -}}
+  {{- $ogImg = (.Fill "1200x630 webp q82 photo smart").Permalink -}}
 {{- end }}
 <meta property="og:type" content="{{ cond (eq .Section "column") "article" "website" }}" />
 <meta property="og:site_name" content="{{ site.Title }}" />
