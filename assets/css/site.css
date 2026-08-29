@@ -408,6 +408,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 32px 36px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 32px"]:not([style*="padding: 32px 0"]):not([style*="padding: 0 32px"]) { padding: 20px 16px !important; }
   [style*="padding: 30px 36px"]                                  { padding: 20px 18px !important; }
+  [style*="padding: 30px 32px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 30px"]:not([style*="padding: 30px "])        { padding: 20px 16px !important; }
   [style*="padding: 28px 32px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 28px 30px"]                                  { padding: 20px 18px !important; }

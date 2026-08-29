@@ -1,7 +1,12 @@
-# 치료 방법 9가지 — 출처: home-c/content/guide/treatments/*.md의 popup_intro/popup_applies_to/popup_steps
+# 치료 방법 9가지. tier가 화면의 묶음을 정한다 —
+#   core     중심이 되는 치료 (한약)
+#   common   함께 진행하는 치료
+#   optional 증상에 따라 활용하는 치료
+# 원래 출처 — 출처: home-c/content/guide/treatments/*.md의 popup_intro/popup_applies_to/popup_steps
 # (mockup index.html의 {{ t.name }}/{{ t.summary }} 팝업은 미해결 placeholder였으나,
 #  home-c에 정확히 대응하는 실제 콘텐츠가 있어 이를 실제 정보로 사용함 — 창작 아님)
 - slug: herbal-medicine
+  tier: core
   name: "개인맞춤한약"
   summary: "증상과 체질, 현재 몸 상태에 맞춰 1:1로 처방되는 개인별 맞춤 한약 — 해아림한의원 잠실점 치료의 핵심 축입니다."
   applies_to:
@@ -16,6 +21,7 @@
     - "2주 또는 4주 단위 재진으로 변화된 몸 상태에 맞춰 처방 조정"
 
 - slug: acupuncture
+  tier: common
   name: "침치료"
   summary: "두경부의 긴장을 풀고 기혈 순환을 촉진해 신체 이완을 돕는 기본 치료입니다."
   applies_to:
@@ -30,6 +36,7 @@
     - "한약 치료 경과에 맞춰 주기적으로 병행 진행"
 
 - slug: pharmacopuncture
+  tier: common
   name: "약침치료"
   summary: "정제된 한약재 추출물을 경혈에 직접 주입하는 시술로, 침치료·한약 치료와 함께 진행합니다."
   applies_to:
@@ -43,8 +50,9 @@
     - "한약·침치료 등 다른 치료와 병행하며 경과 관찰"
 
 - slug: chuna
+  tier: optional
   name: "추나요법"
-  summary: "손으로 척추와 관절의 균형을 바로잡아 신경계 전달 통로를 원활하게 하는 수기 치료입니다."
+  summary: "척추·관절과 주변 근육의 긴장, 움직임과 자세 상태를 살피는 수기 치료입니다."
   applies_to:
     - "경추 불균형과 관련된 신경성 두통·어지럼증"
     - "만성적인 목·어깨·허리 긴장"
@@ -56,8 +64,9 @@
     - "필요 시 침·약침 치료와 병행"
 
 - slug: cranial-sacral
+  tier: optional
   name: "두개천골요법"
-  summary: "두개골과 천골 사이의 미세한 리듬을 촉진으로 조율해 신경계 이완을 돕는 부드러운 수기 치료입니다."
+  summary: "가벼운 수기 자극을 활용해 긴장을 완화하고 편안한 상태를 돕는 보조적 치료입니다."
   applies_to:
     - "자극에 예민한 소아의 틱장애·ADHD 보조 치료"
     - "불안·긴장이 심해 강한 자극이 부담스러운 경우"
@@ -69,8 +78,9 @@
     - "한약 치료 등과 병행하여 신경계 안정을 돕습니다"
 
 - slug: fcst
+  tier: optional
   name: "FCST교정"
-  summary: "얼굴과 두개골의 균형을 조정해 신경·근육 긴장을 완화하는 안면두개골 균형 교정법입니다."
+  summary: "턱관절과 안면부의 긴장, 자세와 움직임을 살펴 필요에 따라 활용하는 수기 치료입니다."
   applies_to:
     - "안면근육 긴장을 동반한 신경성 질환"
     - "두개골 불균형과 관련된 두통·어지럼증"
@@ -82,8 +92,9 @@
     - "경과에 따라 주기적으로 재평가 및 조정"
 
 - slug: brain-training
+  tier: optional
   name: "두뇌훈련"
-  summary: "뇌기능 평가 결과를 바탕으로 집중력과 자기조절력을 체계적으로 키우는 훈련입니다."
+  summary: "주의집중과 자기조절 연습을 돕는 훈련입니다."
   applies_to:
     - "ADHD의 주의력·충동 조절"
     - "틱장애의 자기조절력 향상"
@@ -96,6 +107,7 @@
     - "경과에 따라 훈련 난이도와 방향 조정"
 
 - slug: counseling
+  tier: common
   name: "전문의 심리상담"
   summary: "한방신경정신과 전문의와 함께 증상의 배경이 되는 생각과 상황을 짚어보는 심층 상담입니다."
   applies_to:
@@ -110,8 +122,9 @@
     - "재진마다 경과와 변화를 함께 점검"
 
 - slug: aromatherapy
+  tier: optional
   name: "향기치료"
-  summary: "후각을 통해 뇌의 감정 중추에 직접 작용하는 치료 — 한약·침구 치료와 병행해 심신 이완을 돕습니다."
+  summary: "향을 활용해 긴장 완화와 편안한 치료 환경을 돕는 보조적인 방법입니다."
   applies_to:
     - "공황장애·불안장애에서 급성 긴장감을 가라앉힐 때"
     - "불면증 환자의 취침 전 심신 이완"
