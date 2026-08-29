@@ -4,3 +4,6 @@
 _vendor/
 node_modules/
 .DS_Store
+
+# 스크립트가 경로를 잘못 잡아 만들던 폴더 — 화면 사진은 저장소에 두지 않는다
+/undefined/
