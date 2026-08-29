@@ -889,4 +889,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    PC에는 고정 막대가 없으므로 셋 다 그대로 둔다. */
 @media (max-width: 767px) {
   .footer-cta, .footer-tagline { display: none !important; }
+  /* 태그라인이 로고와 SNS 줄 사이의 여백(위 14 + 아래 18)을 만들고 있었다.
+     감추면 둘이 딱 붙어 겹쳐 보인다 — 그 여백을 SNS 줄이 대신 갖는다. */
+  .footer-tagline + div { margin-top: 20px; }
 }
