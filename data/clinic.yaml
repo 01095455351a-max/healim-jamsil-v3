@@ -33,10 +33,10 @@ google_maps_embed_url: "https://maps.google.com/maps?q=37.5114327,127.0819814&z=
 kakao_map_js_key: "399ff77ea1ffe567c14923aed7bc16c3"
 
 hours:
-  - days: "월 · 수"
+  - days: "월 · 수요일"
     time: "10:00 ~ 19:00"
     note: ""
-  - days: "화 · 금"
+  - days: "화 · 금요일"
     time: "10:00 ~ 20:00"
     note: ""
     # 늦게까지 하는 날. 시간표에서 끝 시각에만 색을 준다(hours-card.html).
