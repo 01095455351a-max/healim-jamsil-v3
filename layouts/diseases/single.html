@@ -19,8 +19,11 @@
           {{ range $p.tags }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 6px 12px; border-radius: 4px;">{{ . }}</span>{{ end }}
         </div>
       </div>
-      <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
-        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary dx-to-consult">상담 문의하기</a>
+      {{/* 히어로 버튼 줄 — 좁은 화면에서는 통째로 숨긴다(site.css .dx-hero-cta).
+           「상담 문의하기」가 가리키는 문의 구역이 모바일에서 숨겨져 있고,
+           네이버 예약은 화면 아래 고정 막대에 항상 떠 있다. */}}
+      <div class="dx-hero-cta" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">상담 문의하기</a>
         <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 14px 24px; border-radius: 9999px;" class="btn-naver">네이버 예약</a>
       </div>
     </div>

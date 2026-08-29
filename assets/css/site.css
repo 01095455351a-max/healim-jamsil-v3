@@ -835,8 +835,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    페이지를 길게 늘일 뿐이다. 좁은 화면에서는 아래 고정 막대(.qa)가
    예약·전화·길찾기를 이미 맡고 있어 통로가 사라지지 않는다.
    PC(768px 이상)에서는 그대로 보인다.
-   히어로의 「상담 문의하기」는 이 구역으로 내려가는 링크라 함께 숨긴다 —
-   두지 않으면 눌러도 아무 데도 가지 않는다. */
+   히어로의 버튼 줄(.dx-hero-cta)도 함께 숨긴다 — 「상담 문의하기」는 이 구역으로
+   내려가는 링크라 눌러도 갈 곳이 없고, 「네이버 예약」은 아래 고정 막대에
+   항상 떠 있어 겹친다. PC에는 고정 막대가 없으므로 그대로 둔다. */
 @media (max-width: 767px) {
-  #consult, .dx-to-consult { display: none !important; }
+  #consult, .dx-hero-cta { display: none !important; }
 }
