@@ -309,7 +309,10 @@
           <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 12px;">주소</div>
           <div style="font-size: 17px; line-height: 1.65; font-weight: 500;">{{ $clinic.address_line }}</div>
           <div style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin-top: 10px;">{{ $clinic.address_transit | safeHTML }}</div>
-          <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+          {{/* 좁은 화면에서는 숨긴다(site.css .loc-cta) — 화면 아래 고정 막대에
+               길찾기와 전화가 늘 떠 있어 같은 통로를 두 번 두는 셈이다.
+               PC에는 고정 막대가 없으므로 그대로 둔다. */}}
+          <div class="loc-cta" style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
             <a href="{{ $clinic.naver_place_url }}" style="font-size: 14px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 11px 20px; border-radius: 9999px;" class="btn-primary">길찾기</a>
             <a href="{{ $clinic.phone_tel | safeURL }}" style="font-size: 14px; font-weight: 600; color: #001E2B; background: #FFFFFF; border: 1px solid #C1C7C6; padding: 11px 20px; border-radius: 9999px;" class="btn-outline">전화 걸기</a>
           </div>
