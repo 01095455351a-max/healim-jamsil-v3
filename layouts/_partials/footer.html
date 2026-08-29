@@ -55,7 +55,9 @@
         <a href="/privacy/" style="font-size: 13px; color: rgba(255,255,255,0.70);" class="footer-link">개인정보처리방침</a>
         <a href="/terms/" style="font-size: 13px; color: rgba(255,255,255,0.70);" class="footer-link">이용약관</a>
       </div>
-      <div style="font-size: 13px; color: rgba(255,255,255,0.70);">© 2026 {{ $clinic.business_name_en }}</div>
+      {{/* 연도는 빌드할 때의 해를 쓴다 — 해가 바뀌어도 손댈 필요가 없다
+           (푸시가 있으면 다시 빌드되면서 갱신된다). */}}
+      <div style="font-size: 13px; color: rgba(255,255,255,0.70);">© {{ now.Year }} {{ $clinic.business_name_en }}. All rights reserved.</div>
     </div>
   </div>
 </footer>
