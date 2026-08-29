@@ -346,6 +346,8 @@
     <button type="button" aria-label="닫기" onclick="this.closest('dialog').close()" style="font-family: inherit; margin-left: auto; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 9999px; border: 1px solid #C1C7C6; background: #FFFFFF; color: #001E2B; font-size: 16px; cursor: pointer;" class="btn-outline">✕</button>
   </div>
   <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px;; text-wrap: pretty">{{ partial "kr.html" .summary }}</p>
+  {{/* detail은 data/treatments.yaml의 선택 항목. 적은 치료법에만 이 문단이 붙는다. */}}
+  {{ with .detail }}<p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: -8px 0 24px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
   <div style="background: #FAF6EF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px 26px; margin-bottom: 20px;">
     <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 14px;">진행 방식</div>
     <div style="display: flex; flex-direction: column; gap: 10px;">
