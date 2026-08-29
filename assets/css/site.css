@@ -567,7 +567,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .qa {
     position: fixed; z-index: 15;
     left: 0; right: 0; bottom: 0;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;
     padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
     background: rgba(255, 255, 255, 0.96);
     border-top: 1px solid #EDE6DA;
@@ -595,7 +595,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .qa { gap: 4px; padding-left: 6px; padding-right: 6px; }
   .qa-item { gap: 4px; padding: 11px 2px; }
   .qa-item svg { width: 16px; height: 16px; flex: 0 0 16px; }
-  .qa-label { font-size: 11px; }
+  .qa-label { font-size: 12px; }
 }
 
 /* ── 원장 상세페이지 ──────────────────────────────────────────
