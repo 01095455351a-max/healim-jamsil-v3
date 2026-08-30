@@ -11,22 +11,57 @@ https://healim-jamsil.com/admin/
 
 검색에는 잡히지 않습니다(`noindex`).
 
-## 로그인 — 아직 준비되지 않았습니다
+## 로그인 붙이기 — 한 번만 하면 됩니다
 
-Cloudflare Pages에는 Netlify 같은 로그인 기능이 없어서, GitHub 로그인을 중개하는
-코드를 붙여야 합니다. 그전까지는 아래 「내 컴퓨터에서 쓰기」로만 쓸 수 있습니다.
+중개 코드(`functions/api/auth.js`·`callback.js`)는 저장소에 들어 있습니다.
+남은 것은 GitHub에서 열쇠를 발급받아 Cloudflare에 넣는 일입니다.
 
-붙이려면 두 가지가 필요합니다.
+### 1. GitHub OAuth App 만들기
 
-1. GitHub에서 OAuth App 하나를 만듭니다
-   (Settings → Developer settings → OAuth Apps → New OAuth App)
-   - Homepage URL: `https://healim-jamsil.com`
-   - Authorization callback URL: `https://healim-jamsil.com/api/callback`
-   - 저장소가 비공개이면 `repo` 권한이 필요합니다
-2. 거기서 나온 Client ID와 Client Secret을 Cloudflare Pages의
-   환경 변수(Settings → Environment variables)에 넣습니다
-   - `GITHUB_OAUTH_ID`
-   - `GITHUB_OAUTH_SECRET`
+github.com 로그인 → 오른쪽 위 프로필 → **Settings** → 왼쪽 맨 아래
+**Developer settings** → **OAuth Apps** → **New OAuth App**
+
+| 칸 | 넣을 값 |
+|---|---|
+| Application name | `해아림한의원 잠실점 글 관리` |
+| Homepage URL | `https://healim-jamsil.com` |
+| Authorization callback URL | `https://healim-jamsil.com/api/callback` |
+
+**Register application**을 누릅니다.
+
+### 2. 열쇠 두 개 받기
+
+만들어진 화면에서
+
+- **Client ID** — 바로 보입니다. 복사해 둡니다
+- **Client secret** — **Generate a new client secret**을 눌러 만듭니다.
+  **이 값은 그 화면을 떠나면 다시 볼 수 없습니다.** 바로 복사하세요
+
+### 3. Cloudflare에 넣기
+
+Cloudflare 대시보드 → **Workers & Pages → healim-jamsil → Settings →
+Environment variables** → **Add variable** (Production)
+
+| 이름 | 값 | 종류 |
+|---|---|---|
+| `GITHUB_OAUTH_ID` | Client ID | Text |
+| `GITHUB_OAUTH_SECRET` | Client secret | **Secret (암호화)** ← 반드시 |
+
+저장한 뒤 **한 번 다시 배포해야** 값이 반영됩니다
+(Deployments → 맨 위 배포의 ⋯ → Retry deployment).
+
+### 4. 확인
+
+`https://healim-jamsil.com/admin/` → **Login with GitHub** → GitHub 창에서
+승인 → 관리 화면이 열리면 끝입니다.
+
+### 알아둘 것
+
+- 저장소가 **비공개**이면 GitHub가 `repo` 권한을 요구합니다. 승인 화면에
+  저장소 접근 항목이 나오는 것이 정상입니다
+- Client secret은 Cloudflare에만 두고 **저장소에 적지 않습니다**
+- 이 저장소에 쓰기 권한이 있는 GitHub 계정만 로그인됩니다.
+  다른 사람에게 맡기려면 그 계정을 저장소 협력자로 추가하면 됩니다
 
 ## 내 컴퓨터에서 쓰기 (로그인 없이)
 
