@@ -13,7 +13,7 @@
     <h3 style="font-size: 20px; font-weight: 600; line-height: 1.45; margin: 0 0 14px;">{{ .Title }}</h3>
     <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0 0 24px;">{{ partial "kr.html" .Params.summary }}</p>
     <div style="display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 18px; border-top: 1px solid #F1F3F2;">
-      {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $authorSlug) "w" 96 "alt" $author.name.display "style" "width: 32px; height: 32px; border-radius: 9999px; object-fit: cover; display: block;") }}
+      {{ partial "author-photo.html" (dict "slug" $authorSlug "size" 32 "alt" $author.name.display) }}
       <span style="font-size: 13px; color: #6B6960;">{{ $author.name.display }} · {{ .Date.Format "2006.01.02" }}</span>
       <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
     </div>

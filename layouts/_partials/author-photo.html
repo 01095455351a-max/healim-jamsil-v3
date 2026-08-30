@@ -1,0 +1,20 @@
+{{/* 원장 얼굴 사진 — 동그랗게 잘라 쓰는 자리(홈 의료진 카드, 컬럼 카드)에서 쓴다.
+
+     assets/media/authors/card-<원장>.jpg 가 있으면 그것을 쓴다. 동그란 칸에
+     맞춰 미리 정사각으로 잘라 둔 사본이라 원장 사이에 얼굴 크기가 어긋나지
+     않는다. 없으면 원본을 쓰되 위를 기준으로 자른다 — 3:4 원본을 가운데로
+     자르면 머리 윗부분이 날아간다.
+
+     원장 상세페이지의 큰 사진은 이 partial을 쓰지 않고 늘 원본을 쓴다.
+
+     인자
+       slug  data/authors의 파일 이름 (예: "seok-seonhui")
+       size  화면에 보일 지름(px). 내보내는 이미지는 그 2배로 잡는다
+       alt   대체 텍스트 */}}
+{{ $card := printf "media/authors/card-%s.jpg" .slug }}
+{{ $px := printf "width: %dpx; height: %dpx; border-radius: 9999px; object-fit: cover;" (int .size) (int .size) }}
+{{ if resources.Get $card }}
+  {{ partial "image.html" (dict "src" $card "w" (mul (int .size) 2) "alt" .alt "style" (printf "%s display: block;" $px)) }}
+{{ else }}
+  {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" .slug) "w" (mul (int .size) 2) "alt" .alt "style" (printf "%s object-position: top; display: block;" $px)) }}
+{{ end }}

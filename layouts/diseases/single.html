@@ -129,7 +129,7 @@
         {{ if $col }}
         {{ $topics := collections.Complement (slice "칼럼") $col.Params.tags }}
         <a href="{{ $col.RelPermalink }}" style="display: flex; gap: 20px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
-          {{ partial "image.html" (dict "src" (printf "media/authors/%s.jpg" $doctorSlug) "w" 144 "alt" $doctor.name.display "style" "width: 48px; height: 48px; border-radius: 9999px; object-fit: cover; display: block;") }}
+          {{ partial "author-photo.html" (dict "slug" $doctorSlug "size" 48 "alt" $doctor.name.display) }}
           <div>
             <div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 6px;">{{ delimit $topics " · " }}</div>
             <div style="font-size: 18px; font-weight: 600; line-height: 1.45;">{{ $col.Title }}</div>
