@@ -9,6 +9,9 @@
      summary만 가지고 있어 그대로 두면 전부 사이트 기본 설명이 나간다. */}}
 {{- $desc := or .Description .Params.summary site.Params.description -}}
 <meta name="description" content="{{ $desc }}" />
+{{/* 검색엔진 소유 확인. 코드는 hugo.yaml의 params에 있다 — 값이 없으면 나가지 않는다. */}}
+{{ with site.Params.naver_verification }}<meta name="naver-site-verification" content="{{ . }}" />{{ end }}
+{{ with site.Params.google_verification }}<meta name="google-site-verification" content="{{ . }}" />{{ end }}
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
