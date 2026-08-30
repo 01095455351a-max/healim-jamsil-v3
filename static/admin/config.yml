@@ -1,0 +1,243 @@
+# Decap CMS 설정 — 원장 컬럼과 공지사항만 다룬다.
+#
+# ── 반드시 지켜야 하는 것 (어기면 검색 노출이 조용히 깨진다) ──────────
+#
+# 1. 본문은 raw markdown만 쓴다(modes: ["raw"]).
+#    위지윅으로 두면 본문 속 내부 링크 30여 곳이 변환되며 깨질 수 있다.
+#
+# 2. 필드 이름은 지금 front matter와 글자 하나까지 같아야 한다.
+#    layouts/_partials/schema.html이 이 이름으로 구조화 데이터를 조립한다.
+#    이름이 어긋나면 FAQPage·Article이 화면은 멀쩡한 채로 사라진다.
+#
+# 3. Decap은 여기에 없는 front matter 항목을 저장할 때 지운다.
+#    그래서 실제 파일에 있는 항목을 하나도 빠짐없이 적어 두었다.
+#    새 항목을 content/에 추가하면 여기에도 반드시 함께 적는다.
+#
+# 4. authors 값은 data/authors/의 파일명과 정확히 같아야 한다.
+#    오타를 막으려고 select로 고정했다. 원장이 늘면 options에 추가한다.
+#
+# 5. 슬러그(파일명)는 자동 생성하지 않는다. 주소가 곧 파일명이고,
+#    2026-08-30에 네이버·구글에 등록을 마쳤으므로 바뀌면 안 된다.
+#
+# 빌드 명령은 hugo --gc 만 쓴다. --minify를 붙이면 인라인 style의 공백이
+# 지워져 모바일 정돈 규칙이 하나도 걸리지 않는다.
+
+backend:
+  name: github
+  repo: 01095455351a-max/healim-jamsil-v3
+  branch: master
+  # Cloudflare Pages에는 Netlify 같은 로그인 기능이 없다.
+  # functions/api/ 의 중개 코드를 붙인 뒤 이 값을 쓴다.
+  base_url: https://healim-jamsil.com
+  auth_endpoint: api/auth
+
+# 초안 → 검토 → 발행. 발행 전에 사람이 확인하는 단계를 강제한다.
+# 의료광고 표현 검수를 이 단계에서 한다.
+publish_mode: editorial_workflow
+
+# 내 컴퓨터에서 시험할 때만 쓴다. npx decap-server 를 함께 띄우면
+# 로그인 없이 실제 파일을 고칠 수 있다. 운영 중에는 무시된다.
+local_backend: true
+
+# 컬럼 본문에 이미지를 넣지 않는다. 넣게 되면 assets/ 파이프라인과
+# 어긋나므로 그때 따로 정한다.
+media_folder: static/uploads
+public_folder: /uploads
+
+locale: ko
+
+collections:
+  # ── 원장 컬럼 ────────────────────────────────────────────────
+  - name: column
+    label: 원장 컬럼
+    label_singular: 컬럼
+    folder: content/column
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    # 파일명 = 주소. 아래 slug 필드에 적은 영문이 그대로 쓰인다.
+    slug: '{{fields.slug}}'
+    preview_path: 'column/{{slug}}'
+    summary: '{{title}}'
+    sortable_fields: [date, title]
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: 제목
+        widget: string
+        hint: 화면에 보이는 제목입니다.
+
+      - name: slug
+        label: 주소에 쓸 영문 이름
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9-]*$', '영문 소문자·숫자·하이픈만 쓸 수 있습니다']
+        hint: >-
+          새 글에만 적습니다. 예를 들어 why-tics-wax-and-wane 이라고 적으면
+          주소가 /column/why-tics-wax-and-wane/ 이 됩니다.
+          이미 있는 글은 비워 두세요 — 파일명이 그대로 유지됩니다.
+
+      - name: title_seo
+        label: 검색 결과 제목
+        widget: string
+        required: false
+        hint: >-
+          비워 두면 위의 제목이 쓰입니다. 뒤에 「| 해아림한의원 잠실점」이
+          자동으로 붙고, 합쳐서 한글 30자 안팎에서 잘립니다.
+
+      - name: summary
+        label: 요약
+        widget: text
+        required: false
+        hint: 카드 설명·검색 결과 설명·구조화 데이터에 함께 쓰입니다.
+
+      - name: description
+        label: 페이지 설명
+        widget: text
+        required: false
+        hint: 목록 페이지(_index)에만 쓰는 항목입니다. 개별 글에는 비워 두세요.
+
+      - name: date
+        label: 작성일
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: 'HH:mm:ss'
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - name: lastmod
+        label: 수정일
+        widget: datetime
+        required: false
+        date_format: 'YYYY-MM-DD'
+        time_format: 'HH:mm:ss'
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - name: authors
+        label: 원장
+        widget: select
+        multiple: true
+        # data/authors/의 파일명과 정확히 일치해야 사진·직함·구조화 데이터가 붙는다.
+        options:
+          - { label: '석선희 원장', value: 'seok-seonhui' }
+          - { label: '류석균 원장', value: 'ryu-seokgyun' }
+        required: false
+
+      - name: tags
+        label: 주제
+        widget: list
+        required: false
+        default: ['칼럼']
+        hint: >-
+          「칼럼」은 그대로 두고 주제를 덧붙입니다(틱장애, 공황장애 등).
+          「칼럼」을 뺀 나머지가 화면의 주제 칩과 목록 필터가 됩니다.
+
+      - name: share
+        label: 공유 버튼 보이기
+        widget: boolean
+        required: false
+        default: false
+
+      - name: faqs
+        label: 자주 묻는 질문
+        widget: list
+        required: false
+        label_singular: 질문
+        summary: '{{fields.question}}'
+        hint: >-
+          여기 적은 내용이 검색엔진에 FAQ 구조화 데이터로 나갑니다.
+          질문과 답변을 짝으로 채워 주세요.
+        fields:
+          - { name: question, label: 질문, widget: string }
+          - { name: answer, label: 답변, widget: text }
+
+      - name: body
+        label: 본문
+        # widget: text — 그냥 글자판이다. 위지윅이 아니다.
+        #
+        # markdown 위젯에 modes: ['raw']를 주는 방법을 먼저 시험했으나, Decap 3.15가
+        # markdown 위젯을 richtext(Plate)로 갈아치우면서 그 옵션이 먹지 않았다.
+        # 실제로 굵은체·링크·목록 도구막대가 그대로 떴다. 위지윅이 켜져 있으면
+        # 본문 속 내부 링크 30여 곳이 저장할 때 변환되며 깨질 수 있다.
+        #
+        # text 위젯은 판올림에 영향받지 않고 글자를 그대로 주고받는다.
+        widget: text
+        required: false
+        hint: >-
+          Markdown으로 씁니다. 내부 링크는 /first-visit/ 처럼 주소로 적습니다.
+          효과를 단정하는 표현은 쓰지 않습니다.
+
+  # ── 공지사항 ─────────────────────────────────────────────────
+  - name: notice
+    label: 공지사항
+    label_singular: 공지
+    folder: content/notice
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    slug: '{{fields.slug}}'
+    summary: '{{title}}'
+    sortable_fields: [date, title]
+    editor:
+      preview: false
+    fields:
+      - { name: title, label: 제목, widget: string }
+
+      - name: slug
+        label: 주소에 쓸 영문 이름
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9-]*$', '영문 소문자·숫자·하이픈만 쓸 수 있습니다']
+        hint: 새 공지에만 적습니다. 이미 있는 공지는 비워 두세요.
+
+      - name: description
+        label: 페이지 설명
+        widget: text
+        required: false
+        hint: 목록 페이지(_index)에만 쓰는 항목입니다.
+
+      - { name: summary, label: 요약, widget: text, required: false }
+
+      - name: date
+        label: 작성일
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+
+      - name: authors
+        label: 원장
+        widget: select
+        multiple: true
+        options:
+          - { label: '석선희 원장', value: 'seok-seonhui' }
+          - { label: '류석균 원장', value: 'ryu-seokgyun' }
+        required: false
+
+      - name: tags
+        label: 분류
+        widget: list
+        required: false
+        default: ['공지']
+
+      # 공지는 단독 페이지 없이 목록에서 아코디언으로 펼친다.
+      # 이 항목이 빠지면 개별 주소가 새로 생기고 sitemap이 늘어난다.
+      - name: _build
+        label: 페이지 생성 방식
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - name: render
+            label: 단독 페이지 만들기
+            widget: select
+            options:
+              - { label: '만들지 않음 (목록에서만 펼침)', value: 'never' }
+              - { label: '만듦', value: 'always' }
+            default: 'never'
+            required: false
+
+      - name: body
+        label: 본문
+        widget: text   # 위와 같은 이유로 위지윅을 쓰지 않는다
+        required: false

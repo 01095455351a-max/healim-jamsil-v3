@@ -169,6 +169,39 @@ site.css는 hover·반응형·컴포넌트 동작처럼 인라인으로 표현�
 
 원장 상세페이지의 큰 사진은 이 partial을 쓰지 않고 늘 원본을 쓴다.
 
+## 글 관리 화면 (Decap CMS)
+
+`/admin/`에서 원장 컬럼과 공지사항을 브라우저로 쓰고 고친다. 저장하면 저장소에
+커밋되고 Cloudflare Pages가 다시 빌드한다 — **지금과 같은 정적 사이트 그대로다.**
+검색엔진과 AI 크롤러는 빌드가 끝난 완전한 HTML을 받는다.
+
+| 파일 | 하는 일 |
+|---|---|
+| `static/admin/config.yml` | 컬렉션·필드 정의. 규칙이 전부 여기 있다 |
+| `static/admin/index.html` | 관리 화면. Decap을 CDN에서 받는다(판올림은 이 줄의 번호만) |
+| `static/_headers` | `/admin/*`에 noindex. `layouts/robots.txt`를 건드리지 않으려고 여기서 한다 |
+| `docs/CMS-사용법.md` | 원장용 안내 |
+
+**세 가지를 어기면 검색 노출이 조용히 깨진다.**
+
+1. **본문은 `widget: text`다.** 위지윅을 쓰면 본문 속 내부 링크 30여 곳이 저장할
+   때 변환되며 깨질 수 있다. `markdown` 위젯에 `modes: ['raw']`를 주는 방법을
+   먼저 시험했으나 Decap 3.15가 그 위젯을 richtext로 갈아치우면서 옵션이 먹지
+   않았다(도구막대가 그대로 떴다). `text`는 판올림에 영향받지 않는다.
+2. **Decap은 설정에 없는 front matter 항목을 저장할 때 지운다.** `content/`에 새
+   항목을 더하면 `config.yml`에도 같은 이름으로 반드시 넣는다. 지금은 실제 파일에
+   있는 항목을 모두 적어 두었다(`_build`, `description`까지).
+3. **필드 이름은 `_partials/schema.html`이 읽는 이름과 같아야 한다.** 어긋나면
+   FAQPage·Article이 화면은 멀쩡한 채로 사라진다.
+
+슬러그는 자동 생성하지 않는다. 새 글만 「주소에 쓸 영문 이름」에 적고, 있던 글은
+비워 둔다 — 빈 값이 들어가도 Hugo가 파일명을 그대로 쓴다(시험으로 확인).
+
+로그인은 아직 붙이지 않았다. Cloudflare Pages에는 Netlify 같은 기능이 없어
+GitHub OAuth 중개 코드(`functions/api/`)와 OAuth App이 필요하다 —
+절차는 `docs/CMS-사용법.md`에 있다. 그전까지는 `npx decap-server`로
+내 컴퓨터에서만 쓴다(`local_backend: true`).
+
 ## 아직 남은 일
 
 - **대표원장 친필 서명.** 자리는 만들어 두었다 —
