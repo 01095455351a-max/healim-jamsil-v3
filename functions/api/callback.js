@@ -3,6 +3,9 @@
 // Decap은 이 창이 window.opener 로 보내는 메시지를 기다린다. 형식이 정해져 있어
 // 그대로 맞춘다: "authorization:github:success:{...}"
 
+// auth.js와 같은 이유로 앞뒤 공백·줄바꿈을 걸러낸다.
+const clean = (v) => (v || '').replace(/\s+/g, '');
+
 const page = (payload, origin) => `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><title>로그인 처리 중</title></head>
 <body style="font-family: system-ui, sans-serif; padding: 40px; text-align: center; color: #14282A;">
@@ -49,8 +52,8 @@ export async function onRequestGet({ request, env }) {
       method: 'POST',
       headers: { 'content-type': 'application/json', accept: 'application/json' },
       body: JSON.stringify({
-        client_id: env.GITHUB_OAUTH_ID,
-        client_secret: env.GITHUB_OAUTH_SECRET,
+        client_id: clean(env.GITHUB_OAUTH_ID),
+        client_secret: clean(env.GITHUB_OAUTH_SECRET),
         code,
         redirect_uri: `${origin}/api/callback`,
       }),
