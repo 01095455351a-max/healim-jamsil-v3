@@ -16,10 +16,13 @@
      크기별 파일은 Hugo가 만든다 — 로고가 바뀌면 그 한 장만 갈아 끼운다.
      /favicon.ico는 브라우저와 네이버가 태그와 무관하게 직접 찾아가는 고정 주소라
      static/에 따로 둔다(16·32·48 묶음). */}}
+{{/* 크기는 48의 배수로 맞춘다 — 구글이 검색 결과 아이콘을 고를 때의 기준이다.
+     애플 홈화면 아이콘만 180px 권장이라 예외다. */}}
 {{ with resources.Get "design-v3/favicon.png" }}
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ (.Resize "32x32 png").RelPermalink }}" />
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ (.Resize "180x180 png").RelPermalink }}" />
+  <link rel="icon" type="image/png" sizes="48x48" href="{{ (.Resize "48x48 png").RelPermalink }}" />
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ (.Resize "96x96 png").RelPermalink }}" />
   <link rel="icon" type="image/png" sizes="192x192" href="{{ (.Resize "192x192 png").RelPermalink }}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ (.Resize "180x180 png").RelPermalink }}" />
 {{ end }}
 <link rel="icon" href="/favicon.ico" sizes="any" />
 
