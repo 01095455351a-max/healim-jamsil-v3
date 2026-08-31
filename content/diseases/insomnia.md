@@ -71,9 +71,7 @@ approach_steps:
 approach_note: "목표는 그날 하루만 잠드는 것이 아니라, 치료 이후에도 스스로 안정적인 수면 리듬을 유지할 수 있는 몸 상태를 만드는 것입니다."
 related_columns:
   - /column/why-insomnia-becomes-chronic/
-  # 발행 전에는 화면에 나오지 않는다. 나오면 아래 dysautonomia-symptoms를 뺀다
   - /column/tired-but-cannot-sleep/
-  - /column/dysautonomia-symptoms/
   - /column/panic-insomnia-care/
 faqs:
   - question: "수면제를 복용 중인데 한약도 같이 먹을 수 있나요?"
