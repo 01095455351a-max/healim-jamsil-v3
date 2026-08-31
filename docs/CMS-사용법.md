@@ -103,6 +103,25 @@ Decap은 **설정에 없는 front matter 항목을 저장할 때 지웁니다.**
 `content/`의 글에 새 항목을 추가하면 `static/admin/config.yml`에도 반드시
 같은 이름으로 넣어야 합니다. 넣지 않으면 그 항목이 조용히 사라집니다.
 
+## 초안 브랜치에는 글 파일 하나만 둔다 (개발용)
+
+명령줄에서 `cms/column/<슬러그>` 브랜치를 만들어 초안을 올릴 때,
+**그 브랜치에는 컬럼 파일 하나만 넣는다.** 질환 페이지의 `related_columns`
+같은 다른 파일을 같이 넣으면 안 된다.
+
+Decap은 초안 브랜치의 바뀐 파일 중에서 글을 찾아 카드로 보여주는데,
+파일이 여러 개면 엉뚱한 파일을 글로 잡는다. 실제로 컬럼 하나에 질환 페이지
+두 개를 함께 넣었더니 「워크플로우」 카드 제목이 컬럼 제목이 아니라
+**「불면증」**(`content/diseases/insomnia.md`의 제목)으로 떴다.
+
+이 상태에서 원장이 그 카드를 열어 저장하면 질환 페이지가 컬럼 서식으로
+덮여 `image` · `doctor` · `signs` · `approach_steps` 같은 항목이 사라진다.
+**질환 페이지가 망가진다.**
+
+그래서 같이 고쳐야 할 파일은 master에 따로 올린다. 아직 없는 글을 가리키는
+`related_columns` 줄은 화면에 나오지 않을 뿐 빌드를 깨지 않는다
+(`layouts/diseases/single.html`이 `{{ if $col }}`로 걸러낸다).
+
 ## 건드리지 않는 것
 
 레이아웃, `assets/css/site.css`, `_partials/kr.html`, `_partials/schema.html`,

@@ -75,6 +75,7 @@ related_columns:
   - /column/why-anxiety-causes-heart-palpitations/
   - /column/autonomic-imbalance/
   - /column/dizziness-despite-normal-tests/
+  - /column/tired-but-cannot-sleep/
 faqs:
   - question: "검사에서는 정상인데 왜 계속 증상이 있나요?"
     answer: |
