@@ -12,6 +12,17 @@
 {{/* 검색엔진 소유 확인. 코드는 hugo.yaml의 params에 있다 — 값이 없으면 나가지 않는다. */}}
 {{ with site.Params.naver_verification }}<meta name="naver-site-verification" content="{{ . }}" />{{ end }}
 {{ with site.Params.google_verification }}<meta name="google-site-verification" content="{{ . }}" />{{ end }}
+{{/* 주소창·탭에 보이는 아이콘. 원본은 assets/design-v3/favicon.png 한 장뿐이고
+     크기별 파일은 Hugo가 만든다 — 로고가 바뀌면 그 한 장만 갈아 끼운다.
+     /favicon.ico는 브라우저와 네이버가 태그와 무관하게 직접 찾아가는 고정 주소라
+     static/에 따로 둔다(16·32·48 묶음). */}}
+{{ with resources.Get "design-v3/favicon.png" }}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ (.Resize "32x32 png").RelPermalink }}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ (.Resize "180x180 png").RelPermalink }}" />
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ (.Resize "192x192 png").RelPermalink }}" />
+{{ end }}
+<link rel="icon" href="/favicon.ico" sizes="any" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
