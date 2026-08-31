@@ -9,7 +9,7 @@ subtitle: "검사는 정상인데 이어지는 두근거림, 어지럼증, 소�
 date: 2026-08-21
 # 검색 결과에 나오는 제목. 뒤에 "| 해아림한의원 잠실점"이 자동으로 붙는다.
 title_seo: "자율신경실조증 · 자율신경이상"
-description: "잠실 해아림한의원 잠실점 — 검사에는 이상이 없는데 반복되는 두근거림, 어지럼증, 소화불량 등 자율신경실조증을 정밀 평가와 체질별 한약, 침구 치료로 접근합니다. 임상 22년 류석균 원장 진료."
+description: "잠실 해아림한의원 잠실점 — 검사에는 이상이 없는데 반복되는 두근거림, 어지럼증, 소화불량 등 자율신경실조증을 정밀 평가와 체질별 한약, 침구 치료로 접근합니다."
 tags: ["두근거림", "어지럼증", "만성피로"]
 doctor: ryu-seokgyun
 intro: |
@@ -69,9 +69,10 @@ approach_steps:
     text: "뇌혈류 순환을 촉진하고 신체 균형을 안정화합니다."
   - title: "생활 관리 코칭"
     text: "수면, 영양, 스트레스 조절 등 일상에서 실천할 수 있는 관리법을 함께 안내합니다."
-approach_note: "검사로는 잡히지 않지만 분명히 존재하는 불편감, [류석균 원장](/doctors/ryu-seokgyun/)이 자율신경의 균형을 되찾는 치료로 함께 풀어갑니다."
+approach_note: "검사로는 잡히지 않지만 분명히 존재하는 불편감, 자율신경의 균형을 되찾는 치료로 함께 풀어갑니다."
 related_columns:
   - /column/dysautonomia-symptoms/
+  - /column/why-anxiety-causes-heart-palpitations/
   - /column/autonomic-imbalance/
   - /column/dizziness-despite-normal-tests/
 faqs:
