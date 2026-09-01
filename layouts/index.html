@@ -65,8 +65,9 @@
          오른쪽 끝은 구역(1200px)이 아니라 윗 문단의 오른쪽 끝(860px)에 맞춘다 —
          구역 끝에 붙이면 글과 따로 떨어져 보인다. */}}
     {{ with $clinic.signature }}
-    <div style="max-width: 860px; margin: 24px 0 0; text-align: right;">
-      {{ partial "image.html" (dict "src" . "w" 480 "alt" "대표원장 석선희 · 류석균" "style" "height: 32px; width: auto; display: inline-block;") }}
+    <div style="max-width: 860px; margin: 28px 0 0; display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+      <span style="font-size: 15px; font-weight: 600; color: #4A4A44;">대표원장</span>
+      {{ partial "image.html" (dict "src" . "w" 460 "alt" "석선희 · 류석균" "style" "height: 46px; width: auto; display: block;") }}
     </div>
     {{ end }}
   </div>
