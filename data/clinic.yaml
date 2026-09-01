@@ -54,3 +54,8 @@ business_name: "해아림한의원 잠실점"
 business_name_en: "Healim Korean Medicine Clinic Jamsil"
 representative: "석선희"
 business_registration_number: "618-92-00392"
+
+# 홈 소개 글 아래에 나오는 두 원장 공동 친필 서명. assets/ 기준 경로를 적는다.
+# 비우면 나오지 않는다. 배경이 투명한 PNG여야 한다 — 흰 배경이면 흰 네모가 보인다.
+# 원장 개인 파일이 아니라 여기에 두는 이유는 두 원장의 이름이 함께 들어 있어서다.
+signature: "media/authors/sign-doctors.png"

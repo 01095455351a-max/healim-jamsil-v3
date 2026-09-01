@@ -60,11 +60,11 @@
     <p style="font-size: 20px; line-height: 1.85; color: #001E2B; margin: 20px 0 0; max-width: 860px;; text-wrap: pretty">{{/* 마지막 문장 앞에서 줄을 바꾼다 — 한 문단으로 흘리면 폭에 따라
            "…돕습니다. 여러분이 평온한 일상을" 처럼 마무리 인사가 앞 문장 끝에
            붙어 시작한다. 글자 크기·색·행간은 그대로다. */}}{{ partial "kr.html" `저희는 증상 자체를 문제로 보지 않습니다. 증상이라는 신호를 따라가면 그 밑에 놓인 원인에 닿습니다. 원인을 다루는 치료로 몸과 마음이 스스로 회복하는 힘을 되찾도록 돕습니다.` }}<br />{{ partial "kr.html" `여러분의 평온한 일상을 위해 정성을 다하겠습니다.` }}</p>
-    {{/* 대표원장 친필 서명 — data/authors/seok-seonhui.yaml의 signature에
-         assets/ 기준 경로를 적으면 나온다. 적지 않으면 아무것도 나오지 않는다.
+    {{/* 두 원장 공동 친필 서명 — data/clinic.yaml의 signature에 assets/ 기준
+         경로를 적으면 나온다. 적지 않으면 아무것도 나오지 않는다.
          오른쪽 끝은 구역(1200px)이 아니라 윗 문단의 오른쪽 끝(860px)에 맞춘다 —
          구역 끝에 붙이면 글과 따로 떨어져 보인다. */}}
-    {{ with (index site.Data.authors "seok-seonhui").signature }}
+    {{ with $clinic.signature }}
     <div style="max-width: 860px; margin: 24px 0 0; text-align: right;">
       {{ partial "image.html" (dict "src" . "w" 480 "alt" "대표원장 석선희 · 류석균" "style" "height: 32px; width: auto; display: inline-block;") }}
     </div>
