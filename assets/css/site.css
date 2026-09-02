@@ -451,6 +451,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   [style*="padding: 30px 36px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 30px 32px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 30px"]:not([style*="padding: 30px "])        { padding: 20px 16px !important; }
+  /* 컬럼 카드 — 위 4px 띠 자리를 두느라 위 여백만 더 크다 */
+  [style*="padding: 34px 30px 30px"]                             { padding: 24px 16px 20px !important; }
   [style*="padding: 28px 32px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 28px 30px"]                                  { padding: 20px 18px !important; }
   [style*="padding: 28px"]:not([style*="padding: 28px "])        { padding: 20px 16px !important; }
