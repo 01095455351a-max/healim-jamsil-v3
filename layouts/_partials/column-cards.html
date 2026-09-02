@@ -6,9 +6,12 @@
   {{ $topics := collections.Complement (slice "칼럼") .Params.tags }}
   {{ $authorSlug := "" }}{{ with .Params.authors }}{{ $authorSlug = index . 0 }}{{ end }}
   {{ $author := index site.Data.authors $authorSlug }}
-  <a href="{{ .RelPermalink }}" data-tags="{{ delimit $topics "," }}" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 30px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
+  <a href="{{ .RelPermalink }}" data-tags="{{ delimit $topics "," }}" style="position: relative; overflow: hidden; display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 34px 30px 30px; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink">
+    {{/* 카드 윗변의 청록 띠. 격자에서 카드 경계를 또렷하게 한다. */}}
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #0F7A7E;"></div>
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
-      <span style="font-size: 12px; font-weight: 600; color: #0F7A7E;">{{ delimit $topics " · " }}</span>
+      {{/* 질환 이름 알약. 홈의 치료 방법 칩과 같은 모양·같은 색을 쓴다. */}}
+      <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; border-radius: 9999px; padding: 5px 12px;">{{ delimit $topics " · " }}</span>
     </div>
     <h3 style="font-size: 20px; font-weight: 600; line-height: 1.45; margin: 0 0 14px;">{{ .Title }}</h3>
     <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 0 0 24px;">{{ partial "kr.html" .Params.summary }}</p>
