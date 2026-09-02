@@ -95,6 +95,8 @@ approach_steps:
 approach_note: "치료는 개인의 증상과 상태에 따라 달라지며, 목표는 증상을 잠깐 가라앉히는 데 그치지 않고 치료가 끝난 뒤에도 스스로 예민함을 조절할 수 있는 힘을 기르는 것입니다."
 related_columns:
   - /column/why-panic-disorder-starts-suddenly/
+  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
+  - /column/panic-attack-coping/
   - /column/why-anxiety-causes-heart-palpitations/
   - /column/panic-insomnia-care/
 faqs:
