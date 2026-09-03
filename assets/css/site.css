@@ -509,7 +509,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   /* ── 8. 입력칸 ───────────────────────────────────────────────
      카드 여백이 줄어든 만큼 입력칸은 남은 폭을 다 쓰게 한다.
      글자 16px 미만이면 iOS Safari가 입력할 때 화면을 확대한다. */
-  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  /* .sv-num(문진표에서 문장 안에 들어가는 숫자칸, 「대변횟수 __일 __회」)은
+     제외한다 — 늘리면 「만 / [        ] / 세」처럼 세 줄로 끊어진다.
+     글자 16px 과 box-sizing 은 아래에서 그대로 적용된다. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(.sv-num),
   select, textarea {
     width: 100% !important;
     box-sizing: border-box !important;
