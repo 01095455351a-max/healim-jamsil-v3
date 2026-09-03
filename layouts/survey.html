@@ -55,7 +55,7 @@
                템플릿에서 갈래를 두 개 두지 않기 위해서다. */}}
           {{- $subs := $g.subs -}}
           {{- if not $subs }}{{ $subs = slice (dict "items" $g.items) }}{{ end -}}
-          <section class="sv-step" data-step="{{ $gi }}" data-group="{{ $g.name }}" aria-label="{{ $g.name }}">
+          <section class="sv-step" data-step="{{ $gi }}" data-group="{{ $g.name }}"{{ with $g.when }} data-when="{{ . }}"{{ end }} aria-label="{{ $g.name }}">
             <div class="sv-step-head">
               <span class="sv-step-no">{{ printf "%02d" (add $gi 1) }}</span>
               <h2 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0;">{{ $g.name }}</h2>

@@ -43,7 +43,7 @@
          칸 이름은 k__0, k__1 … 순서다. */}}
     <div class="sv-q">
       {{- range $pi, $p := $parts -}}
-        {{ $p }}{{ if lt (add $pi 1) (len $parts) }}<input type="text" inputmode="numeric" class="sv-num" name="{{ $k }}__{{ $pi }}" aria-label="{{ replace $it.text "{}" " " }} — {{ add $pi 1 }}번째 칸" />{{ end }}
+        {{ $p }}{{ if lt (add $pi 1) (len $parts) }}<input type="text" inputmode="decimal" class="sv-num" name="{{ $k }}__{{ $pi }}" aria-label="{{ replace $it.text "{}" " " }} — {{ add $pi 1 }}번째 칸" />{{ end }}
       {{- end -}}
     </div>
 

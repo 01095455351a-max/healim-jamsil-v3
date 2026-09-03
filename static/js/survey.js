@@ -26,7 +26,10 @@
     var label = document.getElementById('sv-progress-label');
     var count = document.getElementById('sv-progress-count');
     var summaryEl = document.getElementById('sv-summary');
-    var at = 0;
+    /* 지금 보고 있는 묶음. 번호가 아니라 요소로 들고 있는다 — 「부녀」처럼
+       통째로 나오고 마는 묶음이 있어서 번호가 중간에 밀린다. */
+    var current = steps[0];
+    var wantStep = null;
 
     /* 문항 구성이 바뀌면 예전에 저장된 답은 버린다 — 문항이 바뀐 답을
        엉뚱한 칸에 되살리지 않기 위해서다. */
@@ -62,7 +65,9 @@
         }
       });
       try {
-        localStorage.setItem(KEY, JSON.stringify({ fp: fingerprint, at: at, data: data }));
+        localStorage.setItem(KEY, JSON.stringify({
+          fp: fingerprint, step: current && current.dataset.step, data: data
+        }));
       } catch (e) { /* 사생활 보호 모드 등 — 저장만 못 하고 작성은 그대로 된다 */ }
     }
 
@@ -80,7 +85,7 @@
           el.value = v;
         }
       });
-      if (typeof saved.at === 'number') at = Math.min(saved.at, steps.length - 1);
+      wantStep = saved.step;
     }
 
     /* ── 성별 조건(when: female) ───────────────────────────────
@@ -95,6 +100,11 @@
     function applyConditions() {
       var female = isFemale();
       items.forEach(function (el) {
+        if (el.dataset.when === 'female') el.hidden = !female;
+      });
+      /* 묶음 전체가 걸린 경우(「부녀」). 감춘 묶음은 이동에서도 빠지고
+         진행 표시의 총 개수에서도 빠진다. */
+      steps.forEach(function (el) {
         if (el.dataset.when === 'female') el.hidden = !female;
       });
     }
@@ -170,7 +180,7 @@
       var out = [];
       steps.forEach(function (step) {
         var name = step.dataset.group;
-        if (!name) return;
+        if (!name || step.hidden) return;
         var lines = [];
         var pending = [];
         Array.prototype.slice.call(step.querySelectorAll('.sv-item')).forEach(function (el) {
@@ -191,7 +201,11 @@
     }
 
     function answered() {
-      return items.filter(function (el) { return !el.hidden && readItem(el); }).length;
+      return items.filter(function (el) {
+        if (el.hidden) return false;
+        var step = el.closest('.sv-step');
+        return !(step && step.hidden) && readItem(el);
+      }).length;
     }
 
     function render() {
@@ -240,15 +254,23 @@
 
     function show(el) { if (el) el.hidden = false; }
 
-    function go(next, scroll) {
-      at = Math.max(0, Math.min(next, steps.length - 1));
-      steps.forEach(function (s, i) { s.classList.toggle('sv-current', i === at); });
-      var total = steps.length;
-      if (label) label.textContent = at + 1 < total ? steps[at].dataset.group : '정리된 내용';
-      if (count) count.textContent = (at + 1) + ' / ' + total + ' · ' + answered() + '개 표시';
-      if (bar) bar.style.width = Math.round(((at + 1) / total) * 100) + '%';
-      steps[at].querySelectorAll('.sv-prev').forEach(function (b) { b.disabled = at === 0; });
-      if (at === steps.length - 1) render();
+    function visible() {
+      return steps.filter(function (s) { return !s.hidden; });
+    }
+
+    /* target 은 묶음 요소이거나 번호(보이는 것들 중 몇 번째)다. */
+    function go(target, scroll) {
+      var vis = visible();
+      var i = typeof target === 'number' ? target : vis.indexOf(target);
+      i = Math.max(0, Math.min(i, vis.length - 1));
+      current = vis[i];
+      steps.forEach(function (s) { s.classList.toggle('sv-current', s === current); });
+      var last = i === vis.length - 1;
+      if (label) label.textContent = current.dataset.group || '정리된 내용';
+      if (count) count.textContent = (i + 1) + ' / ' + vis.length + ' · ' + answered() + '개 표시';
+      if (bar) bar.style.width = Math.round(((i + 1) / vis.length) * 100) + '%';
+      current.querySelectorAll('.sv-prev').forEach(function (b) { b.disabled = i === 0; });
+      if (last) render();
       if (scroll) {
         var top = form.getBoundingClientRect().top + window.pageYOffset - 84;
         window.scrollTo({ top: top, behavior: 'smooth' });
@@ -259,7 +281,8 @@
     form.addEventListener('click', function (e) {
       var t = e.target.closest('.sv-next, .sv-prev');
       if (!t) return;
-      go(at + (t.classList.contains('sv-next') ? 1 : -1), true);
+      var vis = visible();
+      go(vis.indexOf(current) + (t.classList.contains('sv-next') ? 1 : -1), true);
     });
 
     /* ── 입력 반응 ─────────────────────────────────────────── */
@@ -279,9 +302,17 @@
         }
       }
 
-      if (item && item.dataset.role === 'sex') applyConditions();
-      if (count) count.textContent = (at + 1) + ' / ' + steps.length + ' · ' + answered() + '개 표시';
-      if (at === steps.length - 1) render();
+      if (item && item.dataset.role === 'sex') {
+        applyConditions();
+        /* 성별을 바꾸면 「부녀」 묶음이 들고 나므로 총 개수와 진행률을 다시 그린다.
+           보고 있던 묶음이 감춰졌으면(있을 수 없지만) 앞쪽으로 물러난다. */
+        go(current.hidden ? 0 : current, false);
+        return;
+      }
+      var vis = visible();
+      var i = vis.indexOf(current);
+      if (count) count.textContent = (i + 1) + ' / ' + vis.length + ' · ' + answered() + '개 표시';
+      if (i === vis.length - 1) render();
       save();
     });
 
@@ -364,7 +395,11 @@
 
     restore();
     applyConditions();
-    go(at, false);
+    var start = steps[0];
+    if (wantStep) {
+      steps.forEach(function (el) { if (el.dataset.step === wantStep) start = el; });
+    }
+    go(start.hidden ? 0 : start, false);
   }
 
   window.initSurvey = initSurvey;
