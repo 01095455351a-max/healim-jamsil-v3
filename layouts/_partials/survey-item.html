@@ -1,0 +1,90 @@
+{{/* 문진표 한 문항. data/survey.yaml 의 item 하나를 화면에 그린다.
+     받는 값 — it: 문항, k: 이 문항의 고유 이름(입력칸 name 이 된다)
+
+     type 별로 마크업이 다르지만 겉을 감싸는 .sv-item 은 같다. 요약과 저장은
+     JS 가 이 .sv-item 의 data-* 만 보고 처리하므로, 새 type 을 더할 때도
+     겉껍데기만 맞추면 된다.
+
+       data-k      입력칸 이름의 앞부분. 부속 칸은 뒤에 __note / __f 가 붙는다
+       data-t      type
+       data-short  요약 표기. {} 자리에 답이 들어간다
+       data-when   female 이면 성별 답에 따라 JS 가 보이고 감춘다
+
+     선택지는 문자열이거나 { t: 화면 문장, s: 요약 표기 } 다. 아래에서
+     $t · $sv 두 값으로 풀어 쓴다. */}}
+{{- $it := .it -}}
+{{- $k := .k -}}
+{{- $short := or $it.short $it.text -}}
+{{- $parts := split $it.text "{}" -}}
+<div class="sv-item" data-k="{{ $k }}" data-t="{{ $it.type }}" data-short="{{ $short }}"
+  {{- with $it.role }} data-role="{{ . }}"{{ end }}
+  {{- with $it.when }} data-when="{{ . }}"{{ end }}>
+
+  {{ with $it.hint }}<div class="sv-hint">{{ . }}</div>{{ end }}
+
+  {{- if or (eq $it.type "choice") (eq $it.type "multi") -}}
+    {{- $inputType := cond (eq $it.type "choice") "radio" "checkbox" -}}
+    <div class="sv-q">
+      {{- with index $parts 0 }}<span class="sv-lead">{{ . }}</span>{{ end -}}
+      <span class="sv-opts{{ if $it.stack }} sv-stack{{ end }}">
+        {{- range $it.options -}}
+          {{- $t := "" }}{{ $sv := "" -}}
+          {{- if reflect.IsMap . }}{{ $t = .t }}{{ $sv = or .s .t }}{{ else }}{{ $t = . }}{{ $sv = . }}{{ end -}}
+          <label class="sv-chip"><input type="{{ $inputType }}" name="{{ $k }}" value="{{ $t }}" data-s="{{ $sv }}" /><span>{{ $t }}</span></label>
+        {{- end -}}
+      </span>{{- if gt (len $parts) 1 }}<span class="sv-tail">{{ index $parts 1 }}</span>{{ end -}}
+    </div>
+
+  {{- else if eq $it.type "check" -}}
+    <label class="sv-check"><input type="checkbox" name="{{ $k }}" value="1" data-s="{{ $short }}" /><span>{{ $it.text }}</span></label>
+
+  {{- else if eq $it.type "number" -}}
+    {{/* {} 마다 숫자칸이 하나 생긴다. 「대변횟수 {}일 {}회」면 칸이 두 개다.
+         칸 이름은 k__0, k__1 … 순서다. */}}
+    <div class="sv-q">
+      {{- range $pi, $p := $parts -}}
+        {{ $p }}{{ if lt (add $pi 1) (len $parts) }}<input type="text" inputmode="numeric" class="sv-num" name="{{ $k }}__{{ $pi }}" aria-label="{{ replace $it.text "{}" " " }} — {{ add $pi 1 }}번째 칸" />{{ end }}
+      {{- end -}}
+    </div>
+
+  {{- else if eq $it.type "text" -}}
+    <label class="sv-field"><span class="sv-q">{{ $it.text }}</span><input type="text" name="{{ $k }}" placeholder="{{ $it.placeholder }}" /></label>
+
+  {{- else if eq $it.type "textarea" -}}
+    <label class="sv-field"><span class="sv-q">{{ $it.text }}</span><textarea name="{{ $k }}" rows="3" placeholder="{{ $it.placeholder }}"></textarea></label>
+
+  {{- else if eq $it.type "symptoms" -}}
+    {{/* 증상 + 기간을 rows 줄만큼. 요약에서는 「증상, 기간」으로 합친다. */}}
+    <div class="sv-q">{{ $it.text }}</div>
+    <div class="sv-syms">
+      {{- range $n := seq (or $it.rows 3) -}}
+        <div class="sv-sym">
+          <span class="sv-sym-no" aria-hidden="true">{{ index (slice "①" "②" "③" "④" "⑤") (sub $n 1) }}</span>
+          <input type="text" name="{{ $k }}__s{{ $n }}" placeholder="증상" aria-label="증상 {{ $n }}" />
+          <input type="text" name="{{ $k }}__d{{ $n }}" placeholder="기간" aria-label="증상 {{ $n }} 기간" />
+        </div>
+      {{- end -}}
+    </div>
+  {{- end -}}
+
+  {{/* 고르면 열리는 서술칸(원본의 「언제? (   )」) */}}
+  {{ with $it.note }}
+  <div class="sv-note">
+    <label><span>{{ . }}</span><input type="text" name="{{ $k }}__note" /></label>
+  </div>
+  {{ end }}
+
+  {{/* 체크하면 나오는 하위 택1(원본의 「→ □… □…」) */}}
+  {{ with $it.follow }}
+  <div class="sv-follow">
+    <span class="sv-arrow" aria-hidden="true">→</span>
+    <span class="sv-opts sv-stack">
+      {{- range . -}}
+        {{- $t := "" }}{{ $sv := "" -}}
+        {{- if reflect.IsMap . }}{{ $t = .t }}{{ $sv = or .s .t }}{{ else }}{{ $t = . }}{{ $sv = . }}{{ end -}}
+        <label class="sv-chip"><input type="radio" name="{{ $k }}__f" value="{{ $t }}" data-s="{{ $sv }}" /><span>{{ $t }}</span></label>
+      {{- end -}}
+    </span>
+  </div>
+  {{ end }}
+</div>

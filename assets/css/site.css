@@ -947,3 +947,206 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 /* 홈 주소 카드의 길찾기·전화 버튼 — 좁은 화면에서는 아래 고정 막대가
    같은 통로를 늘 띄워 두므로 숨긴다. PC에는 막대가 없어 그대로 둔다. */
 @media (max-width: 767px) { .loc-cta { display: none !important; } }
+
+
+/* ══════════════════════════════════════════════════════════════
+   문진표 (/survey/)
+   ══════════════════════════════════════════════════════════════
+   문항 마크업은 layouts/_partials/survey-item.html, 문항 내용은
+   data/survey.yaml 에 있다. 여기에는 인라인 style 로 쓸 수 없는 것만 둔다 —
+   :checked 표시, :has() 로 열리는 서술칸, 묶음별 화면 전환, 인쇄 서식.
+
+   px 값은 사이트에서 이미 쓰는 값만 골라 썼다. 새 값을 쓰면 위쪽
+   「모바일 정돈」 블록에 규칙을 한 줄 더해야 한다(tools/check-mobile.py).  */
+
+/* hidden 을 붙여 감추는 요소가 .sv-nav 처럼 display 를 가진 경우, 브라우저
+   기본 [hidden] 규칙(display:none)이 클래스에 밀려 그대로 보인다 — 되돌린다. */
+.sv [hidden] { display: none !important; }
+
+/* ── 묶음별 화면 ───────────────────────────────────────────────
+   JS 가 form 에 .sv-on 을 붙이기 전에는 모든 묶음이 그대로 보인다.
+   스크립트가 막혀도 문항을 읽고 인쇄할 수 있다. */
+.sv-on .sv-step { display: none; }
+.sv-on .sv-step.sv-current { display: block; }
+
+.sv-step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sv-step-no {
+  flex: 0 0 auto; font-size: 12px; font-weight: 700; color: #0F7A7E;
+  background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px;
+  border-radius: 9999px; font-variant-numeric: tabular-nums;
+}
+.sv-sub {
+  font-size: 13px; font-weight: 700; color: #0F7A7E; letter-spacing: 0.3px;
+  margin: 26px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #C0FAE6;
+}
+.sv-sub:first-of-type { margin-top: 6px; }
+
+/* ── 진행 막대 ─────────────────────────────────────────────────
+   화면 위에 붙어 따라온다. 헤더(sticky) 아래에 앉도록 top 을 맞춘다. */
+.sv-progress {
+  position: sticky; top: var(--sv-top, 109px); z-index: 2;
+  background: #FFFFFF; padding: 14px 0 12px; margin-bottom: 8px;
+  border-bottom: 1px solid #EDE6DA;
+}
+.sv-progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.sv-progress-label { font-size: 15px; font-weight: 600; color: #001E2B; }
+.sv-progress-count { font-size: 13px; color: #6F6B61; font-variant-numeric: tabular-nums; }
+.sv-progress-track { height: 4px; border-radius: 9999px; background: #E8EDEB; overflow: hidden; }
+.sv-progress-bar { height: 100%; width: 0; background: #22ABAF; transition: width 0.25s ease; }
+
+/* ── 문항 ──────────────────────────────────────────────────────
+   문항 사이를 선으로 나누지 않는다 — 종이 문진표처럼 촘촘히 읽히게 한다. */
+.sv-item { padding: 11px 0; }
+.sv-item + .sv-item { border-top: 1px solid #F1F3F2; }
+.sv-hint { font-size: 13px; line-height: 1.7; color: #6F6B61; margin: 0 0 6px; }
+.sv-q { font-size: 16px; line-height: 2.1; color: #001E2B; margin: 0; }
+.sv-lead, .sv-tail { white-space: pre-wrap; }
+
+/* ── 선택지(알약) ──────────────────────────────────────────────
+   진짜 input 은 화면에서 감추되 접근성 트리에 남긴다(clip 방식).
+   글자만으로 뜻이 전달되도록 색과 함께 굵기·테두리를 같이 바꾼다. */
+.sv-opts { display: inline-flex; flex-wrap: wrap; gap: 6px; vertical-align: middle; }
+.sv-opts.sv-stack { display: flex; flex-direction: column; align-items: stretch; gap: 8px; margin: 6px 0; }
+.sv-chip { display: inline-flex; }
+.sv-chip input {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+.sv-chip > span {
+  display: inline-block; font-size: 15px; line-height: 1.5; color: #4A4A44;
+  background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 9999px;
+  padding: 7px 14px; cursor: pointer; transition: background 0.12s ease, border-color 0.12s ease;
+}
+.sv-stack .sv-chip > span { border-radius: 12px; text-align: left; }
+.sv-chip:hover > span { border-color: #22ABAF; background: #F9FBFA; }
+.sv-chip input:checked + span {
+  color: #08484B; font-weight: 600; background: #E3FCF7; border-color: #22ABAF;
+}
+.sv-chip input:focus-visible + span { outline: 2px solid #0F7A7E; outline-offset: 2px; }
+
+/* ── 단독 체크 ─────────────────────────────────────────────────
+   ::before 로 네모를 그린다. 체크되면 민트색으로 채우고 ✓ 를 넣는다. */
+.sv-check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; padding: 3px 0; }
+.sv-check input {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+.sv-check > span { font-size: 16px; line-height: 1.65; color: #4A4A44; text-wrap: pretty; }
+.sv-check > span::before {
+  content: ''; display: inline-block; vertical-align: -4px;
+  width: 20px; height: 20px; margin-right: 10px;
+  border: 1px solid #CBD5D3; border-radius: 6px; background: #FFFFFF;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.sv-check:hover > span::before { border-color: #22ABAF; }
+.sv-check input:checked + span { color: #001E2B; font-weight: 600; }
+.sv-check input:checked + span::before {
+  background: #22ABAF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6'/%3E%3C/svg%3E") center/13px no-repeat;
+  border-color: #22ABAF;
+}
+.sv-check input:focus-visible + span::before { outline: 2px solid #0F7A7E; outline-offset: 2px; }
+
+/* ── 기입칸 ────────────────────────────────────────────────────
+   숫자칸은 문장 안에 들어가므로 폭을 글자 수에 맞춰 좁게 둔다. */
+.sv-num {
+  width: 4.5em; margin: 0 4px; padding: 6px 8px; text-align: center;
+  font: inherit; font-size: 16px; color: #001E2B;
+  background: #FFFFFF; border: 1px solid #CBD5D3; border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.sv-field { display: block; }
+.sv-field .sv-q { display: block; margin-bottom: 8px; }
+.sv-field input, .sv-field textarea {
+  display: block; width: 100%; box-sizing: border-box;
+  padding: 11px 14px; font: inherit; font-size: 16px; line-height: 1.6; color: #001E2B;
+  background: #FFFFFF; border: 1px solid #CBD5D3; border-radius: 10px; resize: vertical;
+}
+.sv-num:focus, .sv-field input:focus, .sv-field textarea:focus,
+.sv-sym input:focus, .sv-note input:focus {
+  outline: none; border-color: #22ABAF; box-shadow: 0 0 0 3px #E3FCF7;
+}
+
+/* 주증상 — 증상칸과 기간칸을 한 줄에 둔다 */
+.sv-syms { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.sv-sym { display: grid; grid-template-columns: 22px minmax(0, 1fr) 108px; gap: 8px; align-items: center; }
+.sv-sym-no { font-size: 16px; color: #6F6B61; text-align: center; }
+.sv-sym input {
+  min-width: 0; padding: 11px 14px; font: inherit; font-size: 16px; color: #001E2B;
+  background: #FFFFFF; border: 1px solid #CBD5D3; border-radius: 10px;
+}
+
+/* ── 「언제?」 서술칸 · 「→」 하위 택1 ─────────────────────────
+   그 문항에 표시가 있을 때만 열린다. :has() 는 헤더 서랍에서도 쓰는 방식이다. */
+.sv-note, .sv-follow { display: none; margin: 10px 0 2px 30px; }
+.sv-item:has(input:checked) .sv-note,
+.sv-item:has(input:checked) .sv-follow { display: block; }
+.sv-note label { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sv-note span { font-size: 15px; color: #6F6B61; }
+.sv-note input {
+  flex: 1 1 200px; min-width: 0; padding: 9px 12px; font: inherit; font-size: 16px;
+  color: #001E2B; background: #FFFFFF; border: 1px solid #CBD5D3; border-radius: 10px;
+}
+.sv-follow { display: none; }
+.sv-item:has(input:checked) .sv-follow { display: flex; gap: 10px; align-items: flex-start; }
+.sv-arrow { flex: 0 0 auto; font-size: 15px; color: #22ABAF; line-height: 2.1; }
+
+/* ── 버튼 ──────────────────────────────────────────────────────
+   알약 모양·크기는 사이트의 다른 버튼과 같게 맞춘다. */
+.sv-nav { display: flex; gap: 10px; justify-content: space-between; margin-top: 32px; padding-top: 22px; border-top: 1px solid #EDE6DA; }
+.sv-btn {
+  font: inherit; font-size: 15px; font-weight: 600; line-height: 1.4;
+  padding: 14px 26px; border-radius: 9999px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  text-decoration: none; transition: opacity 0.12s ease, background 0.12s ease;
+}
+.sv-btn-fill { color: #FFFFFF; background: #0F7A7E; border: 1px solid #0F7A7E; }
+.sv-btn-fill:hover { background: #08484B; border-color: #08484B; }
+.sv-btn-ghost { color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; }
+.sv-btn-ghost:hover { background: #E3FCF7; }
+.sv-btn-kakao { color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; }
+.sv-btn-kakao:hover { background: #F2DC00; border-color: #F2DC00; }
+.sv-btn:disabled { opacity: 0.35; cursor: default; }
+.sv-btn:disabled:hover { background: #FFFFFF; }
+
+/* ── 정리된 내용 ───────────────────────────────────────────────
+   묶음 이름을 왼쪽에 고정 폭으로 두어, 종이 문진표처럼 눈이 세로로 훑히게 한다. */
+.sv-summary { border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; }
+.sv-summary-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; padding: 14px 22px; border-top: 1px solid #EDE6DA; }
+.sv-summary-row:first-child { border-top: none; }
+.sv-summary-name { font-size: 13px; font-weight: 700; color: #0F7A7E; line-height: 1.75; }
+.sv-summary-body p { font-size: 15px; line-height: 1.75; color: #001E2B; margin: 0; text-wrap: pretty; }
+.sv-summary-body p + p { margin-top: 4px; }
+.sv-summary-empty { font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 0; padding: 22px; }
+.sv-result-note { font-size: 13px; line-height: 1.7; color: #6F6B61; margin: 12px 0 0; }
+.sv-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.sv-copy-msg { font-size: 14px; line-height: 1.7; color: #0F7A7E; margin: 12px 0 0; min-height: 1.7em; }
+
+/* ── 좁은 화면 ─────────────────────────────────────────────────
+   아래 고정 막대(예약·전화·문의·길찾기)의 여백은 위쪽 .qa 블록의
+   body { padding-bottom } 이 이미 확보한다 — 여기서 또 주지 않는다. */
+@media (max-width: 767px) {
+  .sv-q { font-size: 16px; line-height: 2.2; }
+  .sv-summary-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 16px; }
+  .sv-note, .sv-follow { margin-left: 0; }
+  .sv-sym { grid-template-columns: 20px minmax(0, 1fr) 84px; gap: 6px; }
+  .sv-btn { padding: 13px 20px; }
+  .sv-nav .sv-btn { flex: 1 1 0; }
+  .sv-actions .sv-btn { flex: 1 1 100%; }
+}
+
+/* ── 인쇄 ──────────────────────────────────────────────────────
+   정리된 내용만 A4 한 장으로 나가게 한다. 문항 화면·헤더·푸터·고정 막대는 뺀다. */
+@media print {
+  header, footer, .qa, .sv-progress, .sv-nav, .sv-actions, .sv-copy-msg,
+  .sv-on .sv-step:not(.sv-result-step) { display: none !important; }
+  #top { background: none !important; border: none !important; padding: 0 !important; }
+  #top > div > div:first-child, #top p, #top [style*="border-radius: 9999px"],
+  #top [style*="border-radius: 12px"] { display: none !important; }
+  .sv-result-step { padding: 0 !important; }
+  .sv-summary { border-color: #999 !important; }
+  .sv-summary-row { border-top-color: #CCC !important; padding: 8px 12px !important; }
+  .sv-summary-body p { font-size: 11pt !important; line-height: 1.5 !important; }
+  .sv-summary-name { font-size: 9pt !important; color: #000 !important; }
+  .sv-result-note { font-size: 8pt !important; }
+  a[href]::after { content: none !important; }
+}
