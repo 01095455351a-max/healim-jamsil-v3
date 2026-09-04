@@ -1188,11 +1188,14 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .sv-howto { list-style: none; counter-reset: howto; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EDE6DA; }
 .sv-howto li { counter-increment: howto; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding: 12px 0; }
 .sv-howto li::before {
-  content: counter(howto); grid-row: 1 / span 3;
+  content: counter(howto); grid-column: 1; grid-row: 1;
   width: 30px; height: 30px; border-radius: 9999px;
   background: #22ABAF; color: #FFFFFF;
   font-size: 15px; font-weight: 700; line-height: 30px; text-align: center;
 }
+/* 번호는 1열, 나머지는 모두 2열. 못박아 두지 않으면 자식이 늘어날 때
+   격자가 남는 칸을 찾아 번호 자리(30px)로 밀어 넣어 글자가 세로로 쪼개진다. */
+.sv-howto li > * { grid-column: 2; }
 .sv-howto b { font-size: 16px; font-weight: 600; color: #001E2B; line-height: 1.5; }
 .sv-howto span { font-size: 15px; line-height: 1.75; color: #4A4A44; text-wrap: pretty; }
 .sv-howto .sv-btn { margin-top: 10px; justify-self: start; }
