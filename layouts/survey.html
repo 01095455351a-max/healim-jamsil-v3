@@ -97,29 +97,34 @@
 
           {{ with $s.result_note }}<p class="sv-result-note">{{ . }}</p>{{ end }}
 
-          {{/* 보내는 길은 하나다 — 카카오톡. 내원하시는 분도 같은 방법으로 보내면
-               진료실에서 열어 보므로, 비대면과 내원을 나누지 않는다.
-               직원 시험에서 「복사한 뒤 붙여넣기」를 이해하지 못하는 일이 있어,
-               기기가 공유를 지원하면 붙여넣기 자체를 없앤다. */}}
-          <div class="sv-send">
-            <p class="sv-send-lead">{{ partial "kr.html" `아래 단추를 누르면 보낼 곳이 나옵니다. 카카오톡을 고르시고 「해아림한의원 잠실점」을 선택하시면 됩니다.` }}</p>
-            {{ with $s.send_condition }}<p class="sv-send-note">{{ partial "kr.html" . }}</p>{{ end }}
-            <button type="button" class="sv-btn sv-btn-kakao sv-btn-lg" id="sv-send">카카오톡으로 보내기</button>
+          {{/* 보내는 길 하나 — 본원 카카오톡 대화창에 붙여넣기.
 
-            {{/* 공유를 지원하지 않는 기기에서만 나온다. JS 가 켠다. */}}
-            <ol class="sv-howto" id="sv-howto" hidden>
-              <li>
-                <b>내용을 복사했습니다</b>
-                <span>{{ partial "kr.html" `이제 카카오톡 대화창에 붙여넣기만 하시면 됩니다.` }}</span>
-              </li>
-              <li>
-                <b>카카오톡 대화창을 엽니다</b>
-                <span>{{ partial "kr.html" `아래 단추를 누르면 본원 채널의 대화창이 바로 열립니다.` }}</span>
-                <a class="sv-btn sv-btn-fill" href="{{ or $clinic.kakao_chat_url $clinic.kakao_channel_url }}" target="_blank" rel="noopener">대화창 열기</a>
+               기기의 공유 목록(navigator.share)을 먼저 시험했으나, 카카오톡을
+               골라도 「채널」 대화방이 대상에 나오지 않아 쓸 수 없었다. 그래서
+               공유에 기대지 않고 대화창을 직접 여는 방식으로 되돌렸다.
+
+               대신 처음 시험에서 막혔던 세 가지를 모두 손봤다.
+                 · 채널 홈이 아니라 대화창으로 바로 간다(/chat)
+                 · 세 단계를 누르기 전부터 보여 준다 — 무엇을 하게 될지 먼저 안다
+                 · 돌아왔을 때도 그 안내가 화면에 그대로 남아 있다 */}}
+          <div class="sv-send">
+            <p class="sv-send-lead">{{ partial "kr.html" `아래 단추를 누르면 내용이 복사되고, 본원 카카오톡 대화창이 열립니다.` }}</p>
+            {{ with $s.send_condition }}<p class="sv-send-note">{{ partial "kr.html" . }}</p>{{ end }}
+
+            <ol class="sv-howto" id="sv-howto">
+              <li id="sv-howto-1">
+                <b>단추를 누릅니다</b>
+                <span>{{ partial "kr.html" `내용이 복사되고 카카오톡이 열립니다.` }}</span>
+                <a class="sv-btn sv-btn-kakao sv-btn-lg" id="sv-send"
+                   href="{{ or $clinic.kakao_chat_url $clinic.kakao_channel_url }}" target="_blank" rel="noopener">복사하고 카카오톡 열기</a>
               </li>
               <li>
                 <b>글자 입력칸을 꾹 누릅니다</b>
-                <span>{{ partial "kr.html" `「붙여넣기」가 나오면 눌러 주세요. 내용이 들어가면 보내기(▶)를 누르시면 됩니다.` }}</span>
+                <span>{{ partial "kr.html" `대화창 아래쪽의 「메시지를 입력하세요」 칸을 손가락으로 1초쯤 누르고 계시면 됩니다.` }}</span>
+              </li>
+              <li>
+                <b>「붙여넣기」를 누르고 보냅니다</b>
+                <span>{{ partial "kr.html" `작은 메뉴에서 「붙여넣기」를 누르면 내용이 들어갑니다. 그다음 보내기(▶)를 누르시면 끝입니다.` }}</span>
               </li>
             </ol>
 

@@ -379,33 +379,22 @@
         : '복사가 되지 않았습니다. 위 내용을 직접 선택해 복사해 주세요.');
     }
 
-    /* 「카카오톡으로 보내기」 — 기기가 공유를 지원하면 붙여넣기 없이 끝난다.
-       navigator.share 는 OS 공유 시트를 띄우고, 거기서 카카오톡을 고르면
-       대화 상대를 골라 바로 전송된다. 복사·앱 전환·붙여넣기가 모두 사라진다.
+    /* 「복사하고 카카오톡 열기」 — 이 단추는 <a> 라 카카오톡 대화창으로
+       가는 것은 브라우저가 알아서 한다. 여기서는 복사만 맡는다.
 
-       지원하지 않는 기기(주로 PC 브라우저)에서는 복사한 뒤 아래 3단계
-       안내를 펼친다 — 한 단추가 두 가지 일을 하지 않게 나눈 것이다. */
+       기기의 공유 목록(navigator.share)을 먼저 썼으나 카카오톡을 골라도
+       「채널」 대화방이 대상에 나오지 않아 되돌렸다. 공유에 기대지 않는다.
+
+       누르고 카카오톡에 다녀와도 3단계 안내는 화면에 그대로 남아 있다 —
+       돌아와서 무엇을 할 차례인지 다시 볼 수 있다. */
     var sendBtn = document.getElementById('sv-send');
-    var howto = document.getElementById('sv-howto');
-
-    function showHowto() {
-      if (!howto) return;
-      howto.hidden = false;
-      howto.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+    var step1 = document.getElementById('sv-howto-1');
 
     if (sendBtn) sendBtn.addEventListener('click', function () {
-      if (navigator.share) {
-        navigator.share({ text: asText() }).then(function () {
-          tell(true, '보냈습니다. 카카오톡 대화창을 확인해 주세요.');
-        }, function (err) {
-          /* 사용자가 공유 시트를 그냥 닫은 것이면 아무 일도 하지 않는다. */
-          if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
-          copy().then(function (ok) { tell(ok); showHowto(); });
-        });
-        return;
-      }
-      copy().then(function (ok) { tell(ok); showHowto(); });
+      copy().then(function (ok) {
+        if (step1) step1.classList.toggle('sv-done', ok);
+        tell(ok, ok ? '복사했습니다. 카카오톡 대화창에서 아래 2·3번을 이어서 해 주세요.' : null);
+      });
     });
 
     var copyBtn = document.getElementById('sv-copy');
