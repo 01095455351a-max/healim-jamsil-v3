@@ -54,6 +54,9 @@
           <div style="background: #FFFFFF; border: 1px solid #EDE6DA; border-radius: 12px; box-shadow: rgba(0,30,43,0.12) 0px 12px 24px -4px; padding: 10px; display: flex; flex-direction: column;">
             <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">공지사항</a>
             <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">원장 컬럼</a>
+            {{/* 자료실은 게시판 안의 한 구역이라 별도 섹션이 없다 — 앵커로 간다.
+                 홈에는 두지 않는다(자료를 찾는 사람만 들어오는 자리). */}}
+            <a href="/board/#library" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 10px 14px; border-radius: 8px;" class="nav-dropdown-link">자료실</a>
           </div>
         </div>
       </div>
@@ -104,7 +107,14 @@
       </details>
       <a href="/#doctors" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">의료진</a>
       <a href="/reviews/" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">치료후기</a>
-      <a href="/board/" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">게시판</a>
+      <details name="mnav">
+        <summary style="list-style: none; cursor: pointer; padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34; display: flex; align-items: center; justify-content: space-between;">게시판<span style="font-size: 12px; color: #0F7A7E;">▾</span></summary>
+        <div style="display: flex; flex-direction: column; gap: 2px; padding: 2px 4px 8px 12px;">
+          <a href="/notice/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 8px 0;" class="nav-dropdown-link">공지사항</a>
+          <a href="/column/" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 8px 0;" class="nav-dropdown-link">원장 컬럼</a>
+          <a href="/board/#library" style="font-size: 15px; font-weight: 500; color: #3A3A34; padding: 8px 0;" class="nav-dropdown-link">자료실</a>
+        </div>
+      </details>
       <a href="/directions/" style="padding: 10px 4px; font-size: 17px; font-weight: 600; color: #3A3A34;" class="nav-link">오시는 길</a>
     </nav>
     {{/* 서랍에는 메뉴만 둔다. 예약·전화·카카오톡·길찾기는 화면 아래

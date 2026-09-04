@@ -1,0 +1,10 @@
+{{/* 공지 목록을 정렬해서 돌려준다. 홈·공지사항·게시판 세 곳이 이것을 쓴다 —
+     정렬 규칙을 세 곳에 흩어 두지 않기 위해서다.
+
+     front matter 에 pinned: true 를 주면 날짜와 관계없이 맨 위에 붙는다.
+     휴진 안내 같은 새 공지가 올라와도 밀리지 않는다. 고정을 풀 때는
+     그 줄을 지우거나 false 로 바꾼다.
+
+     고정을 여러 건 두면 그들끼리는 최신순이다. */}}
+{{- $all := (where site.RegularPages "Section" "notice").ByDate.Reverse -}}
+{{- return (append (where $all "Params.pinned" "!=" true) (where $all "Params.pinned" true)) -}}

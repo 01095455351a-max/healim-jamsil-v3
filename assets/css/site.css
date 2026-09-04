@@ -1154,3 +1154,6 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .sv-result-note { font-size: 8pt !important; }
   a[href]::after { content: none !important; }
 }
+
+/* 자료실 카드의 버튼 — 인라인 style 로는 표현할 수 없는 hover 만 담당한다. */
+.lib-cta:hover { background: #08484B !important; border-color: #08484B !important; }
