@@ -30,6 +30,13 @@
         이 페이지는 답을 사용하는 기기의 브라우저에만 저장하며, 본원이나 다른 회사의 서버로 보내지 않습니다.
         작성을 마치면 정리된 내용을 <strong>직접 복사해 전달</strong>하거나 <strong>인쇄해 지참</strong>하시면 됩니다.
       </div>
+      {{/* 카카오톡으로 보내는 조건. 20분을 들이기 전에 먼저 알린다 —
+           같은 문장이 결과 화면의 보내기 단추 위에도 나온다. */}}
+      {{ with $s.send_condition }}
+      <div style="margin-top: 12px; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 12px; padding: 22px 26px; font-size: 15px; line-height: 1.75; color: #4A4A44;">
+        {{ partial "kr.html" . }}
+      </div>
+      {{ end }}
     </div>
   </div>
 </section>
@@ -84,11 +91,15 @@
             <span class="sv-step-no">＝</span>
             <h2 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0;">정리된 내용</h2>
           </div>
-          <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 0 0 22px; text-wrap: pretty;">{{ partial "kr.html" `아래 내용을 복사해 카카오톡으로 보내시거나, 인쇄해서 지참하시거나, 접수처에서 화면을 보여주시면 됩니다.` }}</p>
+          <p style="font-size: 15px; line-height: 1.75; color: #6F6B61; margin: 0 0 22px; text-wrap: pretty;">{{ partial "kr.html" `아래 내용을 인쇄해서 지참하시거나, 접수처에서 화면을 보여주시면 됩니다. 카카오톡으로 보내실 때는 아래 안내를 확인해 주세요.` }}</p>
 
           <div class="sv-summary" id="sv-summary"></div>
 
           {{ with $s.result_note }}<p class="sv-result-note">{{ . }}</p>{{ end }}
+
+          {{ with $s.send_condition }}
+          <div class="sv-send-note">{{ partial "kr.html" . }}</div>
+          {{ end }}
 
           <div class="sv-actions">
             <button type="button" class="sv-btn sv-btn-fill" id="sv-copy">내용 복사</button>

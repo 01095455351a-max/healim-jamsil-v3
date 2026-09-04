@@ -1157,3 +1157,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 
 /* 자료실 카드의 버튼 — 인라인 style 로는 표현할 수 없는 hover 만 담당한다. */
 .lib-cta:hover { background: #08484B !important; border-color: #08484B !important; }
+
+/* 문진표 결과 화면 — 카카오톡으로 보내는 조건. 보내기 단추 바로 위에 둔다. */
+.sv-send-note {
+  margin-top: 26px; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 12px;
+  padding: 16px 18px; font-size: 15px; line-height: 1.75; color: #4A4A44;
+}
+.sv-send-note + .sv-actions { margin-top: 12px; }
