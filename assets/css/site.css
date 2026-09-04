@@ -1164,3 +1164,32 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   padding: 16px 18px; font-size: 15px; line-height: 1.75; color: #4A4A44;
 }
 .sv-send-note + .sv-actions { margin-top: 12px; }
+
+/* ── 문진표 결과 화면의 보내기 ─────────────────────────────────
+   비대면과 내원을 나눠 담는 상자. 상황이 다르면 할 일도 다르다. */
+.sv-send { margin-top: 26px; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px 26px; }
+.sv-send-head { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px; }
+.sv-send-lead { font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0 0 14px; text-wrap: pretty; }
+.sv-send .sv-btn-lg { width: 100%; padding: 18px 26px; font-size: 17px; }
+.sv-send .sv-actions { margin-top: 0; }
+
+/* 카카오톡 전송 조건 — 눌러서 보내기 전에 읽어야 한다 */
+.sv-send-note {
+  background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 8px;
+  padding: 14px 16px; font-size: 14px; line-height: 1.75; color: #4A4A44;
+  margin: 0 0 16px; text-wrap: pretty;
+}
+
+/* 공유를 지원하지 않는 기기에서만 나오는 3단계 안내.
+   번호를 동그라미로 붙여 순서를 눈으로 따라가게 한다. */
+.sv-howto { list-style: none; counter-reset: howto; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EDE6DA; }
+.sv-howto li { counter-increment: howto; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding: 12px 0; }
+.sv-howto li::before {
+  content: counter(howto); grid-row: 1 / span 3;
+  width: 30px; height: 30px; border-radius: 9999px;
+  background: #22ABAF; color: #FFFFFF;
+  font-size: 15px; font-weight: 700; line-height: 30px; text-align: center;
+}
+.sv-howto b { font-size: 16px; font-weight: 600; color: #001E2B; line-height: 1.5; }
+.sv-howto span { font-size: 15px; line-height: 1.75; color: #4A4A44; text-wrap: pretty; }
+.sv-howto .sv-btn { margin-top: 10px; justify-self: start; }

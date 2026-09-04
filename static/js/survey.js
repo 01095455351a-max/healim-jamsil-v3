@@ -372,18 +372,46 @@
       }
     }
 
-    function tell(ok) {
+    function tell(ok, text) {
       if (!msg) return;
-      msg.textContent = ok
-        ? '복사했습니다. 카카오톡 대화창에 붙여넣어 주세요.'
-        : '복사가 되지 않았습니다. 위 내용을 직접 선택해 복사해 주세요.';
+      msg.textContent = text || (ok
+        ? '복사했습니다. 아래 순서대로 하시면 됩니다.'
+        : '복사가 되지 않았습니다. 위 내용을 직접 선택해 복사해 주세요.');
     }
 
-    var copyBtn = document.getElementById('sv-copy');
-    if (copyBtn) copyBtn.addEventListener('click', function () { copy().then(tell); });
+    /* 「카카오톡으로 보내기」 — 기기가 공유를 지원하면 붙여넣기 없이 끝난다.
+       navigator.share 는 OS 공유 시트를 띄우고, 거기서 카카오톡을 고르면
+       대화 상대를 골라 바로 전송된다. 복사·앱 전환·붙여넣기가 모두 사라진다.
 
-    var kakao = document.getElementById('sv-kakao');
-    if (kakao) kakao.addEventListener('click', function () { copy().then(tell); });
+       지원하지 않는 기기(주로 PC 브라우저)에서는 복사한 뒤 아래 3단계
+       안내를 펼친다 — 한 단추가 두 가지 일을 하지 않게 나눈 것이다. */
+    var sendBtn = document.getElementById('sv-send');
+    var howto = document.getElementById('sv-howto');
+
+    function showHowto() {
+      if (!howto) return;
+      howto.hidden = false;
+      howto.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    if (sendBtn) sendBtn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({ text: asText() }).then(function () {
+          tell(true, '보냈습니다. 카카오톡 대화창을 확인해 주세요.');
+        }, function (err) {
+          /* 사용자가 공유 시트를 그냥 닫은 것이면 아무 일도 하지 않는다. */
+          if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) return;
+          copy().then(function (ok) { tell(ok); showHowto(); });
+        });
+        return;
+      }
+      copy().then(function (ok) { tell(ok); showHowto(); });
+    });
+
+    var copyBtn = document.getElementById('sv-copy');
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      copy().then(function (ok) { tell(ok, ok ? '복사했습니다.' : null); });
+    });
 
     var printBtn = document.getElementById('sv-print');
     if (printBtn) printBtn.addEventListener('click', function () { window.print(); });

@@ -97,15 +97,42 @@
 
           {{ with $s.result_note }}<p class="sv-result-note">{{ . }}</p>{{ end }}
 
-          {{ with $s.send_condition }}
-          <div class="sv-send-note">{{ partial "kr.html" . }}</div>
-          {{ end }}
+          {{/* 보내는 방법을 상황별로 나눈다. 직원 시험에서 「복사한 뒤 카카오톡에
+               붙여넣기」를 이해하지 못하는 일이 있었다 — 한 단추가 두 가지 일을
+               하는 것을 그만두고, 기기가 공유를 지원하면 붙여넣기 자체를 없앤다. */}}
+          <div class="sv-send">
+            <div class="sv-send-head">비대면 진료라면</div>
+            <p class="sv-send-lead">{{ partial "kr.html" `아래 단추를 누르면 카카오톡을 비롯한 보낼 곳이 나옵니다. 거기서 카카오톡을 고르시고 「해아림한의원 잠실점」을 선택하시면 됩니다.` }}</p>
+            {{ with $s.send_condition }}<p class="sv-send-note">{{ partial "kr.html" . }}</p>{{ end }}
+            <button type="button" class="sv-btn sv-btn-kakao sv-btn-lg" id="sv-send">카카오톡으로 보내기</button>
 
-          <div class="sv-actions">
-            <button type="button" class="sv-btn sv-btn-fill" id="sv-copy">내용 복사</button>
-            <a class="sv-btn sv-btn-kakao" id="sv-kakao" href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener">복사하고 카카오톡 열기</a>
-            <button type="button" class="sv-btn sv-btn-ghost" id="sv-print">인쇄 · PDF 저장</button>
+            {{/* 공유를 지원하지 않는 기기에서만 나온다. JS 가 켠다. */}}
+            <ol class="sv-howto" id="sv-howto" hidden>
+              <li>
+                <b>내용을 복사했습니다</b>
+                <span>{{ partial "kr.html" `이제 카카오톡 대화창에 붙여넣기만 하시면 됩니다.` }}</span>
+              </li>
+              <li>
+                <b>카카오톡 대화창을 엽니다</b>
+                <span>{{ partial "kr.html" `아래 단추를 누르면 본원 채널의 대화창이 바로 열립니다.` }}</span>
+                <a class="sv-btn sv-btn-fill" href="{{ or $clinic.kakao_chat_url $clinic.kakao_channel_url }}" target="_blank" rel="noopener">대화창 열기</a>
+              </li>
+              <li>
+                <b>글자 입력칸을 꾹 누릅니다</b>
+                <span>{{ partial "kr.html" `「붙여넣기」가 나오면 눌러 주세요. 내용이 들어가면 보내기(▶)를 누르시면 됩니다.` }}</span>
+              </li>
+            </ol>
           </div>
+
+          <div class="sv-send">
+            <div class="sv-send-head">내원하시는 경우</div>
+            <p class="sv-send-lead">{{ partial "kr.html" `보내실 필요가 없습니다. 접수처에서 이 화면을 그대로 보여주시면 됩니다. 종이로 가져오고 싶으시면 인쇄해 주세요.` }}</p>
+            <div class="sv-actions">
+              <button type="button" class="sv-btn sv-btn-ghost" id="sv-print">인쇄 · PDF 저장</button>
+              <button type="button" class="sv-btn sv-btn-ghost" id="sv-copy">내용만 복사하기</button>
+            </div>
+          </div>
+
           <p class="sv-copy-msg" id="sv-copy-msg" role="status" aria-live="polite"></p>
 
           <div class="sv-nav" hidden>
