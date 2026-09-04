@@ -1,9 +1,12 @@
-{{/* 게시판 — 공지사항과 원장 컬럼을 한 화면에서 이어 본다.
-     두 목록의 마크업은 각각 _partials/notice-table.html,
+{{/* 게시판 — 공지사항 · 자료실 · 원장 컬럼을 한 화면에서 이어 본다.
+     공지와 컬럼의 마크업은 각각 _partials/notice-table.html,
      _partials/column-cards.html 한 곳에 있고 /notice/ · /column/ 과 같은 것을 쓴다.
-     글을 추가하면 세 곳에 저절로 붙는다. */}}
+     글을 추가하면 세 곳에 저절로 붙는다.
+
+     자료실은 data/library.yaml 을 읽는다. 문진표처럼 계속 쓰는 자료를 두는
+     자리다 — 공지는 지나가지만 자료는 남는다. 줄을 늘리면 화면에 늘어난다. */}}
 {{ define "main" }}
-{{ $notices := (where site.RegularPages "Section" "notice").ByDate.Reverse }}
+{{ $notices := partial "notices.html" . }}
 {{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse }}
 
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
@@ -28,6 +31,30 @@
     {{ partial "notice-table.html" (dict "notices" $notices) }}
   </div>
 </section>
+
+{{ with site.Data.library }}
+<section id="library" style="background: #FFFFFF; padding: 56px 0 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;">
+      <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0; text-wrap: balance;">자료실</h2>
+      <span style="font-size: 14px; color: #6B6960;">전체 {{ len . }}건</span>
+    </div>
+    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px; max-width: 640px; text-wrap: pretty;">{{ partial "kr.html" `진료에 필요한 자료를 모아 두었습니다. 필요하실 때 언제든 이용하시면 됩니다.` }}</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+      {{ range . }}
+      <article style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
+        {{ with .badge }}<span style="align-self: flex-start; font-size: 12px; font-weight: 700; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px; border-radius: 9999px;">{{ . }}</span>{{ end }}
+        <h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0; text-wrap: balance;">{{ partial "kr.html" .name }}</h3>
+        {{ with .summary }}<p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+        {{ with .note }}<p style="font-size: 14px; line-height: 1.7; color: #6F6B61; margin: 0; padding-left: 14px; border-left: 2px solid #C0FAE6; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+        {{ with .caution }}<p style="font-size: 14px; line-height: 1.7; color: #4A4A44; margin: 0; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 8px; padding: 14px 16px; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+        <a href="{{ .url }}"{{ if .external }} target="_blank" rel="noopener"{{ end }} style="margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #0F7A7E; border: 1px solid #0F7A7E; padding: 14px 26px; border-radius: 9999px;" class="lib-cta">{{ or .action "보기" }}{{ if .external }}<span style="font-size: 13px;">↗</span>{{ end }}</a>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
 
 <section id="column" style="background: #FFFFFF; padding: 56px 0 88px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">

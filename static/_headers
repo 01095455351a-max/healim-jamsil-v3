@@ -4,3 +4,9 @@
 /admin/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store
+
+# 문진표는 링크와 QR 로만 접근하는 도구 페이지다. 검색 결과에 나오면
+# 「자가진단」 형태로 읽혀 의료광고 쪽에서 다르게 볼 여지가 있어 막는다.
+# layouts/robots.txt 를 건드리지 않으려고 /admin/* 과 같은 방식으로 여기서 처리한다.
+/survey/*
+  X-Robots-Tag: noindex, nofollow

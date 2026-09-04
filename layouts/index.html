@@ -2,7 +2,7 @@
 {{ $clinic := site.Data.clinic }}
 {{ $diseases := (where site.RegularPages "Section" "diseases").ByWeight }}
 {{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse | first 3 }}
-{{ $notices := (where site.RegularPages "Section" "notice").ByDate.Reverse }}
+{{ $notices := partial "notices.html" . }}
 
 <section id="top" style="position: relative; overflow: hidden; background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); padding: 76px 0 72px;">
   <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 0.95fr; gap: 56px; align-items: center;">
