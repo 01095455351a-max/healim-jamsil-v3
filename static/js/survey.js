@@ -379,7 +379,7 @@
         : '복사가 되지 않았습니다. 위 내용을 직접 선택해 복사해 주세요.');
     }
 
-    /* 「복사하고 카카오톡 열기」 — 이 단추는 <a> 라 카카오톡 대화창으로
+    /* 「복사하고 카카오채널 가기」 — 이 단추는 <a> 라 카카오채널 대화창으로
        가는 것은 브라우저가 알아서 한다. 여기서는 복사만 맡는다.
 
        기기의 공유 목록(navigator.share)을 먼저 썼으나 카카오톡을 골라도
@@ -393,7 +393,7 @@
     if (sendBtn) sendBtn.addEventListener('click', function () {
       copy().then(function (ok) {
         if (step1) step1.classList.toggle('sv-done', ok);
-        tell(ok, ok ? '복사했습니다. 카카오톡 대화창에서 아래 2·3번을 이어서 해 주세요.' : null);
+        tell(ok, ok ? '복사했습니다. 카카오채널 대화창에서 아래 2·3번을 이어서 해 주세요.' : null);
       });
     });
 

@@ -1218,3 +1218,12 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   text-decoration-color: #CBD5D3; text-wrap: pretty;
 }
 .sv-fallback:hover { color: #0F7A7E; text-decoration-color: #0F7A7E; }
+
+/* PC 에서만 보이는 안내 — 카카오톡 단추는 휴대폰에서만 앱을 연다.
+   pointer: coarse 는 손가락으로 누르는 기기다. JS 없이 CSS 로 가른다. */
+.sv-desktop-note {
+  display: block; margin-top: 12px;
+  background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 8px;
+  padding: 14px 16px; font-size: 14px; line-height: 1.75; color: #4A4A44; text-wrap: pretty;
+}
+@media (pointer: coarse) { .sv-desktop-note { display: none; } }
