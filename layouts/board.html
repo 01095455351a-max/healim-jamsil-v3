@@ -4,7 +4,9 @@
      글을 추가하면 세 곳에 저절로 붙는다.
 
      자료실은 data/library.yaml 을 읽는다. 문진표처럼 계속 쓰는 자료를 두는
-     자리다 — 공지는 지나가지만 자료는 남는다. 줄을 늘리면 화면에 늘어난다. */}}
+     자리다 — 공지는 지나가지만 자료는 남는다. 줄을 늘리면 화면에 늘어난다.
+     공지사항과 같은 표 모양이다(카드 두 칸이었던 것을 2026-09 에 바꿨다) —
+     자료가 늘어도 한눈에 훑을 수 있고, 설명은 줄을 눌러 펼쳐 본다. */}}
 {{ define "main" }}
 {{ $notices := partial "notices.html" . }}
 {{ $columns := (where site.RegularPages "Section" "column").ByDate.Reverse }}
@@ -39,17 +41,35 @@
       <h2 style="font-size: 30px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0; text-wrap: balance;">자료실</h2>
       <span style="font-size: 14px; color: #6B6960;">전체 {{ len . }}건</span>
     </div>
-    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px; max-width: 640px; text-wrap: pretty;">{{ partial "kr.html" `진료에 필요한 자료를 모아 두었습니다. 필요하실 때 언제든 이용하시면 됩니다.` }}</p>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
-      {{ range . }}
-      <article style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
-        {{ with .badge }}<span style="align-self: flex-start; font-size: 12px; font-weight: 700; color: #0F7A7E; background: #E3FCF7; border: 1px solid #C0FAE6; padding: 5px 10px; border-radius: 9999px;">{{ . }}</span>{{ end }}
-        <h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.4; margin: 0; text-wrap: balance;">{{ partial "kr.html" .name }}</h3>
-        {{ with .summary }}<p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
-        {{ with .note }}<p style="font-size: 14px; line-height: 1.7; color: #6F6B61; margin: 0; padding-left: 14px; border-left: 2px solid #C0FAE6; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
-        {{ with .caution }}<p style="font-size: 14px; line-height: 1.7; color: #4A4A44; margin: 0; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 8px; padding: 14px 16px; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
-        <a href="{{ .url }}"{{ if .external }} target="_blank" rel="noopener"{{ end }} style="margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #0F7A7E; border: 1px solid #0F7A7E; padding: 14px 26px; border-radius: 9999px;" class="lib-cta">{{ or .action "보기" }}{{ if .external }}<span style="font-size: 13px;">↗</span>{{ end }}</a>
-      </article>
+    <p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 0 0 24px; max-width: 640px; text-wrap: pretty;">{{ partial "kr.html" `진료에 필요한 자료를 모아 두었습니다. 줄을 누르면 설명이 펼쳐집니다.` }}</p>
+
+    {{/* 공지사항과 같은 표다 — 격자(64px 76px 1fr 120px)까지 같은 값을 쓴다.
+         site.css 의 모바일 규칙이 그 값을 보고 두 줄 구조로 바꿔 주므로,
+         값을 바꾸면 좁은 화면에서 이름 칸이 98px 로 눌린다.
+         줄은 data/library.yaml 에 적힌 순서 그대로다. */}}
+    <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden;">
+      <div style="display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; padding: 14px 24px; background: #FAF6EF; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61;">
+        <span>번호</span><span style="text-align: center;">구분</span><span>자료 이름</span><span style="text-align: right;">바로가기</span>
+      </div>
+      {{ range $i, $r := . }}
+      {{/* 같은 name 을 준 <details> 라 하나를 열면 앞서 열린 것이 닫힌다 */}}
+      <details name="library" style="border-top: 1px solid #F1F3F2;">
+        <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
+          <span style="font-size: 14px; color: #6F6B61;">{{ add $i 1 }}</span>
+          <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ or $r.badge "자료" }}</span>
+          <span style="font-size: 16px; font-weight: 500; color: #001E2B; display: flex; align-items: center; gap: 10px;" class="lib-title">{{ partial "kr.html" $r.name }}</span>
+          {{/* 줄을 펼치지 않고 바로 갈 수 있는 길. 펼쳐 읽고 가는 길은 아래 단추다. */}}
+          <a href="{{ $r.url }}"{{ if $r.external }} target="_blank" rel="noopener"{{ end }} style="font-size: 14px; font-weight: 600; color: #0F7A7E; text-align: right;" class="lib-go">{{ or $r.action "보기" }}{{ if $r.external }} ↗{{ else }} →{{ end }}</a>
+        </summary>
+        <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
+          <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;">
+            {{ with $r.summary }}<p style="font-size: 16px; line-height: 1.8; color: #4A4A44; margin: 0; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+            {{ with $r.note }}<p style="font-size: 14px; line-height: 1.7; color: #6F6B61; margin: 0; padding-left: 14px; border-left: 2px solid #C0FAE6; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+            {{ with $r.caution }}<p style="font-size: 14px; line-height: 1.7; color: #4A4A44; margin: 0; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 8px; padding: 14px 16px; text-wrap: pretty;">{{ partial "kr.html" . }}</p>{{ end }}
+            <a href="{{ $r.url }}"{{ if $r.external }} target="_blank" rel="noopener"{{ end }} style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #0F7A7E; border: 1px solid #0F7A7E; padding: 14px 26px; border-radius: 9999px;" class="lib-cta">{{ or $r.action "보기" }}{{ if $r.external }}<span style="font-size: 13px;">↗</span>{{ end }}</a>
+          </div>
+        </div>
+      </details>
       {{ end }}
     </div>
   </div>

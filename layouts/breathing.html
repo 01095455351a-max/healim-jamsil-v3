@@ -1,0 +1,197 @@
+{{/* 4-2-6 호흡 연습 — 문구·단계·연습 분량은 data/breathing.yaml 에서 읽는다.
+     이 파일에는 글이 거의 없다.
+
+     서버로 아무것도 보내지 않는다. 입력받는 것도, 저장하는 것도 없다 —
+     화면 안에서만 도는 타이머와 애니메이션이다(문진표와 달리 localStorage 도
+     쓰지 않는다).
+
+     스타일이 인라인이 아니라 site.css 의 .br-* 블록에 있는 이유 —
+     이 앱의 글자는 28 · 27 · 34px 인데, site.css 의 「모바일 정돈」이
+     [style*="font-size: 28px"] 같은 선택자로 767px 이하에서 그 값들을 줄인다.
+     인라인으로 두면 모바일에서 디자인이 무너진다. 문진표(.sv-*)와 같은 이유다.
+
+     단계 정보는 data-phases 에 JSON 으로 실어 breathing.js 에 넘긴다 —
+     문구가 yaml 한 곳에만 있게 하기 위해서다. JS 에는 글이 없다. */}}
+{{ define "main" }}
+{{ $b := site.Data.breathing }}
+{{ $clinic := site.Data.clinic }}
+
+{{/* 한 사이클 길이와 눈썹글씨의 「4 · 2 · 6」은 phases 에서 계산한다 —
+     초를 고쳤을 때 화면 여러 곳이 따로 놀지 않게 한다. */}}
+{{ $total := 0 }}{{ $secs := slice }}
+{{ range $b.phases }}{{ $total = add $total .sec }}{{ $secs = $secs | append (string .sec) }}{{ end }}
+{{ $eyebrow := delimit $secs " · " }}
+
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px; flex-wrap: wrap;">
+      <a href="/" style="color: #4A4A44;" class="nav-link">홈</a><span>›</span>
+      <a href="/board/#library" style="color: #4A4A44;" class="nav-link">자료실</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">{{ .Title }}</span>
+    </div>
+    <div style="max-width: 760px;">
+      <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">한 번에 {{ $total }}초</div>
+      <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0 0 16px; text-wrap: balance;">{{ .Title }}</h1>
+      <p style="font-size: 18px; line-height: 1.8; color: #4A4A44; margin: 0 0 22px; text-wrap: pretty;">{{ partial "kr.html" `화면의 물결과 숫자를 따라 숨을 들이쉬고 내쉬는 연습 도구입니다. 앱을 내려받거나 로그인할 필요가 없고, 휴대폰에서 바로 하실 수 있습니다.` }}</p>
+      {{/* 치료를 대신하지 않는다는 것을 시작하기 전에 먼저 알린다.
+           같은 문장이 연습 시작 단추 아래와 완료 화면에도 나온다. */}}
+      <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 22px 26px; font-size: 15px; line-height: 1.75; color: #4A4A44;">
+        <strong style="color: #0F7A7E;">이 연습은 진료나 치료를 대신하지 않습니다.</strong>
+        스스로 호흡을 고르는 방법을 익히는 도구입니다. 증상이 있으시거나 연습 중 불편하시면 진료 때 말씀해 주세요.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: #FFFFFF; padding: 56px 0 80px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+
+    {{/* 숫자에 쓰는 Source Code Pro 는 이 페이지에서만 받는다 —
+         baseof.html 에 넣으면 모든 페이지가 쓰지 않는 폰트를 받는다. */}}
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet" />
+
+    {{/* 연습이 시작되면 breathing.js 가 여기에 .br-full 을 붙여 화면 전체를
+         덮는다(헤더·푸터·하단 고정 막대가 가려진다). 「그만하기」·「처음으로」로
+         원래 자리로 돌아온다. */}}
+    <div class="br" id="br"
+         data-phases="{{ $b.phases | jsonify }}"
+         data-paused-label="{{ $b.paused_label }}"
+         data-paused-hint="{{ $b.paused_hint }}"
+         data-pause="{{ $b.pause }}"
+         data-resume="{{ $b.resume }}"
+         data-done-all="{{ $b.done.all }}"
+         data-done-partial="{{ $b.done.partial }}">
+      <div class="br-wrap">
+
+        <div class="br-head">
+          <span class="br-eyebrow">{{ $eyebrow }} 호흡 연습</span>
+          <span class="br-clinic">{{ $clinic.business_name }}</span>
+        </div>
+
+        {{/* ── 1) 안내 ───────────────────────────────────── */}}
+        <section class="br-screen br-intro" data-screen="intro">
+          <div class="br-intro-body">
+            <h2 class="br-title">{{ delimit $b.headline "<br>" | safeHTML }}</h2>
+
+            {{/* 칸 너비가 그대로 각 단계의 초가 된다 — 4fr 2fr 6fr */}}
+            <div class="br-graphic">
+              <div class="br-graphic-grid" style="grid-template-columns: {{ range $b.phases }}{{ .sec }}fr {{ end }};">
+                {{ range $b.phases }}
+                <div class="br-graphic-col" data-phase="{{ .key }}">
+                  <div class="br-graphic-num mono">{{ .sec }}</div>
+                  <div class="br-graphic-bar"></div>
+                  <div class="br-graphic-label">{{ .label }}</div>
+                </div>
+                {{ end }}
+              </div>
+              <div class="br-graphic-note">{{ partial "kr.html" (printf "한 번의 호흡에 %d초 · %s" $total $b.graphic_note) }}</div>
+            </div>
+
+            <p class="br-lead">{{ partial "kr.html" $b.lead }}</p>
+
+            <div class="br-tips">
+              {{ range $i, $t := $b.tips }}
+              <div class="br-tip">
+                <span class="br-tip-no mono">{{ printf "%02d" (add $i 1) }}</span>
+                <span class="br-tip-text">{{ partial "kr.html" $t }}</span>
+              </div>
+              {{ end }}
+            </div>
+
+            <div class="br-presets-label">{{ $b.presets_label }}</div>
+            <div class="br-presets" role="group" aria-label="{{ $b.presets_label }}">
+              {{ range $b.presets }}
+              {{ $on := eq . $b.presets_default }}
+              <button type="button" class="br-preset{{ if $on }} br-on{{ end }}" data-min="{{ . }}" aria-pressed="{{ $on }}">
+                <span class="br-preset-min">{{ . }}분</span>
+                <span class="br-preset-cnt">{{ math.Round (div (mul . 60.0) $total) }}회</span>
+              </button>
+              {{ end }}
+            </div>
+          </div>
+
+          <div class="br-foot">
+            <button type="button" class="br-btn br-btn-fill br-btn-wide" id="br-start">{{ $b.start }}</button>
+            <p class="br-note">{{ partial "kr.html" $b.caution }}</p>
+            <p class="br-note">{{ partial "kr.html" $b.disclaimer }}</p>
+            <noscript><p class="br-note">이 도구는 자바스크립트로 움직입니다. 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+          </div>
+        </section>
+
+        {{/* ── 2) 연습 ───────────────────────────────────── */}}
+        {{ $first := index $b.phases 0 }}
+        <section class="br-screen br-run" data-screen="run" hidden>
+          {{/* 물결 · 힌트 · 진행 바는 한 덩어리로 화면 가운데에 놓인다.
+               따로 떼면 물결과 글자 사이가 화면 높이에 따라 벌어진다. */}}
+          <div class="br-stage">
+            <div class="br-orb">
+              {{/* 물결 아홉 겹. 크기·색·시차는 site.css 의 .br-ring:nth-child() 에 있다.
+                   JS 는 상태(들이쉬기·멈추기·내쉬기·정지)와 길이만 넘긴다. */}}
+              <div class="br-rings" id="br-rings" data-state="idle" aria-hidden="true">
+                {{ range seq 9 }}<div class="br-ring"></div>{{ end }}
+              </div>
+              <div class="br-center" role="status" aria-live="polite">
+                <div class="br-phase" id="br-phase">{{ $first.label }}</div>
+                <div class="br-count mono" id="br-count">{{ $first.sec }}</div>
+              </div>
+            </div>
+
+            <p class="br-hint" id="br-hint">{{ partial "kr.html" $first.hint }}</p>
+
+            <div class="br-progress">
+              <div class="br-progress-track"><div class="br-progress-bar" id="br-bar"></div></div>
+              <div class="br-progress-foot">
+                <span id="br-cycle"></span>
+                <span class="mono" id="br-elapsed">00:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="br-foot">
+            <div class="br-bell">
+              <span class="br-bell-text">{{ $b.bell_label }}<br><span class="br-bell-note">{{ partial "kr.html" $b.bell_note }}</span></span>
+              <button type="button" class="br-switch br-on" id="br-bell" role="switch" aria-checked="true" aria-label="{{ $b.bell_label }}"><span class="br-knob"></span></button>
+            </div>
+            <div class="br-row">
+              <button type="button" class="br-btn br-btn-ghost" id="br-stop">{{ $b.stop }}</button>
+              <button type="button" class="br-btn br-btn-fill br-btn-grow" id="br-pause">{{ $b.pause }}</button>
+            </div>
+          </div>
+        </section>
+
+        {{/* ── 3) 완료 ───────────────────────────────────── */}}
+        <section class="br-screen br-done" data-screen="done" hidden>
+          <div class="br-done-body">
+            <div class="br-check" aria-hidden="true">✓</div>
+            <h2 class="br-title br-title-done">{{ delimit $b.done.headline "<br>" | safeHTML }}</h2>
+            <p class="br-lead" id="br-summary">{{ partial "kr.html" $b.done.partial }}</p>
+
+            <div class="br-rows">
+              <div class="br-row-item"><span class="br-k">{{ $b.done.rows_way }}</span><span class="br-v">{{ delimit $secs " - " }}</span></div>
+              <div class="br-row-item"><span class="br-k">{{ $b.done.rows_cycles }}</span><span class="br-v" id="br-done-cycles"></span></div>
+              <div class="br-row-item"><span class="br-k">{{ $b.done.rows_time }}</span><span class="br-v" id="br-done-time"></span></div>
+            </div>
+
+            <p class="br-note">{{ partial "kr.html" $b.done.note }}</p>
+          </div>
+
+          <div class="br-foot">
+            <div class="br-row">
+              <button type="button" class="br-btn br-btn-fill br-btn-grow" id="br-again">{{ $b.done.again }}</button>
+              <button type="button" class="br-btn br-btn-ghost" id="br-home">{{ $b.done.home }}</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div style="max-width: 760px; margin: 48px auto 0; padding-top: 24px; border-top: 1px solid #EDE6DA; font-size: 15px; line-height: 1.75; color: #6F6B61;">
+      <p style="margin: 0 0 10px;">{{ partial "kr.html" `연습 중 어지럽거나 숨이 가빠지면 바로 멈추고 평소 호흡으로 돌아오세요. 궁금한 점은 진료 때 말씀해 주시거나` }} <a href="{{ $clinic.phone_tel | safeURL }}" style="font-weight: 600;">{{ $clinic.phone_display }}</a>로 연락 주세요.</p>
+      <a href="/board/#library" style="font-size: 15px; font-weight: 600;">← 자료실로 돌아가기</a>
+    </div>
+
+  </div>
+</section>
+<script src="/js/breathing.js" defer></script>
+{{ end }}

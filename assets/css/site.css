@@ -68,8 +68,11 @@ button { font-family: inherit; }
 /* 치료 방법 카드 버튼 hover (hv40) */
 .treatment-card:hover { border-color: #22ABAF; box-shadow: rgba(0,30,43,0.04) 0px 1px 2px 0px; }
 
-/* 공지사항 제목 hover (hv48) */
-.notice-title:hover { color: #0F7A7E; }
+/* 공지사항 제목 hover (hv48). 자료실도 같은 표를 쓰므로 함께 건다. */
+.notice-title:hover, .lib-title:hover { color: #0F7A7E; }
+
+/* 자료실 표의 「바로가기」 — 줄을 펼치지 않고 바로 가는 길 */
+.lib-go:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* 네트워크 홈페이지 링크 hover (hv55) */
 .chip-network:hover { background: #C0FAE6; color: #0F7A7E; }
@@ -1230,3 +1233,175 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   padding: 14px 16px; font-size: 14px; line-height: 1.75; color: #4A4A44; text-wrap: pretty;
 }
 @media (pointer: coarse) { .sv-desktop-note { display: none; } }
+
+/* ═══════════════════════════════════════════════════════════
+   4-2-6 호흡 연습 (/breathing/)
+
+   마크업은 layouts/breathing.html, 문구는 data/breathing.yaml,
+   동작은 static/js/breathing.js 에 있다.
+
+   이 앱만 인라인 style 을 쓰지 않는다. 글자가 28 · 27 · 34px 인데
+   위의 「모바일 정돈」이 [style*="font-size: 28px"] 로 767px 이하에서
+   그 값들을 줄여 버리기 때문이다. 디자인이 이미 모바일(390px) 기준이라
+   줄이면 안 된다.
+
+   색 — 핸드오프 원본은 초록(#00684A)이었으나 사이트의 청록으로 옮겼다.
+   강조 #0F7A7E, hover #0B4F52(사이트의 채움 버튼 규칙), 초점 #157175.
+   따뜻한 중립(#F7F1E7 · #FFFDF8 · #EADFCB)과 민트 #C0FAE6 은 원본 그대로다.
+   ═══════════════════════════════════════════════════════════ */
+
+.br {
+  box-sizing: border-box; max-width: 460px; margin: 0 auto; padding: 0 20px;
+  background: #F7F1E7; border: 1px solid #EADFCB; border-radius: 20px;
+  color: #001E2B; word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty;
+}
+.br *, .br *::before, .br *::after { box-sizing: border-box; }
+.br-wrap { display: flex; flex-direction: column; min-height: 640px; }
+.br [hidden] { display: none !important; }
+.br .mono { font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 500; }
+
+/* 연습이 시작되면 화면 전체를 덮는다 — 헤더 · 푸터 · 하단 고정 막대가 가려져
+   연습 중에 딴 데로 새지 않는다. z-index 는 사이트에서 가장 높은 고정 요소
+   (헤더 드롭다운 40)보다 위에 둔다. */
+.br-full {
+  position: fixed; inset: 0; z-index: 60;
+  max-width: none; margin: 0; border: 0; border-radius: 0;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.br-full .br-wrap { max-width: 460px; margin: 0 auto; min-height: 100%; }
+html:has(.br-full), html:has(.br-full) body { overflow: hidden; }
+
+.br-screen { display: flex; flex-direction: column; flex: 1; }
+
+.br-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 26px 0 0; }
+.br-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; }
+.br-clinic { font-size: 11px; color: #889397; }
+
+/* ── 1) 안내 화면 ───────────────────────────────────────── */
+.br-intro-body { flex: 1 0 auto; padding: 30px 0 0; }
+.br-title { font-size: 28px; font-weight: 500; letter-spacing: -0.8px; line-height: 1.4; margin: 0; }
+
+.br-graphic { margin-top: 22px; background: #FFFDF8; border: 1px solid #EADFCB; border-radius: 16px; padding: 22px 20px; }
+.br-graphic-grid { display: grid; gap: 8px; align-items: end; }
+.br-graphic-num { font-size: 30px; line-height: 1; color: #0F7A7E; }
+.br-graphic-bar { margin-top: 12px; height: 10px; border-radius: 9999px; background: #0F7A7E; }
+.br-graphic-label { margin-top: 9px; font-size: 11px; color: #5C6C75; }
+/* 막대 색이 곧 단계다 — 들이쉬기는 옅게, 내쉬기는 가장 진하게.
+   data-phase 값은 data/breathing.yaml 의 key 에서 온다(in · hold · out). */
+.br-graphic-col[data-phase="in"] .br-graphic-bar { background: #8FE5DA; }
+.br-graphic-col[data-phase="hold"] .br-graphic-bar { background: #C0FAE6; }
+.br-graphic-col[data-phase="hold"] .br-graphic-num { color: #22ABAF; }
+.br-graphic-note { margin-top: 18px; padding-top: 16px; border-top: 1px solid #F1E9DA; font-size: 12px; color: #889397; }
+
+.br-lead { margin: 20px 0 0; font-size: 14px; line-height: 1.8; color: #5C6C75; }
+
+.br-tips { margin-top: 26px; display: flex; flex-direction: column; gap: 8px; }
+.br-tip { display: flex; align-items: flex-start; gap: 12px; background: #FFFDF8; border: 1px solid #EADFCB; border-radius: 12px; padding: 15px 16px; }
+.br-tip-no { font-size: 11px; color: #0F7A7E; padding-top: 3px; }
+.br-tip-text { flex: 1; font-size: 13px; line-height: 1.7; color: #3D4F58; }
+
+.br-presets-label { margin-top: 26px; font-size: 14px; font-weight: 600; }
+.br-presets { margin-top: 10px; display: flex; gap: 8px; }
+.br-preset {
+  flex: 1; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; padding: 14px 8px;
+  background: #FFFDF8; border: 1px solid #EADFCB; color: #3D4F58;
+  transition: background 170ms cubic-bezier(.4, 0, .2, 1), border-color 170ms cubic-bezier(.4, 0, .2, 1), color 170ms cubic-bezier(.4, 0, .2, 1);
+}
+.br-preset.br-on { background: #0F7A7E; border-color: #0F7A7E; color: #FFFFFF; }
+.br-preset-min { display: block; font-size: 16px; font-weight: 600; }
+.br-preset-cnt { display: block; margin-top: 3px; font-size: 11px; opacity: .7; }
+
+.br-foot { padding: 22px 0 28px; display: flex; flex-direction: column; gap: 12px; }
+.br-note { margin: 0; font-size: 11px; line-height: 1.7; color: #889397; }
+
+.br-btn {
+  font: inherit; font-weight: 600; border: 0; border-radius: 9999px; cursor: pointer;
+  transition: background 170ms cubic-bezier(.4, 0, .2, 1);
+}
+.br-btn:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
+.br-btn-fill { background: #0F7A7E; color: #FFFFFF; font-size: 15px; padding: 15px; }
+.br-btn-fill:hover { background: #0B4F52; }
+.br-btn-ghost { flex: none; background: #EFE7D8; color: #3D4F58; font-size: 14px; padding: 15px 22px; }
+.br-btn-ghost:hover { background: #E5DAC6; }
+.br-btn-wide { width: 100%; padding: 16px; }
+.br-btn-grow { flex: 1; }
+.br-row { display: flex; gap: 10px; }
+
+/* ── 2) 연습 화면 ───────────────────────────────────────── */
+.br-run .br-foot, .br-done .br-foot { padding: 0 0 28px; gap: 10px; }
+.br-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 0; }
+
+/* 물결이 도는 자리. 숫자는 그 위에 겹쳐 놓는다 —
+   물결 안에 넣으면 화면 읽기 프로그램이 aria-hidden 에 가려 읽지 못한다. */
+.br-orb {
+  position: relative; width: min(80vw, 320px); height: min(80vw, 320px);
+  display: flex; align-items: center; justify-content: center;
+}
+/* 바깥 테두리는 움직이지 않는다 — 물결이 어디까지 퍼지는지 알려 주는 자리 */
+.br-orb::before { content: ""; position: absolute; inset: 0; border-radius: 9999px; border: 1px solid #EADFCB; }
+.br-rings { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.br-ring {
+  position: absolute; border-radius: 9999px; border: 1px solid transparent;
+  transform: scale(.6); opacity: .7;
+  transition-property: transform, opacity;
+  transition-duration: var(--br-dur, 600ms);
+  transition-timing-function: var(--br-ease, cubic-bezier(.4, 0, .2, 1));
+  transition-delay: calc(var(--i) * 55ms);
+}
+/* 아홉 겹. 안쪽으로 갈수록 작고 진하다. --i 는 시차(파동감)의 순번이다. */
+.br-ring:nth-child(1) { --i: 0; width: 100%; height: 100%; background: rgba(15, 122, 126, .03); border-color: #E9F3F3; }
+.br-ring:nth-child(2) { --i: 1; width: 92%; height: 92%; background: rgba(15, 122, 126, .04); border-color: #E1F0F0; }
+.br-ring:nth-child(3) { --i: 2; width: 83%; height: 83%; background: rgba(15, 122, 126, .05); border-color: #D9EEEE; }
+.br-ring:nth-child(4) { --i: 3; width: 74%; height: 74%; background: rgba(34, 171, 175, .08); border-color: #D0ECEC; }
+.br-ring:nth-child(5) { --i: 4; width: 65%; height: 65%; background: rgba(34, 171, 175, .12); border-color: #C8EBEB; }
+.br-ring:nth-child(6) { --i: 5; width: 56%; height: 56%; background: rgba(34, 171, 175, .18); border-color: #C0FAE6; }
+.br-ring:nth-child(7) { --i: 6; width: 47%; height: 47%; background: #C0FAE6; border-color: #B2F2E4; }
+.br-ring:nth-child(8) { --i: 7; width: 38%; height: 38%; background: #A9F1E1; border-color: #A9F1E1; }
+.br-ring:nth-child(9) { --i: 8; width: 29%; height: 29%; background: #8FE5DA; border-color: #8FE5DA; }
+
+/* 들이쉬기 · 멈추기에는 바깥에서 안으로, 내쉬기에는 안에서 밖으로 시차가 흐른다.
+   같은 방향으로만 흐르면 숨이 도는 느낌이 나지 않는다. */
+.br-rings[data-state="in"] .br-ring,
+.br-rings[data-state="hold"] .br-ring { transform: scale(1); opacity: 1; }
+.br-rings[data-state="out"] .br-ring { transform: scale(.6); opacity: .55; transition-delay: calc((8 - var(--i)) * 55ms); }
+.br-rings[data-state="idle"] .br-ring { transform: scale(.6); opacity: .7; transition-delay: 0ms; }
+
+.br-center { position: relative; z-index: 1; text-align: center; color: #063A3C; }
+.br-phase { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+.br-count { margin-top: 2px; font-size: 34px; line-height: 1.1; }
+
+.br-hint { margin: 32px 0 0; font-size: 13px; color: #5C6C75; text-align: center; }
+.br-progress { margin: 22px auto 0; width: 100%; max-width: 280px; }
+.br-progress-track { height: 5px; border-radius: 9999px; background: #EADFCB; overflow: hidden; }
+.br-progress-bar { height: 100%; width: 0; border-radius: 9999px; background: #0F7A7E; transition: width 400ms cubic-bezier(.4, 0, .2, 1); }
+.br-progress-foot { margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: #889397; }
+
+.br-bell { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 16px; background: #FFFDF8; border: 1px solid #EADFCB; border-radius: 12px; }
+.br-bell-text { font-size: 13px; line-height: 1.5; color: #3D4F58; }
+.br-bell-note { font-size: 11px; color: #889397; }
+.br-switch {
+  width: 44px; height: 26px; flex: none; border: 0; border-radius: 9999px; cursor: pointer; padding: 3px;
+  display: flex; justify-content: flex-start; background: #D9CFBB;
+  transition: background 170ms cubic-bezier(.4, 0, .2, 1);
+}
+.br-switch.br-on { justify-content: flex-end; background: #0F7A7E; }
+.br-switch:focus-visible { outline: 2px solid #157175; outline-offset: 2px; }
+.br-knob { width: 20px; height: 20px; border-radius: 9999px; background: #FFFFFF; display: block; }
+
+/* ── 3) 완료 화면 ───────────────────────────────────────── */
+.br-done-body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 30px 0; }
+.br-check { width: 52px; height: 52px; border-radius: 9999px; background: #C0FAE6; display: flex; align-items: center; justify-content: center; color: #0F7A7E; font-size: 22px; font-weight: 600; }
+.br-title-done { margin-top: 24px; font-size: 27px; letter-spacing: -0.7px; }
+.br-done .br-lead { margin-top: 12px; }
+.br-rows { margin-top: 26px; background: #FFFDF8; border: 1px solid #EADFCB; border-radius: 12px; padding: 4px 16px; }
+.br-row-item { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid #F1E9DA; }
+.br-k { font-size: 13px; color: #889397; }
+.br-v { font-size: 14px; font-weight: 500; }
+.br-done .br-note { margin-top: 20px; font-size: 12px; line-height: 1.8; }
+
+/* 움직임을 줄여 달라고 한 기기에서는 물결을 멈추고 숫자만 남긴다 —
+   화면이 커졌다 작아지는 것이 어지러움을 부르는 분이 있다. */
+@media (prefers-reduced-motion: reduce) {
+  .br-ring { transition: none; }
+  .br-progress-bar { transition: none; }
+}
