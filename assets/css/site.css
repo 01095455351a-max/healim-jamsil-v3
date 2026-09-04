@@ -1080,8 +1080,9 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 
 /* ── 「언제?」 서술칸 · 「→」 하위 택1 ─────────────────────────
    그 문항에 표시가 있을 때만 열린다. :has() 는 헤더 서랍에서도 쓰는 방식이다. */
-.sv-note, .sv-follow { display: none; margin: 10px 0 2px 30px; }
+.sv-note, .sv-follow, .sv-detail { display: none; margin: 10px 0 2px 30px; }
 .sv-item:has(input:checked) .sv-note,
+.sv-item:has(input:checked) .sv-detail,
 .sv-item:has(input:checked) .sv-follow { display: block; }
 .sv-note label { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .sv-note span { font-size: 15px; color: #6F6B61; }

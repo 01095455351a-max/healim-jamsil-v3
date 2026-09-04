@@ -67,6 +67,20 @@
     </div>
   {{- end -}}
 
+  {{/* 체크하면 나오는 하위 택다. 자주 나오는 답을 단추로 먼저 보여 주고,
+       그 밖의 것은 아래 서술칸에 적게 한다. */}}
+  {{ with $it.detail }}
+  <div class="sv-detail">
+    <span class="sv-opts">
+      {{- range .options -}}
+        {{- $t := "" }}{{ $sv := "" -}}
+        {{- if reflect.IsMap . }}{{ $t = .t }}{{ $sv = or .s .t }}{{ else }}{{ $t = . }}{{ $sv = . }}{{ end -}}
+        <label class="sv-chip"><input type="checkbox" name="{{ $k }}__d" value="{{ $t }}" data-s="{{ $sv }}" /><span>{{ $t }}</span></label>
+      {{- end -}}
+    </span>
+  </div>
+  {{ end }}
+
   {{/* 고르면 열리는 서술칸(원본의 「언제? (   )」) */}}
   {{ with $it.note }}
   <div class="sv-note">

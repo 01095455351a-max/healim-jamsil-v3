@@ -162,9 +162,13 @@
         return null;
       }
 
-      /* 「언제?」 서술칸과 「→」 하위 택1을 뒤에 붙인다 */
+      /* 하위 택다와 「언제?」 서술칸을 괄호에 함께 담고, 「→」 하위 택1을 뒤에 붙인다 */
+      var extra = [];
+      var picked = Array.prototype.slice.call(el.querySelectorAll('input[name="' + k + '__d"]:checked'));
+      if (picked.length) extra.push(picked.map(function (i) { return i.dataset.s; }).join('·'));
       var note = el.querySelector('[name="' + k + '__note"]');
-      if (note && note.value.trim()) body += '(' + note.value.trim() + ')';
+      if (note && note.value.trim()) extra.push(note.value.trim());
+      if (extra.length) body += '(' + extra.join(', ') + ')';
       var follow = el.querySelector('input[name="' + k + '__f"]:checked');
       if (follow) body += ' → ' + follow.dataset.s;
 
@@ -296,9 +300,11 @@
       if (item && (el.type === 'checkbox' || el.type === 'radio') && el.name === item.dataset.k) {
         var anyOn = item.querySelector('input[name="' + item.dataset.k + '"]:checked');
         if (!anyOn) {
-          var note = item.querySelector('[name$="__note"]');
+          var key = item.dataset.k;
+          var note = item.querySelector('[name="' + key + '__note"]');
           if (note) note.value = '';
-          item.querySelectorAll('input[name$="__f"]').forEach(function (r) { r.checked = false; });
+          item.querySelectorAll('input[name="' + key + '__f"], input[name="' + key + '__d"]')
+            .forEach(function (r) { r.checked = false; });
         }
       }
 
