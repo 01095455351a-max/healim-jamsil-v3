@@ -1193,3 +1193,12 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .sv-howto b { font-size: 16px; font-weight: 600; color: #001E2B; line-height: 1.5; }
 .sv-howto span { font-size: 15px; line-height: 1.75; color: #4A4A44; text-wrap: pretty; }
 .sv-howto .sv-btn { margin-top: 10px; justify-self: start; }
+
+/* 인쇄·복사는 곁길이다 — 주된 길(카카오톡)과 무게를 다르게 둔다. */
+.sv-alt { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #EDE6DA; }
+.sv-alt-link {
+  font: inherit; font-size: 15px; font-weight: 600; color: #0F7A7E;
+  background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline;
+  text-underline-offset: 4px; text-decoration-color: #C0FAE6;
+}
+.sv-alt-link:hover { text-decoration-color: #0F7A7E; }
