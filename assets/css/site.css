@@ -1210,3 +1210,11 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    돌아왔을 때 어디까지 했는지 눈으로 알 수 있다. */
 .sv-howto li.sv-done::before { content: '✓'; background: #157175; }
 .sv-howto li.sv-done b { color: #0F7A7E; }
+
+/* 대화창이 열리지 않을 때를 위한 곁길. 작게 두되 눈에는 띄어야 한다. */
+.sv-fallback {
+  display: block; margin-top: 10px; font-size: 14px; line-height: 1.7;
+  color: #6F6B61; text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-color: #CBD5D3; text-wrap: pretty;
+}
+.sv-fallback:hover { color: #0F7A7E; text-decoration-color: #0F7A7E; }
