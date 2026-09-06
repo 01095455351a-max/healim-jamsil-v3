@@ -71,12 +71,14 @@ approach_steps:
 approach_note: "목표는 그날 하루만 잠드는 것이 아니라, 치료 이후에도 스스로 안정적인 수면 리듬을 유지할 수 있는 몸 상태를 만드는 것입니다."
 related_columns:
   - /column/why-insomnia-becomes-chronic/
+  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
+  - /column/reducing-sleeping-pills/
   - /column/tired-but-cannot-sleep/
   - /column/panic-insomnia-care/
 faqs:
   - question: "수면제를 복용 중인데 한약도 같이 먹을 수 있나요?"
     answer: |
-      현재 복용 중인 수면제나 다른 약물이 있다면 초진 시 반드시 말씀해 주세요. 약물의 종류와 용량을 확인한 뒤 안전하게 병행하거나 조정할 수 있는 방향을 함께 안내해 드리며, 임의로 복용을 중단하지 않으시길 권합니다.
+      현재 복용 중인 수면제나 다른 약물이 있다면 초진 시 반드시 말씀해 주세요. 약물의 종류와 용량을 확인한 뒤 안전하게 병행하거나 조정할 수 있는 방향을 함께 안내해 드리며, 임의로 복용을 중단하지 않으시길 권합니다. 줄여 나가는 순서는 [수면제를 줄이려면 어떻게 해야 할까요?](/column/reducing-sleeping-pills/)에 자세히 적었습니다.
   - question: "불면증은 얼마나 치료해야 하나요?"
     answer: |
       불면의 배경(잡념형, 예민형, 긴장형 등)과 증상의 기간에 따라 차이가 있습니다. 일반적으로 2주 또는 4주 단위로 내원하시며 변화된 수면 상태에 맞춰 처방을 조정합니다.
