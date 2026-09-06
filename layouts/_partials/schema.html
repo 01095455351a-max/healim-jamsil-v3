@@ -122,6 +122,23 @@
 {{- end -}}
 
 {{- $graph := slice $clinic -}}
+
+{{/* ── 사이트 자체(WebSite) — 홈에만 넣는다 ──────────────────
+     검색 결과 목록에 도메인 대신 사이트 이름을 찍을 때 검색엔진이
+     참조하는 항목이다. 이것이 없어 네이버가 「healim-jamsil.com」을
+     그대로 보여주고 있었다. 구글 지침이 홈에만 두라고 한다.
+     publisher로 위 MedicalClinic을 가리켜 같은 곳으로 묶는다. */}}
+{{- if .IsHome -}}
+  {{- $graph = $graph | append (dict
+      "@type" "WebSite"
+      "@id" (printf "%s/#website" $base)
+      "url" (printf "%s/" $base)
+      "name" site.Title
+      "alternateName" "해아림한의원 잠실"
+      "inLanguage" "ko-KR"
+      "publisher" (dict "@id" $clinicId)) -}}
+{{- end -}}
+
 {{- if gt (len $crumbs) 1 -}}
   {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "itemListElement" $crumbs) -}}
 {{- end -}}
