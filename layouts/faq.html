@@ -17,9 +17,11 @@
   </div>
 </section>
 
+{{/* 문답(왼쪽)과 예약·문의 카드(오른쪽)의 2단. 질환 페이지와 같은 격자 값이라
+     모바일에서 한 줄로 접히는 규칙(site.css)이 그대로 걸린다. */}}
 <section style="background: #FFFFFF; padding: 56px 0 80px;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div style="max-width: 760px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 56px; align-items: start;">
+    <div>
       {{ with .Content }}<div class="prose-column" style="margin-bottom: 32px;">{{ partial "kr.html" . }}</div>{{ end }}
 
       {{ with .Params.faqs }}
@@ -34,20 +36,26 @@
       </div>
       {{ end }}
 
-      {{/* 문의 통로는 홈·질환 페이지와 같은 세 가지. 값은 전부 data/clinic.yaml. */}}
-      <div style="margin-top: 36px; background: #FAF6EF; border: 1px solid #EDE6DA; border-radius: 12px; padding: 22px 26px;">
-        <div style="font-size: 16px; line-height: 1.85; color: #4A4A44; margin-bottom: 18px; text-wrap: pretty">여기에 없는 내용은 편하게 물어보세요. 진료시간 내에는 전화로 가장 빠르게 안내해 드립니다.</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-          <a href="{{ $c.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 24px; border-radius: 9999px;" class="btn-primary">{{ $c.phone_display }}<span style="font-size: 13px;">↗</span></a>
-          <a href="{{ $c.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 14px 24px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
-          <a href="{{ $c.kakao_channel_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 14px 24px; border-radius: 9999px;" class="btn-kakao">카카오톡 문의<span style="font-size: 13px;">↗</span></a>
-        </div>
-      </div>
-
       <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #EDE6DA;">
         <a href="/first-visit/" style="font-size: 15px; font-weight: 600;">첫 내원 안내 보기 →</a>
       </div>
     </div>
+
+    {{/* 문의 통로는 홈·질환 페이지와 같은 세 가지. 값은 전부 data/clinic.yaml. */}}
+    <aside style="position: sticky; top: 112px;">
+      <div style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 14px;">Consult</div>
+        <div style="font-size: 15px; line-height: 1.75; color: #4A4A44; margin-bottom: 18px; text-wrap: pretty">여기에 없는 내용은 편하게 물어보세요. 진료시간 내에는 전화가 가장 빠릅니다.</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="{{ $c.phone_tel | safeURL }}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 24px; border-radius: 9999px;" class="btn-primary">{{ $c.phone_display }}<span style="font-size: 13px;">↗</span></a>
+          <a href="{{ $c.naver_booking_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 14px 24px; border-radius: 9999px;" class="btn-naver">네이버 예약<span style="font-size: 13px;">↗</span></a>
+          <a href="{{ $c.kakao_channel_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 14px 24px; border-radius: 9999px;" class="btn-kakao">카카오톡 문의<span style="font-size: 13px;">↗</span></a>
+        </div>
+        <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #F1F3F2; font-size: 15px;">
+          <a href="/directions/#hours" style="color: #4A4A44;" class="nav-link">진료시간 · 오시는 길 →</a>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 {{ end }}
