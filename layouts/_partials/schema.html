@@ -96,11 +96,13 @@
 {{- end -}}
 {{/* 공식 채널 — data/clinic.yaml에 있는 것만. */}}
 {{- $same := slice -}}
-{{- range (slice $c.naver_blog_url $c.instagram_url $c.youtube_url $c.kakao_channel_url $c.naver_booking_url $c.network_site_url) -}}
+{{- range (slice $c.naver_blog_url $c.instagram_url $c.youtube_url $c.kakao_channel_url $c.naver_place_url $c.network_site_url) -}}
   {{- with . }}{{ $same = $same | append . }}{{ end -}}
 {{- end -}}
 {{- with $same }}{{ $clinic = merge $clinic (dict "sameAs" .) }}{{ end -}}
-{{- with $c.naver_booking_url }}{{ $clinic = merge $clinic (dict "hasMap" .) }}{{ end -}}
+{{/* hasMap·sameAs는 지도 주소를 쓴다 — 예약 주소(booking.naver.com)가 아니다.
+     2026-09 전에는 두 값이 같아 naver_booking_url을 쓰고 있었다. */}}
+{{- with $c.naver_place_url }}{{ $clinic = merge $clinic (dict "hasMap" .) }}{{ end -}}
 {{/* 원장 2명을 병원에 연결한다. 실제 Physician 노드는 홈·원장 페이지·질환 페이지에서 나간다. */}}
 {{- $staff := slice -}}
 {{- range $slug, $a := site.Data.authors -}}
