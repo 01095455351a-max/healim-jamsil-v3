@@ -62,6 +62,28 @@ Environment variables** → **Add variable** (Production)
 - Client secret은 Cloudflare에만 두고 **저장소에 적지 않습니다**
 - 이 저장소에 쓰기 권한이 있는 GitHub 계정만 로그인됩니다.
   다른 사람에게 맡기려면 그 계정을 저장소 협력자로 추가하면 됩니다
+- 승인 창에서 **어느 계정으로 들어갈지 매번 묻습니다.** 계정이 하나뿐이면
+  그대로 눌러 넘어가면 됩니다
+
+### 「does not have access to this repo」가 뜰 때
+
+```
+Your GitHub user account does not have access to this repo.
+```
+
+로그인은 됐는데 **그 계정이 이 저장소에 쓸 수 없다**는 뜻입니다. 거의 항상
+브라우저에 다른 GitHub 계정이 로그인돼 있어서 생깁니다.
+
+1. 같은 브라우저에서 github.com을 열어 오른쪽 위 계정 이름을 봅니다.
+   저장소 주인 계정이 아니면 바꿔 로그인합니다
+2. 계정이 맞는데도 그러면 예전 열쇠가 남아 있는 것입니다. 시크릿 창으로
+   `https://healim-jamsil.com/admin/` 을 열어 보면 바로 구분됩니다.
+   맞다면 원래 창의 사이트 데이터(쿠키·저장소)를 지우고 다시 로그인합니다
+3. github.com → Settings → Applications 에서 이 앱의 권한을 실수로
+   취소하지 않았는지 봅니다
+
+**급할 때는 CMS 없이도 올라갑니다.** 초안이 이미 PR로 올라가 있으면
+GitHub에서 그 PR을 병합하는 것으로 발행됩니다.
 
 ## 내 컴퓨터에서 쓰기 (로그인 없이)
 
