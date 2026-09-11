@@ -267,12 +267,15 @@ section[id], [id^="kakao-map-"] { scroll-margin-top: 124px; }
    좌우 패딩 88px이 폭에 그대로 더해졌다(390px 화면에서 팝업 폭 478px → 오른쪽 잘림,
    닫기 ✕가 화면 밖). box-sizing을 바로잡고, 데스크톱은 기존에 보이던 렌더 폭(708px =
    mockup의 max-width 620px + 패딩 88px)을 그대로 유지한다. */
-dialog { box-sizing: border-box; max-width: 708px !important; }
+dialog { box-sizing: border-box; }
+/* 안내 팝업(.pop)은 자기 폭을 쓴다 — 아래 규칙에서 모두 빼 준다.
+   치료 방법 팝업의 동작은 그대로다. */
+dialog:not(.pop) { max-width: 708px !important; }
 
 /* 모바일에서는 하단 시트 형태로 전환하고, 제목+닫기 줄을 상단에 고정해
    내용을 끝까지 스크롤해도 닫기 버튼이 보이도록 한다. */
 @media (max-width: 767px) {
-  dialog {
+  dialog:not(.pop) {
     width: 100% !important;
     max-width: 100% !important;
     max-height: 88vh !important;
@@ -280,7 +283,7 @@ dialog { box-sizing: border-box; max-width: 708px !important; }
     padding: 0 20px 24px !important;
     border-radius: 16px 16px 0 0 !important;
   }
-  dialog > div:first-of-type {
+  dialog:not(.pop) > div:first-of-type {
     position: sticky;
     top: 0;
     z-index: 1;
@@ -348,6 +351,64 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 480px) {
   .price-row { flex-direction: column; gap: 8px; padding: 16px 18px; }
   .price-amount { margin-left: 0; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   안내 팝업 (data/popup.yaml)
+
+   인라인 style을 쓰지 않고 .pop-* 클래스로 둔다. 팝업은 글자 크기를
+   일부러 크게 잡은 자리라, 모바일 정돈 블록의 일괄 축소 규칙에 걸리면
+   의도가 무너진다(호흡 연습·문진표와 같은 이유).
+   색은 사이트에서 쓰는 값만 쓴다 — 새 색을 만들지 않는다. */
+.pop {
+  width: 100%; max-width: 420px; border: none; padding: 0;
+  border-radius: 18px; background: #FFFFFF;
+  box-shadow: rgba(0,30,43,0.18) 0 18px 50px -10px;
+}
+.pop::backdrop { background: rgba(0,30,43,0.42); }
+.pop-in { padding: 26px 26px 22px; }
+
+.pop-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+.pop-tag {
+  display: inline-block; font-size: 12px; font-weight: 600; color: #0F7A7E;
+  background: #E3FCF7; border-radius: 9999px; padding: 5px 12px; margin-bottom: 10px;
+}
+.pop-title { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; line-height: 1.3; color: #001E2B; margin: 0; }
+.pop-x {
+  font-family: inherit; margin-left: auto; flex: 0 0 32px; width: 32px; height: 32px;
+  border-radius: 9999px; border: 1px solid #E8EDEB; background: #FFFFFF;
+  color: #6F6B61; font-size: 15px; line-height: 1; cursor: pointer;
+}
+.pop-x:hover { border-color: #C1C7C6; color: #001E2B; }
+
+.pop-card { background: #FAF6EF; border: 1px solid #EFE7D8; border-radius: 14px; padding: 6px 18px; }
+.pop-grp + .pop-grp { border-top: 1px solid #EFE7D8; }
+.pop-grp { padding: 16px 0; }
+.pop-grp-name { font-size: 13px; font-weight: 700; color: #0F7A7E; margin-bottom: 12px; }
+
+.pop-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pop-row + .pop-row { margin-top: 12px; }
+.pop-item { font-size: 16px; line-height: 1.45; color: #4A4A44; }
+.pop-amt { margin-left: auto; white-space: nowrap; }
+.pop-was { font-size: 14px; color: #A29C90; text-decoration: line-through; margin-right: 8px; }
+.pop-now { font-size: 21px; font-weight: 700; color: #001E2B; letter-spacing: -0.5px; }
+
+.pop-note { font-size: 12.5px; line-height: 1.6; color: #6F6B61; margin: 16px 0 0; }
+.pop-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+.pop-hide { display: flex; align-items: center; gap: 7px; margin-left: auto; font-size: 13px; color: #6F6B61; cursor: pointer; }
+.pop-hide input { accent-color: #0F7A7E; }
+.pop-cta {
+  font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175;
+  padding: 12px 22px; border-radius: 9999px;
+}
+
+@media (max-width: 460px) {
+  .pop { width: calc(100% - 32px); }
+  .pop-in { padding: 22px 20px 18px; }
+  .pop-title { font-size: 22px; }
+  .pop-item { font-size: 15px; }
+  .pop-now { font-size: 20px; }
 }
 
 
