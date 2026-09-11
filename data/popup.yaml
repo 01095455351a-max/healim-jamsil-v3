@@ -23,9 +23,9 @@ period_text: "9월 30일까지"
 #   was    (선택) 정가. 적으면 취소선으로 함께 보인다
 #   price  실제 금액
 groups:
-  - name: "공진단"
+  - name: "공진단(5g, 사향 100mg 함유)"
     rows:
-      - name: "5g 1환 · 사향 100mg"
+      - name: "1환"
         price: "60,000원"
       - name: "10환 단위 · 20% 할인"
         was: "600,000원"
