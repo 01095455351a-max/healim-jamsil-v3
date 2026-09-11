@@ -378,5 +378,48 @@
 {{ end }}
 
 <script src="/js/hero-slides.js"></script>
+{{/* ── 안내 팝업 ─────────────────────────────────────────────
+     data/popup.yaml 하나로 켜고 끈다. enabled가 false거나 오늘이
+     start~end 밖이면 마크업 자체가 나가지 않는다.
+     치료 방법 팝업과 같은 <dialog>·같은 px 값을 쓴다 — 새 값을 만들면
+     모바일 정돈 규칙에 걸리지 않는다(check-mobile.py 참고). */}}
+{{ $pu := site.Data.popup }}
+{{ if $pu.enabled }}
+  {{ $today := now.Format "2006-01-02" }}
+  {{ $on := true }}
+  {{ with $pu.start }}{{ if lt $today (printf "%v" .) }}{{ $on = false }}{{ end }}{{ end }}
+  {{ with $pu.end }}{{ if gt $today (printf "%v" .) }}{{ $on = false }}{{ end }}{{ end }}
+  {{ if $on }}
+<dialog id="site-popup" data-key="{{ $pu.start }}-{{ $pu.end }}" style="border-radius: 16px; box-shadow: rgba(0,30,43,0.16) 0px 16px 48px -8px; max-width: 620px; width: 100%; max-height: 84vh; padding: 40px 44px; border: none;" onclick="if(event.target===this) this.close()">
+  <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+    <div>
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $pu.label }} · {{ $pu.period_text }}</div>
+      <h3 style="font-size: 26px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.35; margin: 0;; text-wrap: balance">{{ $pu.title }}</h3>
+    </div>
+    <button type="button" aria-label="닫기" onclick="this.closest('dialog').close()" style="font-family: inherit; margin-left: auto; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 9999px; border: 1px solid #C1C7C6; background: #FFFFFF; color: #001E2B; font-size: 16px; cursor: pointer;" class="btn-outline">✕</button>
+  </div>
+  {{ range $pu.groups }}
+  <div style="background: #FAF6EF; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px 26px; margin-bottom: 20px;">
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #6F6B61; margin-bottom: 14px;">{{ .name }}</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      {{ range .rows }}
+      <div style="display: flex; align-items: baseline; gap: 12px; font-size: 16px; line-height: 1.7; color: #4A4A44;">
+        <span>{{ partial "kr.html" .name }}</span>
+        <span style="margin-left: auto; text-align: right; white-space: nowrap;">{{ with .was }}<span style="color: #6F6B61; text-decoration: line-through; margin-right: 8px;">{{ . }}</span>{{ end }}<strong style="color: #001E2B;">{{ .price }}</strong></span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+  {{ with $pu.note }}<p style="font-size: 13px; line-height: 1.7; color: #6F6B61; margin: 0 0 20px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+  <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+    {{ with $pu.link_url }}<a href="{{ . }}" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 24px; border-radius: 9999px;" class="btn-primary">{{ $pu.link_text }}</a>{{ end }}
+    <label style="display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 13px; color: #6F6B61; cursor: pointer;"><input type="checkbox" id="site-popup-hide" style="accent-color: #0F7A7E;" />오늘 하루 보지 않기</label>
+  </div>
+</dialog>
+<script src="/js/site-popup.js"></script>
+  {{ end }}
+{{ end }}
+
 <script src="/js/treatment-modal.js"></script>
 {{ end }}
