@@ -382,7 +382,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .pop-card { background: #FAF6EF; border: 1px solid #EFE7D8; border-radius: 14px; padding: 6px 18px; }
 .pop-grp + .pop-grp { border-top: 1px solid #EFE7D8; }
 .pop-grp { padding: 16px 0; }
-.pop-grp-name { font-size: 13px; font-weight: 700; color: #0F7A7E; margin-bottom: 12px; }
+.pop-grp-name { font-size: 17px; font-weight: 700; color: #0F7A7E; margin-bottom: 12px; }
 
 .pop-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .pop-row + .pop-row { margin-top: 12px; }
@@ -410,7 +410,7 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   .pop-top { margin-bottom: 16px; }
   .pop-card { padding: 4px 15px; }
   .pop-grp { padding: 13px 0; }
-  .pop-grp-name { font-size: 12.5px; margin-bottom: 9px; }
+  .pop-grp-name { font-size: 15.5px; margin-bottom: 9px; }
   .pop-row + .pop-row { margin-top: 9px; }
   .pop-item { font-size: 15px; }
   .pop-was { font-size: 13px; margin-right: 6px; }
