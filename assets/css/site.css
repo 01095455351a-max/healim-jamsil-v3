@@ -370,11 +370,8 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .pop-in { padding: 26px 26px 22px; }
 
 .pop-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
-.pop-tag {
-  display: inline-block; font-size: 12px; font-weight: 600; color: #0F7A7E;
-  background: #E3FCF7; border-radius: 9999px; padding: 5px 12px; margin-bottom: 10px;
-}
-.pop-title { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; line-height: 1.3; color: #001E2B; margin: 0; }
+.pop-title { font-size: 30px; font-weight: 700; letter-spacing: -1px; line-height: 1.25; color: #001E2B; margin: 0; }
+.pop-period { font-size: 14px; font-weight: 600; color: #0F7A7E; margin-top: 7px; }
 .pop-x {
   font-family: inherit; margin-left: auto; flex: 0 0 32px; width: 32px; height: 32px;
   border-radius: 9999px; border: 1px solid #E8EDEB; background: #FFFFFF;
@@ -403,12 +400,24 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   padding: 12px 22px; border-radius: 9999px;
 }
 
+/* 좁은 화면에서는 폭과 여백을 함께 줄인다. 글자 크기는 거의 그대로 둔다 —
+   작게 만들려고 글자부터 줄이면 읽기 어려워진다. */
 @media (max-width: 460px) {
-  .pop { width: calc(100% - 32px); }
-  .pop-in { padding: 22px 20px 18px; }
-  .pop-title { font-size: 22px; }
+  .pop { width: calc(100% - 60px); }
+  .pop-in { padding: 20px 18px 16px; }
+  .pop-title { font-size: 25px; }
+  .pop-period { font-size: 13px; margin-top: 5px; }
+  .pop-top { margin-bottom: 16px; }
+  .pop-card { padding: 4px 15px; }
+  .pop-grp { padding: 13px 0; }
+  .pop-grp-name { font-size: 12.5px; margin-bottom: 9px; }
+  .pop-row + .pop-row { margin-top: 9px; }
   .pop-item { font-size: 15px; }
+  .pop-was { font-size: 13px; margin-right: 6px; }
   .pop-now { font-size: 20px; }
+  .pop-note { font-size: 12px; margin-top: 13px; }
+  .pop-foot { margin-top: 13px; }
+  .pop-hide { font-size: 12.5px; }
 }
 
 

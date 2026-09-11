@@ -394,8 +394,8 @@
   <div class="pop-in">
     <div class="pop-top">
       <div>
-        <span class="pop-tag">{{ $pu.label }} · {{ $pu.period_text }}</span>
-        <h3 class="pop-title">{{ partial "kr.html" $pu.title }}</h3>
+        <h3 class="pop-title">{{ partial "kr.html" $pu.label }}</h3>
+        {{ with $pu.period_text }}<div class="pop-period">{{ . }}</div>{{ end }}
       </div>
       <button type="button" class="pop-x" aria-label="닫기" onclick="this.closest('dialog').close()">✕</button>
     </div>

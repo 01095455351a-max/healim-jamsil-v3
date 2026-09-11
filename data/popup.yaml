@@ -13,8 +13,8 @@ enabled: true
 start: 2026-09-11
 end: 2026-09-30
 
+# label이 팝업의 큰 제목, period_text가 그 아래 작은 줄이다.
 label: "추석 이벤트"
-title: "공진단 · 경옥고"
 period_text: "9월 30일까지"
 
 # 표의 줄. 늘리면 화면에 그대로 늘어난다.
