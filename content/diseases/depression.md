@@ -74,6 +74,7 @@ approach_steps:
     text: "몸의 긴장과 순환을 개선해 신체 에너지 회복을 돕습니다."
 approach_note: "기분은 마음만의 문제가 아니라 몸 전체의 상태와 맞물려 있습니다. 몸과 마음을 함께 살피는 치료로 회복을 돕습니다."
 related_columns:
+  - /column/postpartum-depression-when-to-seek-help/
   - /column/depression-vs-low-motivation/
 faqs:
   - question: "우울증도 한약으로 치료가 되나요?"
