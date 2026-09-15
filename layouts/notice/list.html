@@ -19,7 +19,7 @@
     <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;">
       <span style="margin-left: auto; align-self: center; font-size: 14px; color: #6B6960;">전체 {{ $total }}건</span>
     </div>
-    {{ partial "notice-table.html" (dict "notices" $notices "start" $total) }}
+    {{ partial "notice-table.html" (dict "notices" $notices "start" $total "level" 2) }}
     <div style="margin-top: 28px;"><a href="/" style="font-size: 15px; font-weight: 600;">← 홈으로 돌아가기</a></div>
   </div>
 </section>

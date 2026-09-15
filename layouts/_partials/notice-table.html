@@ -1,6 +1,12 @@
 {{/* 공지 목록 표 — 홈·공지사항·게시판 세 곳이 같은 마크업을 쓴다.
      인자: notices (RegularPages), start (번호 시작값 = 전체 건수)
-     같은 name을 준 <details>라 하나를 열면 앞서 열린 것이 닫힌다. */}}
+             level (선택 — 펼친 칸 제목의 단계. 기본 3)
+     같은 name을 준 <details>라 하나를 열면 앞서 열린 것이 닫힌다.
+
+     제목 단계를 인자로 받는 이유 — 홈·게시판은 위에 H2(「공지사항」)가
+     있어 H3 이 맞지만, 공지사항 목록은 H1 바로 아래다. 공지 본문에
+     소제목(###)을 쓰면 그것이 H3 으로 나오므로 그 위가 H2 여야 한다. */}}
+{{- $h := .level | default 3 -}}
 {{ $notices := .notices }}
 {{ $total := .start | default (len $notices) }}
 {{ $now := now }}
@@ -21,7 +27,7 @@
     <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
       <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
-        <div style="font-size: 17px; font-weight: 600; margin-bottom: 12px;">{{ partial "kr.html" $n.Title }}</div>
+        <h{{ $h }} style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">{{ partial "kr.html" $n.Title }}</h{{ $h }}>
         <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" $n.Content }}</div>
       </div>
     </div>
