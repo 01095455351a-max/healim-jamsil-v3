@@ -24,14 +24,39 @@
     <div>
       {{ with .Content }}<div class="prose-column" style="margin-bottom: 32px;">{{ partial "kr.html" . }}</div>{{ end }}
 
-      {{ with .Params.faqs }}
-      <div id="faq" style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; overflow: hidden;">
-        {{ range $i, $f := . }}
+      {{/* 주제별로 묶어 H2 를 단다 — 질문 16개가 평평하게 늘어서면 찾기 어렵고,
+           AI 가 답변에 인용할 때도 어느 묶음의 답인지 잡지 못한다.
+
+           묶음 이름은 각 문항의 group 값에서 읽는다(content/faq.md).
+           나오는 순서대로 묶이므로 파일에서 같은 group 끼리 붙여 둔다.
+           group 이 비어 있으면 제목 없이 한 덩어리로 나온다 — 새 문항에
+           group 을 안 적어도 화면에서 사라지지 않게 한 것이다.
+
+           FAQPage 구조화 데이터는 _partials/schema.html 이 같은 목록을
+           평평하게 읽으므로 이 묶음과 무관하게 그대로 나간다. */}}
+      {{ $faqs := .Params.faqs }}
+      {{ $groups := slice }}
+      {{ range $faqs }}
+        {{ $g := string (or .group "") }}
+        {{ if not (in $groups $g) }}{{ $groups = $groups | append $g }}{{ end }}
+      {{ end }}
+      {{ with $faqs }}
+      <div id="faq">
+        {{ range $gi, $g := $groups }}
+        {{ with $g }}<h2 style="font-size: 22px; font-weight: 600; letter-spacing: -0.3px; margin: {{ cond (eq $gi 0) "0" "44px" }} 0 16px;">{{ . }}</h2>{{ end }}
+        <div style="background: #FFFFFF; border: 1px solid #E8EDEB; border-radius: 16px; overflow: hidden;">
+        {{ $n := 0 }}
+        {{ range $i, $f := $faqs }}
+        {{ if eq (string (or $f.group "")) $g }}
         {{/* 같은 name 을 준 <details> 라 하나를 열면 앞서 열린 것이 닫힌다 */}}
-        <details name="faq"{{ if ne $i 0 }} style="border-top: 1px solid #F1F3F2;"{{ end }}>
+        <details name="faq"{{ if ne $n 0 }} style="border-top: 1px solid #F1F3F2;"{{ end }}>
+        {{ $n = add $n 1 }}
           <summary style="list-style: none; cursor: pointer; display: flex; align-items: flex-start; gap: 14px; padding: 24px 28px; font-size: 17px; font-weight: 600; line-height: 1.6; color: #001E2B;"><span style="flex: 0 0 auto; color: #0F7A7E;">Q</span><span style="flex: 1 1 auto;; text-wrap: pretty">{{ partial "kr.html" $f.question }}</span><span style="flex: 0 0 auto; font-size: 14px; color: #6F6B61;">＋</span></summary>
           <div style="padding: 0 28px 26px 60px; font-size: 16px; line-height: 1.85; color: #4A4A44;; text-wrap: pretty">{{ partial "kr.html" ($f.answer | markdownify) }}</div>
         </details>
+        {{ end }}
+        {{ end }}
+        </div>
         {{ end }}
       </div>
       {{ end }}
