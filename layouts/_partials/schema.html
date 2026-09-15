@@ -8,7 +8,8 @@
      확인되지 않은 값은 넣지 않는다.
 
      내보내는 것
-       모든 페이지   MedicalClinic(병원) + BreadcrumbList
+       모든 페이지   MedicalClinic(병원) + WebPage(이 페이지 자체)
+       홈 외          BreadcrumbList(이동 경로)
        홈            원장 2명의 Physician
        원장 페이지   Physician + ScholarlyArticle(학술 논문)
        컬럼 글       Article (author를 원장 페이지 URL로 연결)
@@ -110,18 +111,37 @@
 {{- end -}}
 {{- with $staff }}{{ $clinic = merge $clinic (dict "employee" .) }}{{ end -}}
 
-{{/* ── 이동 경로(breadcrumb) — 화면의 표시와 같은 단계로 맞춘다 ── */}}
+{{/* ── 이동 경로(breadcrumb) — 화면의 표시와 같은 단계로 맞춘다 ──
+     홈에는 넣지 않는다. 홈에서 시작해 홈에서 끝나는 한 단계짜리 이동경로는
+     구글이 넣지 말라고 안내하는 형태다. 진단 도구가 홈만 보고 "없음"이라고
+     할 수 있으나 나머지 페이지에는 모두 들어 있다.
+
+     목록 페이지(원장 컬럼·공지사항·치료후기)는 그 자체가 2단계다.
+     한때 「홈 › 원장 컬럼 › 원장 컬럼」으로 같은 이름이 두 번 들어갔다.
+
+     가운데 단계에 주소를 붙이는 것은 목록 페이지가 실제로 나오는 구역뿐이다 —
+     특화 질환·의료진은 _index.md가 render: never 라 목록 페이지가 없다. */}}
 {{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" "홈" "item" (printf "%s/" $base)) -}}
 {{- if not .IsHome -}}
   {{- $sec := .Section -}}
   {{- $secName := dict "diseases" "특화 질환" "doctors" "의료진" "column" "원장 컬럼" "notice" "공지사항" "reviews" "치료후기" -}}
-  {{- if and $sec (index $secName $sec) -}}
-    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" (index $secName $sec)) -}}
-    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink) -}}
+  {{- $name := index $secName $sec -}}
+  {{- if and $sec $name -}}
+    {{- if eq .Kind "section" -}}
+      {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" $name "item" .Permalink) -}}
+    {{- else -}}
+      {{- $li := dict "@type" "ListItem" "position" 2 "name" $name -}}
+      {{- with site.GetPage (printf "/%s" $sec) -}}
+        {{- with .RelPermalink }}{{ $li = merge $li (dict "item" (printf "%s%s" $base .)) }}{{ end -}}
+      {{- end -}}
+      {{- $crumbs = $crumbs | append $li -}}
+      {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink) -}}
+    {{- end -}}
   {{- else -}}
     {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" .Permalink) -}}
   {{- end -}}
 {{- end -}}
+{{- $bcId := printf "%s#breadcrumb" .Permalink -}}
 
 {{- $graph := slice $clinic -}}
 
@@ -141,8 +161,42 @@
       "publisher" (dict "@id" $clinicId)) -}}
 {{- end -}}
 
+{{/* ── 이 페이지 자체(WebPage) ───────────────────────────
+     병원·원장·글은 있는데 그것을 담은 페이지에 대한 설명이 없었다.
+     검색 결과 모양을 바꾸는 항목은 아니고, 흩어진 개체를 한 덩어리로
+     묶어 검색엔진과 AI 크롤러가 "이 주소는 무슨 문서인가"를 읽게 한다.
+
+     성격에 맞는 이름을 쓴다 — 질환은 MedicalWebPage, 목록은 CollectionPage.
+     제목·설명은 이미 front matter 에 있는 값을 그대로 쓴다. */}}
+{{- $pageType := "WebPage" -}}
+{{- if eq .Kind "section" }}{{ $pageType = "CollectionPage" }}{{ end -}}
+{{- if and (eq .Section "diseases") (ne .Kind "section") }}{{ $pageType = "MedicalWebPage" }}{{ end -}}
+{{- $wp := dict
+  "@type" $pageType
+  "@id" (printf "%s#webpage" .Permalink)
+  "url" .Permalink
+  "name" (cond .IsHome site.Title (string .Title))
+  "isPartOf" (dict "@id" (printf "%s/#website" $base))
+  "inLanguage" "ko-KR"
+-}}
+{{/* 질환 페이지는 그 질환이 주제다. 나머지는 이 한의원이 주제다. */}}
+{{- if eq $pageType "MedicalWebPage" -}}
+  {{- $wp = merge $wp (dict "about" (dict "@type" "MedicalCondition" "name" .Title)) -}}
+{{- else -}}
+  {{- $wp = merge $wp (dict "about" (dict "@id" $clinicId)) -}}
+{{- end -}}
+{{- with (or .Params.description .Params.summary) }}{{ $wp = merge $wp (dict "description" (plainify .)) }}{{ end -}}
+{{- if gt (len $crumbs) 1 }}{{ $wp = merge $wp (dict "breadcrumb" (dict "@id" $bcId)) }}{{ end -}}
+{{/* 날짜는 글에만 있다. 목록·안내 페이지에는 붙이지 않는다. */}}
+{{- if and (not .Date.IsZero) (ne .Kind "section") (not .IsHome) -}}
+  {{- $wp = merge $wp (dict
+      "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
+      "dateModified" ((or .Lastmod .Date).Format "2006-01-02T15:04:05-07:00")) -}}
+{{- end -}}
+{{- $graph = $graph | append $wp -}}
+
 {{- if gt (len $crumbs) 1 -}}
-  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "itemListElement" $crumbs) -}}
+  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "@id" $bcId "itemListElement" $crumbs) -}}
 {{- end -}}
 
 {{/* ── 원장(Physician) ───────────────────────────────────
@@ -223,7 +277,7 @@
         "dateModified" ((or .Lastmod .Date).Format "2006-01-02T15:04:05-07:00")
         "author" $authors
         "publisher" (dict "@id" $clinicId)
-        "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+        "mainEntityOfPage" (dict "@id" (printf "%s#webpage" .Permalink))
         "inLanguage" "ko-KR"
       -}}
       {{- $graph = $graph | append $a -}}
