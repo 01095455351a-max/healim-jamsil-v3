@@ -88,8 +88,14 @@
         {{ range $i, $r := $scans }}
         {{ $name := path.Base $r.Name }}
         {{ $g := index $map $name }}
-        {{ $thumb := $r.Resize "440x webp q80 photo" }}
-        {{ $mid := $r.Resize "480x webp q72 photo" }}
+        {{/* 윗부분을 잘라낸다 — 로고·제목과 성명·병명·치료기간 줄이 그 안에 있다.
+             치료 연도가 오래돼 보이는 것을 원장이 원치 않았다. 날짜 줄만 덮는
+             방법은 스캔마다 종이 위치가 3%쯤 달라 65장을 한 장씩 맞춰야 해서
+             쓰지 않았다. 잘라내기는 편차를 흡수하고 새 파일에도 그대로 걸린다.
+             성명은 원래 가려져 있고 병명은 카드 아래에 우리가 표시한다. */}}
+        {{ $body := $r.Crop (printf "%dx%d Bottom" $r.Width (int (mul $r.Height 0.65))) }}
+        {{ $thumb := $body.Resize "440x webp q80 photo" }}
+        {{ $mid := $body.Resize "480x webp q72 photo" }}
         {{ $id := printf "rv-%d" (add $i 1) }}
         <button type="button" class="review-slide" data-tags="{{ $g }}" onclick="document.getElementById('{{ $id }}').showModal()" aria-label="자필 후기 크게 보기{{ with $g }} — {{ . }}{{ end }}">
           <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="자필 후기{{ with $g }} — {{ . }}{{ end }}" loading="lazy" decoding="async" />
