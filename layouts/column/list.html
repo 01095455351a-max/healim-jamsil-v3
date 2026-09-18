@@ -15,7 +15,7 @@
 
 <section style="background: #FFFFFF; padding: 48px 0 88px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div id="column-filters" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;">
+    <div id="column-filters" data-grid="column-grid" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;">
       <button type="button" data-filter="all" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #0F7A7E; background: #E3FCF7; color: #0F7A7E;">전체</button>
       {{ $s := newScratch }}
       {{ range $columns }}{{ range (collections.Complement (slice "칼럼") .Params.tags) }}{{ $s.Add "tags" (slice .) }}{{ end }}{{ end }}

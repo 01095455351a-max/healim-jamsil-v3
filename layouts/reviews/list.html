@@ -36,22 +36,42 @@
     <p style="font-size: 17px; line-height: 1.7; color: #4A4A44; margin: 0 auto 8px; max-width: 700px; text-align: center; text-wrap: pretty;">진료를 받으신 분들이 직접 손으로 적어 주신 체험 후기입니다.</p>
     <p style="font-size: 15px; line-height: 1.7; color: #6F6B61; margin: 0 auto 32px; max-width: 700px; text-align: center; text-wrap: pretty;">성명은 본인 동의 아래 가려서 게시하며, 연락처 등 신원을 알 수 있는 정보는 담지 않습니다.</p>
 
+    {{/* 스캔은 폴더에서 읽는다 — assets/media/reviews/ 에 넣으면 그대로 붙는다.
+         질환 분류는 data/reviews.yaml 에서 파일명으로 찾는다. 분류표에 없는
+         파일도 화면에는 나온다(「전체」에서만 보인다) — 파일을 넣을 때마다
+         표를 고쳐야 하는 구조로 만들지 않기 위해서다. */}}
+    {{ $map := dict }}
+    {{ range site.Data.reviews.items }}{{ $map = merge $map (dict .file (or .group "")) }}{{ end }}
+
     {{ $scans := slice }}
     {{ range (resources.Match "media/reviews/*.jpg") }}{{ $scans = $scans | append . }}{{ end }}
     {{ if $scans }}
-    <div class="review-slider">
-      <button type="button" class="review-arrow review-arrow-prev" aria-label="이전 후기 보기">‹</button>
-      <div class="review-strip" tabindex="0" role="group" aria-label="자필 후기 스캔 이미지">
-        {{ range $i, $r := $scans }}
-        {{ $img := $r.Resize "440x webp q80 photo" }}
-        <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" class="review-slide" aria-label="자필 후기 {{ add $i 1 }} — 네트워크 홈페이지에서 보기">
-          <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
-        </a>
-        {{ end }}
-      </div>
-      <button type="button" class="review-arrow review-arrow-next" aria-label="다음 후기 보기">›</button>
+
+    {{/* 질환별 단추 — 분류표에 실제로 쓰인 이름만 나온다. 순서는 아래 목록이 정한다. */}}
+    {{ $used := slice }}
+    {{ $order := slice "공황·불안" "불면증" "자율신경실조증" "우울장애" "ADHD" "틱장애" }}
+    {{ range $order }}{{ $g := . }}{{ range $f, $v := $map }}{{ if eq $v $g }}{{ $used = $used | append $g }}{{ end }}{{ end }}{{ end }}
+    {{ $used = collections.Uniq $used }}
+
+    <div id="review-filters" data-grid="review-grid" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px;">
+      <button type="button" data-filter="all" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #0F7A7E; background: #E3FCF7; color: #0F7A7E;">전체</button>
+      {{ range $used }}
+      <button type="button" data-filter="{{ . }}" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;">{{ . }}</button>
+      {{ end }}
     </div>
-    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 14px 0 0; text-align: center;">좌우로 넘겨서 보실 수 있습니다</p>
+
+    <div id="review-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      {{ range $i, $r := $scans }}
+      {{ $img := $r.Resize "440x webp q80 photo" }}
+      {{ $name := path.Base $r.Name }}
+      {{ $g := index $map $name }}
+      <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" data-tags="{{ $g }}" style="display: block; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; background: #FFFFFF; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink" aria-label="자필 후기 {{ add $i 1 }} — 네트워크 홈페이지에서 보기">
+        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" style="width: 100%; height: auto; display: block;" />
+        {{/* 분류가 없는 스캔도 같은 높이가 되도록 칸은 늘 만든다 */}}
+        <div style="padding: 14px 18px; border-top: 1px solid #F1F3F2;">{{ if $g }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 12px; border-radius: 9999px;">{{ $g }}</span>{{ else }}<span style="font-size: 12px; color: #9A968C;">분류 없음</span>{{ end }}</div>
+      </a>
+      {{ end }}
+    </div>
     {{ end }}
 
     <div style="margin-top: 40px; background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 28px 32px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; text-align: center;">
@@ -63,5 +83,5 @@
   </div>
 </section>
 
-<script src="/js/review-slider.js" defer></script>
+<script src="/js/filters.js" defer></script>
 {{ end }}

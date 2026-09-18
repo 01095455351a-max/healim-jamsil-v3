@@ -1,9 +1,11 @@
 // 원장 컬럼 목록 페이지의 분류 필터 칩 — 네이티브 방식으로 구현할 마땅한 대안이 없어
 // CLAUDE-CODE-BRIEF.md의 "zero-JS 가능한 곳까지" 원칙의 예외로 작은 vanilla JS 사용.
 (function () {
-  var wrap = document.getElementById('column-filters');
-  var grid = document.getElementById('column-grid');
-  if (!wrap || !grid) return;
+  /* 원장 컬럼 목록과 자필 후기 두 곳이 같은 동작을 쓴다. 칩 묶음에
+     data-grid 로 대상 격자의 id 를 적어 두면 여기서 짝을 찾는다. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-grid]'), function (wrap) {
+  var grid = document.getElementById(wrap.dataset.grid);
+  if (!grid) return;
 
   var ACTIVE = { border: '#0F7A7E', background: '#E3FCF7', color: '#0F7A7E' };
   var INACTIVE = { border: '#E8EDEB', background: '#FFFFFF', color: '#4A4A44' };
@@ -29,5 +31,6 @@
       var show = filter === 'all' || tags.indexOf(filter) !== -1;
       card.style.display = show ? '' : 'none';
     });
+  });
   });
 })();
