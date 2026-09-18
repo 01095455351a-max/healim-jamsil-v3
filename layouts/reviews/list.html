@@ -42,9 +42,39 @@
          표를 고쳐야 하는 구조로 만들지 않기 위해서다. */}}
     {{ $map := dict }}
     {{ range site.Data.reviews.items }}{{ $map = merge $map (dict .file (or .group "")) }}{{ end }}
+    {{ $order := slice "공황·불안" "틱장애" "ADHD" "강박장애" "우울장애" "불면증" "자율신경실조증" "다한증" "신경성 질환" }}
 
     {{ $scans := slice }}
     {{ range (resources.Match "media/reviews/*.jpg") }}{{ $scans = $scans | append . }}{{ end }}
+
+    {{/* 질환이 섞이도록 순서를 다시 짠다. 파일명 순서대로 두면 같은 질환끼리
+         몰려서, 처음 몇 장만 보고 「이 병원은 이것만 보나」로 읽힌다.
+         분류별로 줄을 세운 뒤 한 장씩 번갈아 뽑는다 — 파일을 더 넣어도
+         저절로 다시 섞이고, 분류가 없는 장도 빠지지 않는다. */}}
+    {{ $lanes := slice }}
+    {{ range $order }}
+      {{ $g := . }}{{ $lane := slice }}
+      {{ range $scans }}{{ if eq (index $map (path.Base .Name)) $g }}{{ $lane = $lane | append . }}{{ end }}{{ end }}
+      {{ if $lane }}{{ $lanes = $lanes | append (dict "n" (len $lane) "items" $lane) }}{{ end }}
+    {{ end }}
+    {{ $rest := slice }}
+    {{ range $scans }}{{ $g := index $map (path.Base .Name) }}{{ if not (in $order $g) }}{{ $rest = $rest | append . }}{{ end }}{{ end }}
+    {{ if $rest }}{{ $lanes = $lanes | append (dict "n" (len $rest) "items" $rest) }}{{ end }}
+
+    {{/* 줄마다 길이가 달라서 한 장씩 번갈아 뽑으면 많은 분류가 뒤에 몰린다.
+         각 장에 「그 줄에서 몇 번째쯤인가」를 0~1 값으로 매겨 그 순서로 세우면
+         어느 분류든 처음부터 끝까지 고르게 흩어진다. */}}
+    {{ $keyed := slice }}
+    {{ range $lanes }}
+      {{ $n := .n }}
+      {{ range $i, $r := .items }}
+        {{ $keyed = $keyed | append (dict "k" (div (add (mul $i 1000) 500) $n) "r" $r) }}
+      {{ end }}
+    {{ end }}
+    {{ $mixed := slice }}
+    {{ range sort $keyed "k" }}{{ $mixed = $mixed | append .r }}{{ end }}
+    {{ $scans = $mixed }}
+
     {{ if $scans }}
 
     {{/* 좌우로 넘겨 보는 띠. 누르면 조금 크게 보이는 창이 열리고,
