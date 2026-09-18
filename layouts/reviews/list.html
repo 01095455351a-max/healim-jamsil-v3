@@ -49,7 +49,7 @@
 
     {{/* 질환별 단추 — 분류표에 실제로 쓰인 이름만 나온다. 순서는 아래 목록이 정한다. */}}
     {{ $used := slice }}
-    {{ $order := slice "공황·불안" "불면증" "자율신경실조증" "우울장애" "ADHD" "틱장애" }}
+    {{ $order := slice "공황·불안" "틱장애" "ADHD" "강박장애" "우울장애" "불면증" "자율신경실조증" "다한증" "신경성 질환" }}
     {{ range $order }}{{ $g := . }}{{ range $f, $v := $map }}{{ if eq $v $g }}{{ $used = $used | append $g }}{{ end }}{{ end }}{{ end }}
     {{ $used = collections.Uniq $used }}
 
