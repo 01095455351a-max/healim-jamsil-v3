@@ -60,18 +60,37 @@
       {{ end }}
     </div>
 
-    <div id="review-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-      {{ range $i, $r := $scans }}
-      {{ $img := $r.Resize "440x webp q80 photo" }}
-      {{ $name := path.Base $r.Name }}
-      {{ $g := index $map $name }}
-      <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" data-tags="{{ $g }}" style="display: block; border: 1px solid #E8EDEB; border-radius: 12px; overflow: hidden; background: #FFFFFF; color: #001E2B; transition: box-shadow 170ms cubic-bezier(0.4,0,0.2,1), transform 170ms cubic-bezier(0.4,0,0.2,1);" class="card-lift-ink" aria-label="자필 후기 {{ add $i 1 }} — 네트워크 홈페이지에서 보기">
-        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" style="width: 100%; height: auto; display: block;" />
-        {{/* 분류가 없는 스캔도 같은 높이가 되도록 칸은 늘 만든다 */}}
-        <div style="padding: 14px 18px; border-top: 1px solid #F1F3F2;">{{ if $g }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 12px; border-radius: 9999px;">{{ $g }}</span>{{ else }}<span style="font-size: 12px; color: #9A968C;">분류 없음</span>{{ end }}</div>
-      </a>
-      {{ end }}
+    {{/* 좌우로 넘겨 보는 띠. 누르면 조금 크게 보이는 창이 열리고,
+         온전한 크기는 로그인이 필요한 네트워크 홈페이지에서 본다 —
+         사이트에는 읽을 수 있는 크기의 스캔을 올리지 않는다. */}}
+    <div class="review-slider">
+      <button type="button" class="review-arrow review-arrow-prev" aria-label="이전 후기 보기">‹</button>
+      <div class="review-strip" id="review-grid" tabindex="0" role="group" aria-label="자필 후기 스캔 이미지">
+        {{ range $i, $r := $scans }}
+        {{ $name := path.Base $r.Name }}
+        {{ $g := index $map $name }}
+        {{ $thumb := $r.Resize "440x webp q80 photo" }}
+        {{ $mid := $r.Resize "480x webp q72 photo" }}
+        {{ $id := printf "rv-%d" (add $i 1) }}
+        <button type="button" class="review-slide" data-tags="{{ $g }}" onclick="document.getElementById('{{ $id }}').showModal()" aria-label="자필 후기 {{ add $i 1 }} 크게 보기{{ with $g }} — {{ . }}{{ end }}">
+          <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
+          <span class="review-slide-tag">{{ if $g }}{{ $g }}{{ else }}&nbsp;{{ end }}</span>
+        </button>
+        <dialog id="{{ $id }}" class="rv-zoom" onclick="if(event.target===this) this.close()">
+          <div class="rv-in">
+            <div class="rv-top">
+              <span class="rv-label">자필 후기 {{ add $i 1 }}{{ with $g }} · {{ . }}{{ end }}</span>
+              <button type="button" class="rv-x" aria-label="닫기" onclick="this.closest('dialog').close()">✕</button>
+            </div>
+            <img src="{{ $mid.RelPermalink }}" width="{{ $mid.Width }}" height="{{ $mid.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
+            <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" class="rv-full">온전한 크기로 읽어 보기 — 네트워크 홈페이지<span aria-hidden="true"> ↗</span></a>
+          </div>
+        </dialog>
+        {{ end }}
+      </div>
+      <button type="button" class="review-arrow review-arrow-next" aria-label="다음 후기 보기">›</button>
     </div>
+    <p style="font-size: 13px; line-height: 1.65; color: #6F6B61; margin: 14px 0 0; text-align: center;">좌우로 넘겨서 보실 수 있습니다. 누르면 조금 크게 보입니다</p>
     {{ end }}
 
     <div style="margin-top: 40px; background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 16px; padding: 28px 32px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; text-align: center;">
@@ -83,5 +102,6 @@
   </div>
 </section>
 
+<script src="/js/review-slider.js" defer></script>
 <script src="/js/filters.js" defer></script>
 {{ end }}
