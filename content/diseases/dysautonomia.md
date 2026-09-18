@@ -71,6 +71,7 @@ approach_steps:
     text: "수면, 영양, 스트레스 조절 등 일상에서 실천할 수 있는 관리법을 함께 안내합니다."
 approach_note: "검사로는 잡히지 않지만 분명히 존재하는 불편감, 자율신경의 균형을 되찾는 치료로 함께 풀어갑니다."
 related_columns:
+  - /column/how-long-dysautonomia-treatment-takes/
   - /column/dysautonomia-symptoms/
   - /column/why-anxiety-causes-heart-palpitations/
   - /column/autonomic-imbalance/
