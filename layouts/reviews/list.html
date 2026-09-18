@@ -47,19 +47,6 @@
     {{ range (resources.Match "media/reviews/*.jpg") }}{{ $scans = $scans | append . }}{{ end }}
     {{ if $scans }}
 
-    {{/* 질환별 단추 — 분류표에 실제로 쓰인 이름만 나온다. 순서는 아래 목록이 정한다. */}}
-    {{ $used := slice }}
-    {{ $order := slice "공황·불안" "틱장애" "ADHD" "강박장애" "우울장애" "불면증" "자율신경실조증" "다한증" "신경성 질환" }}
-    {{ range $order }}{{ $g := . }}{{ range $f, $v := $map }}{{ if eq $v $g }}{{ $used = $used | append $g }}{{ end }}{{ end }}{{ end }}
-    {{ $used = collections.Uniq $used }}
-
-    <div id="review-filters" data-grid="review-grid" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px;">
-      <button type="button" data-filter="all" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #0F7A7E; background: #E3FCF7; color: #0F7A7E;">전체</button>
-      {{ range $used }}
-      <button type="button" data-filter="{{ . }}" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;">{{ . }}</button>
-      {{ end }}
-    </div>
-
     {{/* 좌우로 넘겨 보는 띠. 누르면 조금 크게 보이는 창이 열리고,
          온전한 크기는 로그인이 필요한 네트워크 홈페이지에서 본다 —
          사이트에는 읽을 수 있는 크기의 스캔을 올리지 않는다. */}}
@@ -103,5 +90,4 @@
 </section>
 
 <script src="/js/review-slider.js" defer></script>
-<script src="/js/filters.js" defer></script>
 {{ end }}
