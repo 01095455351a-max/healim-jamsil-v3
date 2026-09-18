@@ -91,17 +91,17 @@
         {{ $thumb := $r.Resize "440x webp q80 photo" }}
         {{ $mid := $r.Resize "480x webp q72 photo" }}
         {{ $id := printf "rv-%d" (add $i 1) }}
-        <button type="button" class="review-slide" data-tags="{{ $g }}" onclick="document.getElementById('{{ $id }}').showModal()" aria-label="자필 후기 {{ add $i 1 }} 크게 보기{{ with $g }} — {{ . }}{{ end }}">
-          <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
+        <button type="button" class="review-slide" data-tags="{{ $g }}" onclick="document.getElementById('{{ $id }}').showModal()" aria-label="자필 후기 크게 보기{{ with $g }} — {{ . }}{{ end }}">
+          <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="자필 후기{{ with $g }} — {{ . }}{{ end }}" loading="lazy" decoding="async" />
           <span class="review-slide-tag">{{ if $g }}{{ $g }}{{ else }}&nbsp;{{ end }}</span>
         </button>
         <dialog id="{{ $id }}" class="rv-zoom" onclick="if(event.target===this) this.close()">
           <div class="rv-in">
             <div class="rv-top">
-              <span class="rv-label">자필 후기 {{ add $i 1 }}{{ with $g }} · {{ . }}{{ end }}</span>
+              <span class="rv-label">{{ with $g }}{{ . }}{{ else }}자필 후기{{ end }}</span>
               <button type="button" class="rv-x" aria-label="닫기" onclick="this.closest('dialog').close()">✕</button>
             </div>
-            <img src="{{ $mid.RelPermalink }}" width="{{ $mid.Width }}" height="{{ $mid.Height }}" alt="자필 후기 {{ add $i 1 }}" loading="lazy" decoding="async" />
+            <img src="{{ $mid.RelPermalink }}" width="{{ $mid.Width }}" height="{{ $mid.Height }}" alt="자필 후기{{ with $g }} — {{ . }}{{ end }}" loading="lazy" decoding="async" />
             <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" class="rv-full">온전한 크기로 읽어 보기 — 네트워크 홈페이지<span aria-hidden="true"> ↗</span></a>
           </div>
         </dialog>
