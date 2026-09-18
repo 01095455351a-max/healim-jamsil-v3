@@ -42,7 +42,9 @@
          표를 고쳐야 하는 구조로 만들지 않기 위해서다. */}}
     {{ $map := dict }}
     {{ range site.Data.reviews.items }}{{ $map = merge $map (dict .file (or .group "")) }}{{ end }}
-    {{ $order := slice "공황·불안" "틱장애" "ADHD" "강박장애" "우울장애" "불면증" "자율신경실조증" "다한증" "신경성 질환" }}
+    {{/* 섞는 순서의 기준. 사이트의 특화 질환 차례를 따르고, 질환 페이지는
+         없지만 실제로 진료하는 것(야뇨증)을 뒤에 둔다. */}}
+    {{ $order := slice "공황·불안" "틱장애" "ADHD" "강박장애" "우울장애" "불면증" "자율신경실조증" "다한증" "신경성 질환" "야뇨증" }}
 
     {{ $scans := slice }}
     {{ range (resources.Match "media/reviews/*.jpg") }}{{ $scans = $scans | append . }}{{ end }}
