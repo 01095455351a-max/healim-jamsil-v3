@@ -107,6 +107,8 @@
               <span class="rv-label">{{ with $g }}{{ . }}{{ else }}자필 후기{{ end }}</span>
               <button type="button" class="rv-x" aria-label="닫기" onclick="this.closest('dialog').close()">✕</button>
             </div>
+            {{/* 잘려 나간 첫 질문을 글자로 되살린다(data/reviews.yaml) */}}
+            {{ with site.Data.reviews.q1_label }}<p class="rv-q1">{{ . }}</p>{{ end }}
             <img src="{{ $mid.RelPermalink }}" width="{{ $mid.Width }}" height="{{ $mid.Height }}" alt="자필 후기{{ with $g }} — {{ . }}{{ end }}" loading="lazy" decoding="async" />
             <a href="{{ $clinic.network_handwritten_url }}" target="_blank" rel="noopener" class="rv-full">온전한 크기로 읽어 보기 — 네트워크 홈페이지<span aria-hidden="true"> ↗</span></a>
           </div>
