@@ -1147,7 +1147,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .sv-check:hover > span::before { border-color: #22ABAF; }
 .sv-check input:checked + span { color: #001E2B; font-weight: 600; }
 .sv-check input:checked + span::before {
-  background: #22ABAF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6'/%3E%3C/svg%3E") center/13px no-repeat;
+  /* 체크 표시 — 네모 안에 글자로 찍는다. 전에는 data URI 안에 SVG 를 넣었는데
+     그 안의 xmlns='http://…' 가 보안 점검 도구에 「HTTP 리소스」로 잡혔다.
+     받아 오는 주소가 아니라 SVG 의 이름표였지만, 빨간 표시가 계속 남아 있으면
+     진짜 문제가 생겼을 때 묻힌다. 글자 하나로 바꿔 없앤다.
+     line-height 는 네모 안쪽 높이(20px - 테두리 1px×2)와 같게 둔다. */
+  content: '✓';
+  color: #FFFFFF; font-size: 13px; font-weight: 700;
+  line-height: 18px; text-align: center;
+  background: #22ABAF;
   border-color: #22ABAF;
 }
 .sv-check input:focus-visible + span::before { outline: 2px solid #0F7A7E; outline-offset: 2px; }
