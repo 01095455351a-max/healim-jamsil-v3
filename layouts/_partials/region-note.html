@@ -1,0 +1,16 @@
+{{/* 질환 페이지 끝의 지역 문단. 인자는 disease(질환 이름) 하나뿐이다.
+
+     주소·상호는 data/clinic.yaml, 나머지 문구는 data/directions.yaml의 region_note에서
+     읽는다. 9쪽이 같은 문장을 쓰므로 문구를 고칠 때는 데이터 파일 한 곳만 고치면 된다.
+     질환 페이지를 새로 만들어도 이 구역은 자동으로 붙는다.
+
+     글자 크기·여백은 이 페이지의 다른 구역에서 쓰던 값 그대로다(28px 제목, 17px 본문)
+     — 모바일 정돈 규칙에 이미 걸려 있는 값이라 site.css에 더할 것이 없다. */}}
+{{- $clinic := site.Data.clinic -}}
+{{- with site.Data.directions.region_note -}}
+<div id="region">
+  <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ .heading }}</h2>
+  <p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0 0 16px;; text-wrap: pretty">{{ partial "kr.html" (printf "%s은 %s에 있습니다. %s" $clinic.business_name $clinic.address_line .access) }}</p>
+  <p style="font-size: 17px; line-height: 1.85; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ partial "kr.html" (printf "%s에서 %s 진료로 내원하고 계십니다." .areas $.disease) }} <a href="/directions/" style="color: #0F7A7E; font-weight: 600;">오시는 길</a>에서 지역별 경로를 확인하실 수 있습니다.</p>
+</div>
+{{- end -}}
