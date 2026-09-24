@@ -37,6 +37,20 @@ export async function onRequestGet({ request, env }) {
   authorize.searchParams.set('scope', scope);
   authorize.searchParams.set('state', state);
 
+  // 어느 계정으로 들어갈지 매번 묻는다.
+  //
+  // 이 줄이 없으면 GitHub는 브라우저에 이미 로그인된 계정으로 아무 화면 없이
+  // 그냥 넘어간다. 부계정이 로그인돼 있으면 선택할 틈도 없이 그 계정의 열쇠를
+  // 받아 오고, 관리 화면에는 「Your GitHub user account does not have access
+  // to this repo.」만 뜬다 — 계정 문제라는 것을 알 길이 없다.
+  //
+  // 대신 로그인할 때 확인 한 번이 늘어난다. 계정이 하나뿐이면 「Continue」를
+  // 누르면 된다.
+  authorize.searchParams.set('prompt', 'select_account');
+
+  // 이 화면에서 새 계정을 만들 일은 없다. 가입 링크를 숨긴다.
+  authorize.searchParams.set('allow_signup', 'false');
+
   return new Response(null, {
     status: 302,
     headers: {
