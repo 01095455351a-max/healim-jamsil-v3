@@ -157,6 +157,12 @@ claude.ai의 프로젝트에서 초고를 쓰는 경우에는 `docs/클로드-�
 건드리면 안 되는 것 — `hugo.yaml`의 `naver_verification`과 Cloudflare DNS의
 구글 TXT 레코드. 지우면 소유 확인이 풀린다.
 
+**보안 헤더.** `X-Content-Type-Options`와 `Referrer-Policy`는 Cloudflare가 기본으로
+붙인다. 클릭재킹 차단(`X-Frame-Options`·CSP `frame-ancestors`)은 `static/_headers`에
+적어 두었다. **HSTS는 켜지 않았다** — 한 번 걸면 방문자 브라우저가 몇 달을 기억해
+되돌리기 어렵다. 켤 때는 저장소가 아니라 Cloudflare 대시보드(SSL/TLS → 에지 인증서)
+에서 켠다. 거기서는 한 번에 끌 수 있다.
+
 ## 검색 제목(title)
 
 브라우저 탭이자 검색 결과의 파란 제목이다. **한글 30자 안팎에서 잘린다.**
@@ -190,7 +196,7 @@ claude.ai의 프로젝트에서 초고를 쓰는 경우에는 `docs/클로드-�
 |---|---|
 | `static/admin/config.yml` | 컬렉션·필드 정의. 규칙이 전부 여기 있다 |
 | `static/admin/index.html` | 관리 화면. Decap을 CDN에서 받는다(판올림은 이 줄의 번호만) |
-| `static/_headers` | `/admin/*`에 noindex. `layouts/robots.txt`를 건드리지 않으려고 여기서 한다 |
+| `static/_headers` | `/admin/*`에 noindex, 전 페이지에 클릭재킹 차단. `layouts/robots.txt`를 건드리지 않으려고 여기서 한다 |
 | `docs/CMS-사용법.md` | 원장용 안내 |
 
 **세 가지를 어기면 검색 노출이 조용히 깨진다.**
