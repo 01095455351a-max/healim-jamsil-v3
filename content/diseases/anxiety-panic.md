@@ -99,6 +99,7 @@ related_columns:
   - /column/panic-attack-coping/
   - /column/why-anxiety-causes-heart-palpitations/
   - /column/panic-insomnia-care/
+  - /column/panic-vs-heart-disease/
 faqs:
   - question: "공황발작은 없는데 늘 불안하고 긴장돼요. 이것도 진료 대상인가요?"
     answer: |
