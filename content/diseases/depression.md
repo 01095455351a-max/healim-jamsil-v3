@@ -75,6 +75,7 @@ approach_steps:
 approach_note: "기분은 마음만의 문제가 아니라 몸 전체의 상태와 맞물려 있습니다. 몸과 마음을 함께 살피는 치료로 회복을 돕습니다."
 related_columns:
   - /column/depression-vs-low-motivation/
+  - /column/burnout-vs-depression/
 faqs:
   - question: "우울증도 한약으로 치료가 되나요?"
     answer: |
