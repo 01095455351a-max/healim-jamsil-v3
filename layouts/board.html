@@ -30,7 +30,8 @@
       <span style="font-size: 14px; color: #6B6960;">전체 {{ len $notices }}건</span>
       <a href="/notice/" style="margin-left: auto; font-size: 15px; font-weight: 600;">공지사항만 보기 →</a>
     </div>
-    {{ partial "notice-table.html" (dict "notices" $notices) }}
+    {{/* bodies=false — 본문은 /notice/ 한 곳에만 둔다(중복 색인 방지). 제목을 누르면 그리로 간다 */}}
+    {{ partial "notice-table.html" (dict "notices" $notices "bodies" false) }}
   </div>
 </section>
 
