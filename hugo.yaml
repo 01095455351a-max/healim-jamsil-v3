@@ -34,3 +34,20 @@ markup:
       unsafe: true
   highlight:
     noClasses: false
+
+# ── llms.txt ────────────────────────────────────────────────
+# ChatGPT·Perplexity·Claude 같은 생성 AI 에게 「이 사이트에서 무엇을
+# 인용하면 되는가」를 알려주는 파일이다. robots.txt 와 같은 자리
+# (/llms.txt)에 평문으로 나간다.
+#
+# 내용은 layouts/index.llms.txt 가 사이트에서 직접 만든다 — 질환·컬럼이
+# 늘면 저절로 따라오므로 손으로 고칠 일이 없다.
+outputFormats:
+  LLMS:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home: [HTML, RSS, LLMS]
