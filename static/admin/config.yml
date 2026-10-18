@@ -57,6 +57,8 @@ collections:
     create: true
     # 파일명 = 주소. 아래 slug 필드에 적은 영문이 그대로 쓰인다.
     slug: '{{fields.slug}}'
+    # 검토 단계 카드의 「미리보기 보기」가 Cloudflare 미리보기 주소 뒤에 이 경로를 붙인다.
+    # 주소는 .github/workflows/cms-preview-link.yml 이 PR 커밋 상태로 남긴다.
     preview_path: 'column/{{slug}}'
     summary: '{{title}}'
     sortable_fields: [date, title]
@@ -125,9 +127,25 @@ collections:
 
       - name: tags
         label: 주제
-        widget: list
+        # 자유 입력이면 오타·새 이름이 그대로 필터 버튼으로 늘어난다.
+        # 정해진 값만 고르게 한다. 질환 태그를 새로 만들 때는 여기와
+        # docs/컬럼-작성-가이드.md 「쓰는 태그」를 함께 고친다.
+        widget: select
+        multiple: true
         required: false
         default: ['칼럼']
+        options:
+          - 자율신경실조증
+          - 불안장애
+          - 다한증
+          - 공황장애
+          - 불면증
+          - ADHD
+          - 우울장애
+          - 신경성 질환
+          - 강박장애
+          - 틱장애
+          - 칼럼
         hint: >-
           「칼럼」은 그대로 두고 주제를 덧붙입니다(틱장애, 공황장애 등).
           「칼럼」을 뺀 나머지가 화면의 주제 칩과 목록 필터가 됩니다.
