@@ -1,12 +1,19 @@
 {{/* 공지 목록 표 — 홈·공지사항·게시판 세 곳이 같은 마크업을 쓴다.
      인자: notices (RegularPages), start (번호 시작값 = 전체 건수)
              level (선택 — 펼친 칸 제목의 단계. 기본 3)
+             bodies (선택 — false 면 본문 없이 제목 줄만. 기본 true)
+
+     bodies 를 false 로 두는 이유 — 같은 공지 본문이 /notice/ 와 /board/
+     두 주소에 글자 그대로 들어가 있었다. 검색엔진에는 중복이고, 어느 쪽을
+     보여줄지 스스로 고르게 된다. 본문은 /notice/ 한 곳에만 두고 /board/
+     에서는 제목을 눌러 그리로 보낸다.
      같은 name을 준 <details>라 하나를 열면 앞서 열린 것이 닫힌다.
 
      제목 단계를 인자로 받는 이유 — 홈·게시판은 위에 H2(「공지사항」)가
      있어 H3 이 맞지만, 공지사항 목록은 H1 바로 아래다. 공지 본문에
      소제목(###)을 쓰면 그것이 H3 으로 나오므로 그 위가 H2 여야 한다. */}}
 {{- $h := .level | default 3 -}}
+{{- $bodies := true }}{{ if eq .bodies false }}{{ $bodies = false }}{{ end -}}
 {{ $notices := .notices }}
 {{ $total := .start | default (len $notices) }}
 {{ $now := now }}
@@ -17,20 +24,25 @@
   {{ range $i, $n := $notices }}
   {{ $cat := "공지" }}{{ with $n.Params.tags }}{{ if gt (len .) 0 }}{{ $cat = index . 0 }}{{ end }}{{ end }}
   {{ $isNew := lt ($now.Sub $n.Date).Hours 336.0 }}
-  <details name="notice" style="border-top: 1px solid #F1F3F2;">
+  {{ $anchor := printf "notice-%s" $n.File.BaseFileName }}
+  {{ if $bodies }}<details name="notice" style="border-top: 1px solid #F1F3F2;">
+  {{ else }}<a href="/notice/#{{ $anchor }}" style="border-top: 1px solid #F1F3F2; display: block; color: inherit;">
+  {{ end }}
     <summary style="list-style: none; cursor: pointer; display: grid; grid-template-columns: 64px 76px 1fr 120px; gap: 16px; align-items: center; padding: 18px 24px;">
       <span style="font-size: 14px; color: #6F6B61;">{{ sub $total $i }}</span>
       <span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #E3FCF7; padding: 5px 10px; border-radius: 4px; text-align: center;">{{ $cat }}</span>
       <span style="font-size: 16px; font-weight: 500; color: #001E2B; display: flex; align-items: center; gap: 10px;" class="notice-title">{{ partial "kr.html" $n.Title }}{{ if $isNew }}<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #FFFFFF; background: #157175; padding: 3px 8px; border-radius: 9999px;">NEW</span>{{ end }}</span>
       <span style="font-size: 14px; color: #6B6960; text-align: right;">{{ $n.Date.Format "2006.01.02" }}</span>
     </summary>
-    <div style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
+    {{ if $bodies }}
+    <div id="{{ $anchor }}" style="padding: 4px 24px 26px; background: #FAF6EF; border-top: 1px solid #F1F3F2;">
       <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
         <h{{ $h }} style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">{{ partial "kr.html" $n.Title }}</h{{ $h }}>
         <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" $n.Content }}</div>
       </div>
     </div>
-  </details>
+    {{ end }}
+  {{ if $bodies }}</details>{{ else }}</a>{{ end }}
   {{ end }}
 </div>
