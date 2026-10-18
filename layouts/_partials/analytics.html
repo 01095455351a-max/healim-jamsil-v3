@@ -1,0 +1,33 @@
+{{/* 방문자 분석 — 구글 애널리틱스(GA4)와 네이버 애널리틱스.
+
+     켜고 끄는 곳은 hugo.yaml 의 params 두 줄뿐이다. 값이 비어 있으면
+     스크립트가 아예 나가지 않으므로, 끄고 싶으면 값을 지우면 된다.
+
+       params.ga4_id            G-XXXXXXXXXX  (analytics.google.com)
+       params.naver_analytics_id  영숫자 10자리  (searchadvisor.naver.com → 애널리틱스)
+
+     검토 모드(params.noindex: true)에서는 둘 다 내보내지 않는다 —
+     공개 전 내 접속이 통계에 섞이면 기준선이 더러워진다.
+
+     개인정보 — 둘 다 쿠키로 방문 기록을 수집한다. /privacy/ 의
+     「자동으로 수집되는 항목」과 「국외 이전」에 같은 내용이 적혀 있어야
+     한다. 한쪽만 고치지 않는다. */}}
+{{- if not site.Params.noindex -}}
+{{- with site.Params.ga4_id }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '{{ . }}');
+</script>
+{{ end -}}
+{{- with site.Params.naver_analytics_id }}
+<script src="https://wcs.naver.net/wcslog.js"></script>
+<script>
+if (!window.wcs_add) window.wcs_add = {};
+window.wcs_add.wa = '{{ . }}';
+if (window.wcs) { wcs.inflow('healim-jamsil.com'); wcs_do(); }
+</script>
+{{ end -}}
+{{- end -}}
