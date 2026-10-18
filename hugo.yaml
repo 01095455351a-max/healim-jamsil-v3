@@ -28,7 +28,7 @@ params:
   #
   # 켜기 전에 /privacy/ 의 자동 수집 항목·국외 이전을 함께 고친다.
   ga4_id: "G-3FS31TW99C"              # G-XXXXXXXXXX
-  naver_analytics_id: ""  # 영숫자 10자리
+  naver_analytics_id: "129416dbc26b090"
   naver_verification: "630c930bcc229e95149216760a65680ce35d7464"
   # 구글 서치 콘솔은 DNS TXT로 확인하므로 여기에 적을 것이 없다.
   google_verification: ""
