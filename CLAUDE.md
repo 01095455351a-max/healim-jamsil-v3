@@ -201,6 +201,7 @@ claude.ai의 프로젝트에서 초고를 쓰는 경우에는 `docs/클로드-�
 | `static/admin/index.html` | 관리 화면. Decap을 CDN에서 받는다(판올림은 이 줄의 번호만) |
 | `static/_headers` | `/admin/*`에 noindex, 전 페이지에 클릭재킹 차단. `layouts/robots.txt`를 건드리지 않으려고 여기서 한다 |
 | `docs/CMS-사용법.md` | 원장용 안내 |
+| `.github/workflows/cms-preview-link.yml` | 검토 카드의 「미리보기 보기」를 살린다. Cloudflare 체크 요약의 미리보기 주소를 커밋 상태로 옮겨 적는다(Decap은 커밋 상태만 읽는다) |
 
 **세 가지를 어기면 검색 노출이 조용히 깨진다.**
 

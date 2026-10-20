@@ -39,7 +39,12 @@
       <div style="background: #FFFFFF; border: 1px solid #C0FAE6; border-radius: 12px; padding: 24px 28px; margin-top: 18px;">
         <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: #0F7A7E; margin-bottom: 10px;">{{ $cat }} · {{ $n.Date.Format "2006.01.02" }}</div>
         <h{{ $h }} style="font-size: 17px; font-weight: 600; margin: 0 0 12px;">{{ partial "kr.html" $n.Title }}</h{{ $h }}>
-        <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" $n.Content }}</div>
+        {{- /* 공지 본문은 엔터 한 번이 그대로 줄바꿈이 되게 한다 — CMS 에서 메모장처럼
+             쓰면 쓴 모양대로 나오도록. 줄 끝마다 공백 두 칸(Markdown 의 강제 줄바꿈)을
+             붙여 렌더한다. 빈 줄로 나눈 문단·목록·소제목은 그대로다.
+             컬럼은 이 규칙을 쓰지 않는다(이 partial 은 공지 목록 전용). */ -}}
+        {{- $body := $n.RawContent | replaceRE `\r?\n` "  \n" }}
+        <div style="font-size: 16px; line-height: 1.8; color: #4A4A44;">{{ partial "kr.html" ($n.RenderString (dict "display" "block") $body) }}</div>
       </div>
     </div>
     {{ end }}
