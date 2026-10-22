@@ -125,7 +125,11 @@ collections:
         options:
           - { label: '석선희 원장', value: 'seok-seonhui' }
           - { label: '류석균 원장', value: 'ryu-seokgyun' }
-        required: false
+        # 필수다. 비어 있으면 원장 사진을 assets/media/authors/.jpg 로 찾다가
+        # 빌드 전체가 멈춘다 — master 라면 그 뒤 어떤 수정도 사이트에 반영되지 않는다.
+        # (2026-10 CMS 시험 초안 preview-test 에서 실제로 났다.)
+        required: true
+        hint: 글을 쓴 원장을 고릅니다. 비워 두면 저장되지 않습니다.
 
       - name: tags
         label: 주제
