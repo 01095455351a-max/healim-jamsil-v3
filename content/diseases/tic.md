@@ -73,6 +73,7 @@ approach_steps:
 approach_note: "놀림의 대상이 되거나 스스로 위축되기 전, 조기에 원인을 파악하는 것이 아이의 자존감을 지키는 첫걸음입니다."
 related_columns:
   - /column/why-tics-wax-and-wane/
+  - /column/eye-blinking-tic-vs-eye-disease/
 faqs:
   - question: "성인에게도 틱장애가 생길 수 있나요?"
     answer: |
