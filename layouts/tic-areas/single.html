@@ -12,6 +12,7 @@
 {{ $p := $base.Params }}
 {{ $clinic := site.Data.clinic }}
 {{ $doctor := index site.Data.authors $p.doctor }}
+{{ $cfg := site.Data.area_pages.tic }}
 
 <section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
@@ -63,6 +64,22 @@
         </ul>
       </div>
 
+      {{/* 틱 유형별 안내 — 문구와 참고자료는 data/area_pages.yaml 의 guides·references.
+           카드 모양은 질환 페이지의 「헷갈리기 쉬운 것들」과 같다 */}}
+      {{ with $cfg.guides }}
+      <div id="types">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $cfg.guides_heading }}</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          {{ range . }}
+          <div id="type-{{ .id }}" style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px;">
+            <h3 style="font-size: 17px; font-weight: 600; margin: 0 0 8px;">{{ .title }}</h3>
+            {{ range $i, $para := .paragraphs }}<p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: {{ if $i }}12px{{ else }}0{{ end }} 0 0;; text-wrap: pretty">{{ partial "kr.html" ($para | markdownify) }}</p>{{ end }}
+          </div>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+
       <div id="approach">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.approach_heading }}</h2>
         <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -94,6 +111,15 @@
         </a>
       </div>
 
+      {{ with $cfg.references }}
+      <div id="references">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">참고자료</h2>
+        <ol style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.7; color: #4A4A44;">
+          {{ range . }}<li>{{ . }}</li>{{ end }}
+        </ol>
+      </div>
+      {{ end }}
+
     </article>
 
     <aside style="position: sticky; top: 112px;">
@@ -102,6 +128,7 @@
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <a href="#access" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $a.name }}에서 오시는 길</a>
           <a href="#signs" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $base.Title }}란</a>
+          {{ if $cfg.guides }}<a href="#types" style="font-size: 15px; color: #4A4A44;" class="nav-link">틱의 종류</a>{{ end }}
           <a href="#approach" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.approach_heading }}</a>
           {{ if $p.related_columns }}<a href="#related" style="font-size: 15px; color: #4A4A44;" class="nav-link">관련 원장 컬럼</a>{{ end }}
           {{ if $p.faqs }}<a href="#faq" style="font-size: 15px; color: #4A4A44;" class="nav-link">자주 묻는 질문</a>{{ end }}
