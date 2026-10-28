@@ -7,7 +7,7 @@
 <title>{{ if .IsHome }}{{ or site.Params.title_home .Site.Title }}{{ else }}{{ with .Params.title_seo }}{{ . }}{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}{{ end }}</title>
 {{/* 페이지 설명 — description이 없으면 summary를 쓴다. 컬럼 12편과 약관·방침은
      summary만 가지고 있어 그대로 두면 전부 사이트 기본 설명이 나간다. */}}
-{{- $desc := or .Description .Params.summary site.Params.description -}}
+{{- $desc := or .Description .Params.description .Params.summary site.Params.description -}}
 <meta name="description" content="{{ $desc }}" />
 {{/* 검색엔진 소유 확인. 코드는 hugo.yaml의 params에 있다 — 값이 없으면 나가지 않는다. */}}
 {{ with site.Params.naver_verification }}<meta name="naver-site-verification" content="{{ . }}" />{{ end }}

@@ -57,5 +57,12 @@ outputFormats:
     isPlainText: true
     notAlternative: true
 
+# 틱장애 지역 안내 페이지(content/tic-areas/)는 틱장애 페이지 아래 주소에 둔다.
+# diseases 구역에 넣지 않는 이유 — 상단 메뉴·홈·llms.txt 가 diseases 의 페이지를
+# 모두 질환으로 나열하므로 지역 페이지가 질환처럼 끼어든다.
+permalinks:
+  page:
+    tic-areas: /diseases/tic/:contentbasename/
+
 outputs:
   home: [HTML, RSS, LLMS]

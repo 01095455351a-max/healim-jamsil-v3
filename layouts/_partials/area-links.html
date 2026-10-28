@@ -1,0 +1,21 @@
+{{/* 질환 페이지 맨 아래 「내원 지역 안내」 한 줄. 인자는 질환 페이지 하나.
+
+     data/area_pages.yaml 에서 base 가 이 페이지인 묶음을 찾아 그 지역 페이지들을
+     작은 글씨로 나열한다. 숨기지 않는다 — 검색엔진은 보이는 링크를 따라가 수집하고,
+     흰 글씨처럼 감춘 링크는 스팸 정책 위반으로 사이트 전체가 불이익을 받을 수 있다.
+
+     지역을 더하면 이 줄에도 자동으로 붙는다. 해당 묶음이 없는 질환에는 아무것도 나오지 않는다.
+     글자 크기 13px·15px 은 이 페이지에서 이미 쓰는 값이라 모바일 규칙을 물려받는다. */}}
+{{- $path := strings.TrimSuffix "/" .RelPermalink -}}
+{{- range $key, $cfg := site.Data.area_pages -}}
+  {{- if eq $cfg.base $path -}}
+<nav aria-label="내원 지역 안내" style="border-top: 1px solid #F1F3F2; padding-top: 20px; font-size: 13px; line-height: 1.9; color: #6F6B61;">
+  <span style="font-weight: 600; margin-right: 6px;">내원 지역 안내</span>
+  {{- range $i, $a := $cfg.areas -}}
+    {{- with site.GetPage (printf "/tic-areas/%s" $a.slug) -}}
+    {{ if $i }}<span aria-hidden="true"> · </span>{{ end }}<a href="{{ .RelPermalink }}" style="color: #6F6B61;">{{ $a.name }} {{ $cfg.title }}</a>
+    {{- end -}}
+  {{- end }}
+</nav>
+  {{- end -}}
+{{- end -}}

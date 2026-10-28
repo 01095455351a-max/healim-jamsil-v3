@@ -1,0 +1,116 @@
+{{/* 틱장애 지역 안내 페이지(예: /diseases/tic/gangdong/).
+
+     페이지는 content/tic-areas/_content.gotmpl 이 data/area_pages.yaml 을 읽어 만든다.
+     이 페이지에만 있는 것은 지역 소개와 「○○에서 오시는 길」뿐이고,
+     틱장애 요약·원장 컬럼·자주 묻는 질문·예약 구역은 틱장애 페이지(content/diseases/tic.md)를
+     그대로 불러온다 — 틱장애 페이지를 고치면 지역 페이지 전부가 같이 바뀐다.
+
+     마크업과 px 값은 diseases/single.html 에서 쓰던 것만 쓴다(모바일 규칙을 물려받는다). */}}
+{{ define "main" }}
+{{ $a := .Params.area }}
+{{ $base := site.GetPage .Params.base }}
+{{ $p := $base.Params }}
+{{ $clinic := site.Data.clinic }}
+{{ $doctor := index site.Data.authors $p.doctor }}
+
+<section id="top" style="background-image: linear-gradient(180deg, #A7E6E4 0%, #C2EEED 24%, #DCF4F4 50%, #F1FAFA 74%, #FFFFFF 92%); border-bottom: 1px solid #EDE6DA; padding: 44px 0 56px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+    <div style="display: flex; gap: 8px; align-items: center; font-size: 13px; color: #4A4A44; margin-bottom: 28px;">
+      <a href="/" style="color: #4A4A44;">홈</a><span>›</span>
+      <a href="/#diseases" style="color: #4A4A44;">특화 질환</a><span>›</span>
+      <a href="{{ $base.RelPermalink }}" style="color: #4A4A44;">{{ $base.Title }}</a><span>›</span>
+      <span style="color: #001E2B; font-weight: 600;">{{ $a.name }}</span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: end;">
+      <div>
+        <div style="display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px;">내원 지역 안내</div>
+        <h1 style="font-size: 44px; font-weight: 500; line-height: 1.3; letter-spacing: -1px; margin: 0; text-wrap: balance;">{{ .Title }}</h1>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 20px;">
+          {{ range $p.tags }}<span style="font-size: 12px; font-weight: 600; color: #0F7A7E; background: #FFFFFF; border: 1px solid #C0FAE6; padding: 6px 12px; border-radius: 4px;">{{ . }}</span>{{ end }}
+        </div>
+      </div>
+      <div class="dx-hero-cta" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+        <a href="#consult" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 14px 26px; border-radius: 9999px;" class="btn-primary">상담 문의하기</a>
+        <a href="{{ $clinic.naver_booking_url }}" style="font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 14px 24px; border-radius: 9999px;" class="btn-naver">네이버 예약</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: #FFFFFF; padding: 64px 0 88px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 56px; align-items: start;">
+    <article class="no-copy" style="display: flex; flex-direction: column; gap: 56px; min-width: 0;">
+
+      {{/* 지역 소개 — 병원은 송파구에 있다는 것을 분명히 한다(지점처럼 쓰지 않는다) */}}
+      <div class="prose-lead"><p>{{ partial "kr.html" (printf "%s%s 일대에서 틱장애 진료를 알아보고 계신 분들을 위한 안내입니다. %s은 %s에 있으며, 어린이 틱장애와 성인 틱장애, 음성틱, 뚜렛장애를 %s이 진료합니다." $a.name (cond (isset $a "neighborhoods") (printf " %s" $a.neighborhoods) "") $clinic.business_name $clinic.address_line $doctor.name.display) }}</p></div>
+
+      <div id="access">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $a.name }}에서 오시는 길</h2>
+        <div class="dx-exams">
+          {{ range $a.access }}
+          <div class="dx-exam"><b>{{ .label }}</b><span>{{ partial "kr.html" .text }}</span></div>
+          {{ end }}
+        </div>
+        {{ with $p.visit_note }}<p style="font-size: 17px; line-height: 1.8; color: #4A4A44; margin: 24px 0 0; padding: 20px 24px; background: #FAF6EF; border-left: 3px solid #0F7A7E; border-radius: 8px;; text-wrap: pretty">{{ partial "kr.html" . }}</p>{{ end }}
+      </div>
+
+      {{/* 틱장애 요약 — 틱장애 페이지의 도입글·증상·치료 접근을 그대로 쓴다 */}}
+      <div id="signs">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $base.Title }}, {{ $p.headline }}</h2>
+        <div class="prose-lead" style="margin-bottom: 24px;">{{ partial "kr.html" ($p.intro | markdownify) }}</div>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px;">
+          {{ range $p.signs }}<li style="display: flex; gap: 12px; font-size: 17px; line-height: 1.75; color: #4A4A44;"><span style="flex: 0 0 6px; height: 6px; border-radius: 9999px; background: #22ABAF; margin-top: 11px;"></span><span>{{ partial "kr.html" . }}</span></li>{{ end }}
+        </ul>
+      </div>
+
+      <div id="approach">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">{{ $p.approach_heading }}</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          {{ range $i, $s := $p.approach_steps }}
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="flex: 0 0 28px; height: 28px; border-radius: 9999px; background: #E3FCF7; color: #0F7A7E; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ add $i 1 }}</div>
+            <div><div style="font-size: 17px; font-weight: 600; margin-bottom: 5px;">{{ partial "kr.html" $s.title }}</div><p style="font-size: 16px; line-height: 1.75; color: #4A4A44; margin: 0;; text-wrap: pretty">{{ $s.text | markdownify }}</p></div>
+          </div>
+          {{ end }}
+        </div>
+        <a href="{{ $base.RelPermalink }}" style="display: flex; gap: 20px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; color: #001E2B; margin-top: 28px; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
+          <div style="font-size: 18px; font-weight: 600; line-height: 1.45;">틱장애 원인·검사·치료 자세히 보기</div>
+          <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+        </a>
+      </div>
+
+      {{ partial "disease-columns.html" $base }}
+
+      {{ partial "disease-faq.html" $base }}
+
+      <div id="reviews">
+        <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">치료후기</h2>
+        <a href="/reviews/" style="display: flex; gap: 20px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
+          <div>
+            <div style="font-size: 18px; font-weight: 600; line-height: 1.45;">다녀가신 분들의 후기 보기</div>
+            <p style="font-size: 15px; line-height: 1.7; color: #4A4A44; margin: 6px 0 0;">네이버 방문자 후기와 자필 후기를 모아 두었습니다. 치료 경과는 환자마다 다를 수 있습니다.</p>
+          </div>
+          <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+        </a>
+      </div>
+
+    </article>
+
+    <aside style="position: sticky; top: 112px;">
+      <nav style="border: 1px solid #E8EDEB; border-radius: 12px; padding: 22px 24px;">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #6F6B61; margin-bottom: 14px;">이 페이지에서</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="#access" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $a.name }}에서 오시는 길</a>
+          <a href="#signs" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $base.Title }}란</a>
+          <a href="#approach" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.approach_heading }}</a>
+          {{ if $p.related_columns }}<a href="#related" style="font-size: 15px; color: #4A4A44;" class="nav-link">관련 원장 컬럼</a>{{ end }}
+          {{ if $p.faqs }}<a href="#faq" style="font-size: 15px; color: #4A4A44;" class="nav-link">자주 묻는 질문</a>{{ end }}
+          <a href="#reviews" style="font-size: 15px; color: #4A4A44;" class="nav-link">치료후기</a>
+        </div>
+      </nav>
+    </aside>
+  </div>
+</section>
+
+{{ partial "disease-consult.html" $base }}
+{{ end }}

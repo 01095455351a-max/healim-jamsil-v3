@@ -1,0 +1,31 @@
+{{/* 질환 페이지의 「관련 원장 컬럼」. 인자는 질환 페이지 하나.
+     diseases/single.html 과 틱장애 지역 안내(tic-areas/single.html)가 함께 쓴다 —
+     지역 페이지는 틱장애 페이지의 컬럼을 그대로 보여 주므로, 틱장애 페이지의
+     related_columns 만 고치면 양쪽이 같이 바뀐다. */}}
+{{- $p := .Params -}}
+{{- $doctorSlug := $p.doctor -}}
+{{ with $p.related_columns }}
+<div id="related">
+  <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">관련 원장 컬럼</h2>
+  {{ range . }}
+  {{ $col := site.GetPage . }}
+  {{ if $col }}
+  {{ $topics := collections.Complement (slice "칼럼") $col.Params.tags }}
+  {{/* 사진은 그 컬럼을 쓴 원장을 따라간다. 한 질환을 두 원장이 나눠 보는
+       경우(불면증·자율신경실조증) 두 원장의 컬럼이 섞여 걸린다.
+       authors가 비어 있으면 이 질환의 doctor로 되돌아간다. */}}
+  {{ $colSlug := $doctorSlug }}
+  {{ with $col.Params.authors }}{{ $colSlug = index . 0 }}{{ end }}
+  {{ $colDoctor := index site.Data.authors $colSlug }}
+  <a href="{{ $col.RelPermalink }}" style="display: flex; gap: 20px; align-items: center; border: 1px solid #E8EDEB; border-radius: 12px; padding: 24px; color: #001E2B; transition: box-shadow 170ms, transform 170ms;" class="card-lift-ink">
+    {{ partial "author-photo.html" (dict "slug" $colSlug "size" 48 "alt" $colDoctor.name.display) }}
+    <div>
+      <div style="font-size: 12px; font-weight: 600; color: #0F7A7E; margin-bottom: 6px;">{{ delimit $topics " · " }}</div>
+      <div style="font-size: 18px; font-weight: 600; line-height: 1.45;">{{ $col.Title }}</div>
+    </div>
+    <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
+  </a>
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}

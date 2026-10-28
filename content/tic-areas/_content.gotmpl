@@ -1,0 +1,16 @@
+{{/* data/area_pages.yaml 의 tic.areas 한 줄마다 페이지를 하나 만든다.
+     주소는 hugo.yaml 의 permalinks 가 /diseases/tic/<slug>/ 로 바꾼다.
+     지역을 더하거나 고칠 때 이 파일은 손대지 않는다. */}}
+{{ $cfg := site.Data.area_pages.tic }}
+{{ range $cfg.areas }}
+  {{ $.AddPage (dict
+      "kind" "page"
+      "path" .slug
+      "title" (printf "%s %s" .name $cfg.title)
+      "params" (dict
+        "title_seo" (printf "%s %s" .name $cfg.title)
+        "description" .description
+        "area" .
+        "base" $cfg.base)
+  ) }}
+{{ end }}
