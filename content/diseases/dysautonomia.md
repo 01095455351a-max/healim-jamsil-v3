@@ -77,6 +77,8 @@ related_columns:
   - /column/autonomic-imbalance/
   - /column/dizziness-despite-normal-tests/
   - /column/tired-but-cannot-sleep/
+  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
+  - /column/dysautonomia-vs-menopause/
 faqs:
   - question: "검사에서는 정상인데 왜 계속 증상이 있나요?"
     answer: |
