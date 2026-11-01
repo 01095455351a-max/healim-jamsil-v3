@@ -76,6 +76,8 @@ related_columns:
   - /column/tired-but-cannot-sleep/
   - /column/panic-insomnia-care/
   - /column/few-bad-nights-insomnia/
+  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
+  - /column/anxiety-insomnia-which-first/
 faqs:
   - question: "수면제를 복용 중인데 한약도 같이 먹을 수 있나요?"
     answer: |
