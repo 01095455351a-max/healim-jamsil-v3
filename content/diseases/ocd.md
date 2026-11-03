@@ -72,6 +72,8 @@ approach_note: "치료 목표는 강박적 생각을 완전히 지우는 것이 
 related_columns:
   - /column/why-obsessive-thoughts-are-hard-to-stop/
   - /column/helping-family-members-with-ocd/
+  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
+  - /column/ocd-four-symptom-types/
 faqs:
   - question: "강박적인 생각은 성격 문제인가요, 병인가요?"
     answer: |
