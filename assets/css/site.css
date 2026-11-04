@@ -1010,6 +1010,10 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
   #article-cta { display: none !important; }
 }
 
+/* 상담 구역의 통통한 버튼 — svg 는 크기를 인라인 style 로 줄 수 없어
+   여기서만 정한다. 글자·여백은 버튼 쪽 인라인 style 에 있다. */
+.cta-btn svg { width: 20px; height: 20px; flex: 0 0 20px; }
+
 /* ── 홈 히어로 오른쪽 버튼 ────────────────────────────────────
    PC는 「네이버 예약」, 좁은 화면은 「의료진」. 둘 다 마크업에 두고
    화면 폭으로 하나씩 감춘다(layouts/index.html의 두 줄과 짝이다).
