@@ -19,7 +19,10 @@
         {{ partial "author-photo.html" (dict "slug" $authorSlug "size" 44 "alt" $author.name.display) }}
         <div>
           <div style="font-size: 15px; font-weight: 600;">{{ $author.name.display }}</div>
-          <div style="font-size: 13px; color: #6B6960;">{{ $author.role }} · {{ .Date.Format "2006.01.02" }}</div>
+          {{/* 수정일은 작성일과 날짜가 다를 때만 보인다(같은 날 고친 것은 표시하지 않는다).
+               AI 답변·검색이 글의 최신성을 판단할 때 화면의 날짜와 구조화 데이터의
+               dateModified 를 함께 본다 — 둘 다 front matter 의 lastmod 한 곳에서 나온다. */}}
+          <div style="font-size: 13px; color: #6B6960;">{{ $author.role }} · <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>{{ if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) }} · 수정 <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006.01.02" }}</time>{{ end }}</div>
         </div>
       </div>
     </div>
