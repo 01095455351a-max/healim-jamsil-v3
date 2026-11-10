@@ -301,6 +301,28 @@
         "mainEntityOfPage" (dict "@id" (printf "%s#webpage" .Permalink))
         "inLanguage" "ko-KR"
       -}}
+      {{/* 대표 이미지 — 구글이 Article 에 권장하는 항목이다. 카톡 미리보기 카드와
+           같은 그림(media/og-card.jpg, 1200×630)을 쓴다. 파일이 없으면 붙이지 않는다. */}}
+      {{- with resources.Get "media/og-card.jpg" -}}
+        {{- $i := .Process "webp q82 photo" -}}
+        {{- $a = merge $a (dict "image" (dict "@type" "ImageObject" "url" $i.Permalink "width" $i.Width "height" $i.Height)) -}}
+      {{- end -}}
+      {{/* 이 글이 다루는 질환 — 글의 주제 태그(「칼럼」 제외)를 질환 페이지 제목과
+           맞춰 찾는다. 「불안장애」 태그는 「공황장애 · 불안장애」 페이지에 걸린다.
+           질환 페이지나 태그가 늘어도 이 코드는 고칠 필요가 없다. 맞는 페이지가
+           없으면 붙이지 않는다. */}}
+      {{- $seen := slice -}}
+      {{- $conds := slice -}}
+      {{- range (collections.Complement (slice "칼럼") (.Params.tags | default slice)) -}}
+        {{- $tag := . -}}
+        {{- range (where site.RegularPages "Section" "diseases").ByWeight -}}
+          {{- if and (strings.Contains .Title $tag) (not (in $seen .Permalink)) -}}
+            {{- $seen = $seen | append .Permalink -}}
+            {{- $conds = $conds | append (dict "@type" "MedicalCondition" "name" .Title "url" .Permalink) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with $conds }}{{ $a = merge $a (dict "about" .) }}{{ end -}}
       {{- $graph = $graph | append $a -}}
     {{- end -}}
   {{- end -}}

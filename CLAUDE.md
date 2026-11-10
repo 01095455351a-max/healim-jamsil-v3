@@ -114,6 +114,10 @@ claude.ai의 프로젝트에서 초고를 쓰는 경우에는 `docs/클로드-�
 | 질환 페이지 검색 제목 | 「송파 ○○ 한의원」 형태로 통일 | 「송파」가 9쪽 어디에도 없었다. 뒤에 붙는 `| 해아림한의원 잠실점` 이 잠실을 담아 한 제목에 두 지역이 들어간다. 증상어는 본문·description 에 남는다 |
 | 질환 페이지 지역 문단 | 9쪽 공통 문단을 `_partials/region-note.html` 로, 문구는 `data/directions.yaml` 의 `region_note` | 지역명을 9쪽에 흩어 적지 않는다. 질환 페이지를 새로 만들어도 자동으로 붙는다 |
 | 홈의 이동경로(BreadcrumbList) | 홈에만 넣지 않는다 | 홈에서 시작해 홈에서 끝나는 한 단계짜리는 구글이 권하지 않는다. 진단 도구가 홈을 검사하면 「없음」으로 나오는데 나머지 40쪽에는 모두 있다 |
+| 새 글 검색엔진 알림 | 배포 성공 뒤 IndexNow 로 바뀐 주소를 알린다(`.github/workflows/indexnow.yml`, 키 `static/<키>.txt`) | 사이트맵만으로는 빙·네이버 재수집에 몇 주가 걸린다. ChatGPT 검색이 빙 색인을 쓴다. 구글은 IndexNow 를 쓰지 않아 사이트맵 그대로 |
+| 컬럼 자동 점검 | 컬럼이 바뀐 PR 마다 `tools/check-column.py` 가 돈다(`.github/workflows/column-check.yml`) | 검색 제목 17자·요약·질환 링크 같은 규칙이 CMS 안내 문구에만 있어 어겨도 그대로 발행됐다. 막지는 않고 알린다 |
+| 컬럼 Article 구조화 데이터 | `image`(카톡 카드 그림)와 `about`(주제 태그로 찾은 질환 페이지)을 붙인다 | 구글 권장 항목이고, AI 가 글의 질환을 원장·질환 페이지와 묶어 읽는다 |
+| 컬럼 수정일 표시 | lastmod 가 작성일과 다른 날일 때만 「· 수정 날짜」 | 화면과 dateModified 가 같은 값에서 나온다. 같은 날 고친 것은 표시하지 않는다 |
 
 ## 이미지 다루기
 
@@ -304,3 +308,5 @@ python3 tools/check-mobile.py
 2. 모바일 규칙이 빠지지 않았는가 — `python3 tools/check-mobile.py`
 3. 내부 링크가 살아 있는가 — 산출물의 `href="/..."`를 파일 존재 여부와 대조
 4. 모바일에서 넘치지 않는가 — 브라우저를 390px 폭으로 줄여 가로 스크롤 확인
+5. 컬럼을 고쳤으면 형식이 맞는가 — `python3 tools/check-column.py content/column/<글>.md`
+   (오류 0건이어야 한다. 기준은 스크립트 맨 위 한 곳에 있다)

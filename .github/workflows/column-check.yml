@@ -1,0 +1,42 @@
+# CMS 초안(cms/...) 과 Claude 작업 브랜치의 PR 에서 바뀐 컬럼만 점검한다.
+#
+# 점검 내용과 기준은 tools/check-column.py 맨 위 「기준」 구역에 있다.
+#   오류  검색 제목 17자 초과·요약 없음·질환 페이지 링크 없음·없는 주소 링크 등.
+#         검사가 실패하고(빨간 ✕), PR 을 연 계정으로 GitHub 알림 메일이 간다.
+#   주의  주제 중복·의료광고 주의 표현·질환 페이지 연결 누락 등. 검사는 통과한다.
+#
+# 결과는 PR 의 Checks 탭 → 「컬럼 점검」 요약에 한국어로 정리된다.
+# Decap CMS 의 「발행」 버튼은 이 결과와 상관없이 눌린다 — 막지는 않고 알리기만 한다.
+
+name: 컬럼 점검
+
+on:
+  pull_request:
+    paths:
+      - 'content/column/**'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: 바뀐 컬럼 점검
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          files=$(git diff --name-only --diff-filter=AM "$BASE" "$HEAD" -- 'content/column/*.md' | grep -v '_index.md' || true)
+          if [ -z "$files" ]; then
+            echo "점검할 컬럼이 없다"
+            exit 0
+          fi
+          python3 tools/check-column.py $files
