@@ -1,9 +1,12 @@
 {{/* 글 끝의 상담 안내 — 컬럼처럼 본문만 있고 연락 통로가 없던 페이지에 붙인다.
      column/single.html 끝에서 부른다. 글이 늘어도 저절로 붙는다.
 
-     제목은 data/cta.yaml 에서 고른다 — 파일 이름(by_page)을 먼저 보고,
-     없으면 글의 tags 에서 질환(by_tag)을 찾는다. 둘 다 없으면 default 가 나간다 — 새 컬럼을 써도 태그만 달면 저절로 맞는다.
-     문구를 고칠 곳은 그 파일 한 곳뿐이다.
+     제목은 이 차례로 고른다.
+       1. 페이지의 cta 값 (data/local.yaml 처럼 파일 없이 만들어지는 쪽)
+       2. data/cta.yaml 의 by_page — content/ 의 파일 이름
+       3. data/cta.yaml 의 by_tag — 글의 tags 에 있는 질환
+       4. data/cta.yaml 의 default
+     새 컬럼을 써도 태그만 달면 저절로 맞는다. 문구는 그 파일들에만 있다.
 
      배경은 원내 상담실 사진에 어두운 막을 씌운 것이다. 사람이 찍히지 않은
      사진이라 개인정보 문제가 없다. 사진을 바꾸려면 아래 resources.Get 의
@@ -22,9 +25,13 @@
 {{- $cta := site.Data.cta -}}
 {{- $head := $cta.default -}}
 {{- $found := false -}}
+{{- /* 파일 없이 만들어지는 쪽(지역별 내원 안내)은 페이지가 문구를 직접 들고 온다 */ -}}
+{{- with $page.Params.cta -}}{{ $head = . }}{{ $found = true }}{{- end -}}
 {{- /* 질환 태그가 없는 쪽은 파일 이름으로 고른다 */ -}}
-{{- with $page.File -}}
-  {{- with index $cta.by_page .BaseFileName -}}{{ $head = . }}{{ $found = true }}{{- end -}}
+{{- if not $found -}}
+  {{- with $page.File -}}
+    {{- with index $cta.by_page .BaseFileName -}}{{ $head = . }}{{ $found = true }}{{- end -}}
+  {{- end -}}
 {{- end -}}
 {{- range $page.Params.tags -}}
   {{- if not $found -}}{{- with index $cta.by_tag . -}}{{ $head = . }}{{ $found = true }}{{- end -}}{{- end -}}
