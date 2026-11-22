@@ -981,6 +981,13 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    auto-fit이라 카드를 늘리거나 줄여도 배치가 알아서 맞는다. */
 .fv-exams { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 
+/* 진료 철학 — 제목 왼쪽, 본문 오른쪽.
+   1100px 아래에서는 한 칸으로 내린다. 그보다 좁으면 오른쪽 본문 칸이
+   한글 30자 아래로 떨어져 글이 잘게 접힌다. 390px 에서 제목 칸의
+   360px 이 그대로 버텨 가로로 246px 넘치던 것도 이 규칙이 막는다. */
+.fv-philosophy { display: grid; grid-template-columns: 360px 1fr; gap: 48px; align-items: start; }
+@media (max-width: 1100px) { .fv-philosophy { grid-template-columns: 1fr; gap: 16px; } }
+
 @media (max-width: 767px) {
   .fv-step { gap: 16px; }
   .fv-step-rail { flex: 0 0 40px; }
