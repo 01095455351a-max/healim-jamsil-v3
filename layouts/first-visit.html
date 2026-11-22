@@ -98,8 +98,11 @@
   </div>
 </section>
 
+{{/* 두 카드의 배경 높이를 맞춘다 — align-items 를 start 로 두면 각자 내용만큼만
+     높아져서 배경이 어긋난다. 어느 쪽이 더 긴지는 화면 폭에 따라 뒤바뀌므로
+     (1280px 은 왼쪽이, 1100px 은 오른쪽이 길다) 여백 숫자로는 맞출 수 없다. */}}
 <section id="prepare" style="background: #F9FBFA; border-top: 1px solid #E8EDEB; border-bottom: 1px solid #E8EDEB; padding: 72px 0;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
     <div style="background: #E3FCF7; border: 1px solid #C0FAE6; border-radius: 16px; padding: 36px;">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #0F7A7E; margin-bottom: 12px;">Checklist</div>
       <h2 style="font-size: 24px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.4; margin: 0 0 20px;; text-wrap: balance">{{ partial "kr.html" `준비해 오시면 진료에 도움이 됩니다` }}</h2>
@@ -136,5 +139,8 @@
     </div>
   </div>
 </section>
+
+{{/* 첫 내원을 준비하는 자리 — 문구는 data/cta.yaml 의 by_page 에 있다 */}}
+{{ partial "consult-cta.html" . }}
 
 {{ end }}
