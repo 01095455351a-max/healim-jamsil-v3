@@ -50,7 +50,19 @@
   {{- $ogImg = (.Process "webp q82 photo").Permalink -}}
 {{- end -}}
 {{/* 그림 설명 — og 와 트위터 두 곳이 같은 값을 쓴다. 그림을 바꾸면 이 한 줄만 고친다. */}}
-{{- $ogAlt := "해아림한의원 잠실점 류석균 원장과 석선희 원장" }}
+{{- $ogAlt := "해아림한의원 잠실점 류석균 원장과 석선희 원장" -}}
+{{/* 원장 컬럼은 글마다 만들어 둔 카드를 쓴다(assets/media/column-cards/<슬러그>.webp).
+     tools/make-column-cards.js 가 만들고 .github/workflows/column-cards.yml 이 돌린다.
+     카드가 아직 없는 글(초안 단계)은 위의 공용 카드가 그대로 나간다.
+     크기는 1200×630 으로 아래 og:image:width·height 와 같다. */}}
+{{- if eq .Section "column" -}}
+  {{- with .File -}}
+    {{- with resources.Get (printf "media/column-cards/%s.webp" .BaseFileName) -}}
+      {{- $ogImg = .Permalink -}}
+      {{- $ogAlt = $ogTitle -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
 <meta property="og:type" content="{{ cond (eq .Section "column") "article" "website" }}" />
 <meta property="og:site_name" content="{{ site.Title }}" />
 <meta property="og:locale" content="ko_KR" />

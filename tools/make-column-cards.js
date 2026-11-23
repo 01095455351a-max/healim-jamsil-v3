@@ -23,6 +23,7 @@
  * word-break: keep-all 이 그 문제를 푼다. 그래서 Cloudflare 빌드가 아니라
  * GitHub Actions 에서 미리 만들어 저장소에 넣는다.
  */
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -32,6 +33,10 @@ const { chromium } = require('playwright');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'assets/media/column-cards');
+/* 무엇으로 만든 카드인지 적어 둔다 — 제목이나 card_headline 을 고치면
+   그림도 다시 만들어야 하는데, 파일이 있는지만 보면 옛 그림이 남는다.
+   저장소에 함께 커밋한다(화면에 나가지 않는다). */
+const STATE = path.join(__dirname, 'column-cards.state.json');
 const PORT = 8899;
 
 const args = process.argv.slice(2);
@@ -155,15 +160,22 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
 
   const dir = path.join(ROOT, 'content/column');
   const made = [], skipped = [], problems = [];
+  const was = fs.existsSync(STATE) ? JSON.parse(fs.readFileSync(STATE, 'utf8')) : {};
+  const state = {}, alive = new Set();
 
   for (const file of fs.readdirSync(dir).sort()) {
     if (!file.endsWith('.md') || file === '_index.md') continue;
     const slug = file.replace(/\.md$/, '');
     if (ONLY && slug !== ONLY) continue;
     const dest = path.join(OUT, slug + '.webp');
-    if (!FORCE && fs.existsSync(dest)) { skipped.push(slug); continue; }
-
     const fm = readFrontMatter(path.join(dir, file));
+    const stamp = crypto.createHash('sha1').update(JSON.stringify([
+      fm.title, fm.card_headline, fm.tags, fm.authors, String(fm.date || ''),
+    ])).digest('hex').slice(0, 16);
+    alive.add(slug);
+    state[slug] = stamp;
+    if (!FORCE && fs.existsSync(dest) && was[slug] === stamp) { skipped.push(slug); continue; }
+
     const tags = (fm.tags || []).filter(t => t !== '칼럼');
     const tag = tags[0] || '';
     const [a, b] = (tintData.tints || {})[tag] || tintData.default;
@@ -196,7 +208,17 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
   srv.close();
   fs.rmSync(serveDir, { recursive: true, force: true });
 
-  console.log(`만든 카드 ${made.length}장` + (skipped.length ? `, 이미 있어 건너뛴 것 ${skipped.length}장` : ''));
+  /* 지워진 글의 카드는 남겨 두지 않는다 */
+  const gone = [];
+  for (const f of fs.readdirSync(OUT)) {
+    if (!f.endsWith('.webp')) continue;
+    const slug = f.replace(/\.webp$/, '');
+    if (!alive.has(slug) && !ONLY) { fs.unlinkSync(path.join(OUT, f)); gone.push(slug); }
+  }
+  if (!ONLY) fs.writeFileSync(STATE, JSON.stringify(state, null, 1) + '\n');
+
+  console.log(`만든 카드 ${made.length}장` + (skipped.length ? `, 그대로 둔 것 ${skipped.length}장` : '')
+    + (gone.length ? `, 지운 것 ${gone.length}장` : ''));
   for (const p of problems) console.log('  ! ' + p);
   if (problems.length) process.exitCode = 1;
 })();

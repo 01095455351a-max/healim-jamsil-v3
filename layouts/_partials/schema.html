@@ -302,10 +302,21 @@
         "inLanguage" "ko-KR"
       -}}
       {{/* 대표 이미지 — 구글이 Article 에 권장하는 항목이다. 카톡 미리보기 카드와
-           같은 그림(media/og-card.jpg, 1200×630)을 쓴다. 파일이 없으면 붙이지 않는다. */}}
-      {{- with resources.Get "media/og-card.jpg" -}}
-        {{- $i := .Process "webp q82 photo" -}}
-        {{- $a = merge $a (dict "image" (dict "@type" "ImageObject" "url" $i.Permalink "width" $i.Width "height" $i.Height)) -}}
+           같은 그림을 쓴다. 글마다 만들어 둔 카드가 있으면 그것을, 없으면 공용
+           카드(media/og-card.jpg)를 쓴다. 둘 다 없으면 붙이지 않는다. */}}
+      {{- $cardImg := "" -}}
+      {{- with .File -}}
+        {{- with resources.Get (printf "media/column-cards/%s.webp" .BaseFileName) -}}
+          {{- $cardImg = . -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $cardImg -}}
+        {{- $a = merge $a (dict "image" (dict "@type" "ImageObject" "url" $cardImg.Permalink "width" $cardImg.Width "height" $cardImg.Height)) -}}
+      {{- else -}}
+        {{- with resources.Get "media/og-card.jpg" -}}
+          {{- $i := .Process "webp q82 photo" -}}
+          {{- $a = merge $a (dict "image" (dict "@type" "ImageObject" "url" $i.Permalink "width" $i.Width "height" $i.Height)) -}}
+        {{- end -}}
       {{- end -}}
       {{/* 이 글이 다루는 질환 — 글의 주제 태그(「칼럼」 제외)를 질환 페이지 제목과
            맞춰 찾는다. 「불안장애」 태그는 「공황장애 · 불안장애」 페이지에 걸린다.
