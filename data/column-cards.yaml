@@ -1,0 +1,24 @@
+# 원장 컬럼의 공유 카드 그림(카카오톡·목록 썸네일·구글 대표 이미지)에 쓰는 색.
+# tools/make-column-cards.js 가 읽는다. 색을 바꿀 곳은 여기 한 곳이다.
+#
+# 전부 사이트에 이미 있는 색이다 — 새로 만든 색은 없다.
+#   A7E6E4·C2EEED·DCF4F4·F1FAFA  질환·컬럼 페이지 히어로의 그라데이션
+#   E3FCF7                        상담 카드·준비물 카드의 민트
+#   FAF6EF·F4EEE2·EDE6DA          홈·상담 구역의 크림
+#
+# 소아 질환(틱장애·ADHD)은 크림, 나머지는 민트 계열이다.
+# 질환을 새로 만들면 여기에 두 줄을 더한다. 없으면 default 가 쓰인다.
+
+default: ["#DCF4F4", "#FBFDFD"]
+
+tints:
+  불면증:        ["#A7E6E4", "#F1FAFA"]
+  공황장애:      ["#C2EEED", "#F4FBFB"]
+  불안장애:      ["#C2EEED", "#F4FBFB"]
+  자율신경실조증: ["#DCF4F4", "#FBFDFD"]
+  신경성 질환:    ["#DCF4F4", "#FBFDFD"]
+  우울장애:      ["#E3FCF7", "#F7FEFC"]
+  강박장애:      ["#E3FCF7", "#F7FEFC"]
+  다한증:        ["#EDE6DA", "#FDFBF7"]
+  틱장애:        ["#FAF6EF", "#FFFDF9"]
+  ADHD:         ["#F4EEE2", "#FFFDF9"]
