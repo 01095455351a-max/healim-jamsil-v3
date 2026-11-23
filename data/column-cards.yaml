@@ -2,23 +2,32 @@
 # tools/make-column-cards.js 가 읽는다. 색을 바꿀 곳은 여기 한 곳이다.
 #
 # 전부 사이트에 이미 있는 색이다 — 새로 만든 색은 없다.
-#   A7E6E4·C2EEED·DCF4F4·F1FAFA  질환·컬럼 페이지 히어로의 그라데이션
-#   E3FCF7                        상담 카드·준비물 카드의 민트
+#   001E2B·0B4F52·157175·0F7A7E   헤더·푸터·버튼의 진한 청록
+#   A7E6E4·C2EEED·DCF4F4·E3FCF7   질환·컬럼 페이지 히어로, 상담 카드의 민트
 #   FAF6EF·F4EEE2·EDE6DA          홈·상담 구역의 크림
 #
-# 소아 질환(틱장애·ADHD)은 크림, 나머지는 민트 계열이다.
-# 질환을 새로 만들면 여기에 두 줄을 더한다. 없으면 default 가 쓰인다.
+# 밝기를 섞는다 — 밝은 카드만 늘어놓으면 목록에서 서로 구별되지 않는다.
+# 진한 것 3 · 밝은 민트 4 · 크림 3 으로 나누어 번갈아 보이게 했다.
+# dark: true 면 글자가 흰색으로 나가고 흰 로고(logo-white.png)를 쓴다.
+#
+#   진한   불면증·공황장애·우울장애   — 밤, 무게가 있는 주제
+#   민트   불안장애·자율신경실조증·신경성 질환·강박장애
+#   크림   틱장애·ADHD·다한증        — 소아와 몸 증상, 따뜻한 쪽
+#
+# 질환을 새로 만들면 여기에 한 줄 더한다. 없으면 default 가 쓰인다.
 
-default: ["#DCF4F4", "#FBFDFD"]
+default: { from: "#DCF4F4", to: "#FBFDFD" }
 
 tints:
-  불면증:        ["#A7E6E4", "#F1FAFA"]
-  공황장애:      ["#C2EEED", "#F4FBFB"]
-  불안장애:      ["#C2EEED", "#F4FBFB"]
-  자율신경실조증: ["#DCF4F4", "#FBFDFD"]
-  신경성 질환:    ["#DCF4F4", "#FBFDFD"]
-  우울장애:      ["#E3FCF7", "#F7FEFC"]
-  강박장애:      ["#E3FCF7", "#F7FEFC"]
-  다한증:        ["#EDE6DA", "#FDFBF7"]
-  틱장애:        ["#FAF6EF", "#FFFDF9"]
-  ADHD:         ["#F4EEE2", "#FFFDF9"]
+  불면증:        { from: "#001E2B", to: "#0B4F52", dark: true }
+  공황장애:      { from: "#0B4F52", to: "#157175", dark: true }
+  우울장애:      { from: "#157175", to: "#0F7A7E", dark: true }
+
+  불안장애:      { from: "#A7E6E4", to: "#F1FAFA" }
+  자율신경실조증: { from: "#C2EEED", to: "#F4FBFB" }
+  신경성 질환:    { from: "#DCF4F4", to: "#FBFDFD" }
+  강박장애:      { from: "#E3FCF7", to: "#F7FEFC" }
+
+  틱장애:        { from: "#FAF6EF", to: "#FFFDF9" }
+  ADHD:         { from: "#F4EEE2", to: "#FFFDF9" }
+  다한증:        { from: "#EDE6DA", to: "#FDFBF7" }

@@ -94,8 +94,13 @@ function fontSize(a, b) {
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
+function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
   const u = p => `http://127.0.0.1:${PORT}/${p}`;
+  /* 진한 바탕에서는 글자를 흰색으로, 로고도 흰 것으로 바꾼다 */
+  const ink  = dark ? '#FFFFFF' : '#001E2B';
+  const lead = dark ? 'rgba(255,255,255,.66)' : '#4A4A44';
+  const sub  = dark ? 'rgba(255,255,255,.80)' : '#4A4A44';
+  const logo = dark ? 'logo-white.png' : 'logo.png';
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,20 +114,20 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
       border:1px solid #C0FAE6;border-radius:9999px;padding:9px 22px;letter-spacing:-.5px}
  h1{font-size:${size}px;line-height:1.32;letter-spacing:-1.7px;word-break:keep-all;
     text-wrap:balance;max-width:960px}
- h1 .lead{display:block;font-weight:500;color:#4A4A44}
- h1 .main{color:#001E2B;font-weight:600}
+ h1 .lead{display:block;font-weight:500;color:${lead}}
+ h1 .main{color:${ink};font-weight:600}
  .foot{display:flex;align-items:center;justify-content:space-between}
  .logo{height:46px;width:auto;opacity:.9}
  .by{display:flex;align-items:center;gap:22px}
- .nm{font-size:20px;line-height:1.5;color:#4A4A44;text-align:right}
- .nm b{display:block;font-size:24px;font-weight:600;color:#001E2B;letter-spacing:-.5px}
+ .nm{font-size:20px;line-height:1.5;color:${sub};text-align:right}
+ .nm b{display:block;font-size:24px;font-weight:600;color:${ink};letter-spacing:-.5px}
  .face{width:200px;height:200px;border-radius:9999px;object-fit:cover;border:4px solid #fff;
        box-shadow:0 2px 14px rgba(0,30,43,.14);flex:0 0 auto}
 </style></head><body><div class="c">
  <div><span class="tag">${esc(tag)}</span></div>
  <h1>${t1 ? `<span class="lead">${esc(t1)}</span>` : ''}<span class="main">${esc(t2)}</span></h1>
  <div class="foot">
-   <img class="logo" src="${u('logo.png')}" alt="">
+   <img class="logo" src="${u(logo)}" alt="">
    <span class="by">
      <span class="nm"><b>${esc(docName)}</b>원장 컬럼${date ? ` · ${esc(date)}` : ''}</span>
      ${docPhoto ? `<img class="face" src="${u(docPhoto)}" alt="">` : ''}
@@ -142,7 +147,8 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
 
   /* 브라우저가 가져갈 그림을 한 곳에 모아 두고 작은 서버로 넘긴다 */
   const serveDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cards-'));
-  fs.copyFileSync(path.join(ROOT, 'assets/design-v3/logo.png'), path.join(serveDir, 'logo.png'));
+  for (const f of ['logo.png', 'logo-white.png'])
+    fs.copyFileSync(path.join(ROOT, 'assets/design-v3', f), path.join(serveDir, f));
   for (const f of fs.readdirSync(path.join(ROOT, 'assets/media/authors'))) {
     if (f.startsWith('card-') && f.endsWith('.jpg'))
       fs.copyFileSync(path.join(ROOT, 'assets/media/authors', f), path.join(serveDir, f));
@@ -178,7 +184,7 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
 
     const tags = (fm.tags || []).filter(t => t !== '칼럼');
     const tag = tags[0] || '';
-    const [a, b] = (tintData.tints || {})[tag] || tintData.default;
+    const tint = (tintData.tints || {})[tag] || tintData.default;
     const authorSlug = (fm.authors || [])[0] || '';
     const author = authors[authorSlug];
     if (!author) problems.push(`${slug}: 원장을 찾을 수 없음 (authors: ${authorSlug || '없음'})`);
@@ -188,7 +194,7 @@ function html({ tag, a, b, t1, t2, size, docName, docPhoto, date }) {
 
     const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
     await page.setContent(html({
-      tag, a, b, t1, t2, size: fontSize(t1, t2),
+      tag, a: tint.from, b: tint.to, dark: !!tint.dark, t1, t2, size: fontSize(t1, t2),
       docName: author ? author.name.display : '',
       docPhoto: authorSlug ? `card-${authorSlug}.jpg` : '',
       date,
