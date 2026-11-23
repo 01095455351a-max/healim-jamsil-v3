@@ -96,6 +96,17 @@ collections:
         required: false
         hint: 카드 설명·검색 결과 설명·구조화 데이터에 함께 쓰입니다.
 
+      - name: card_headline
+        label: 공유 카드 문구
+        widget: string
+        required: false
+        hint: >-
+          카카오톡으로 링크를 보낼 때 뜨는 그림 안의 문구입니다. 비워 두면
+          위의 제목이 그대로 쓰이고, 줄도 알아서 나뉩니다 — 대개 그걸로
+          충분합니다. 나뉜 자리가 어색할 때만 적으세요. 「/」를 넣으면
+          거기서 줄이 바뀌고, 「/」 뒤가 진하게 나옵니다.
+          예) 우리 아이 틱장애, / 그냥 두고 봐도 될까요?
+
       - name: description
         label: 페이지 설명
         widget: text

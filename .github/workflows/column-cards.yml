@@ -1,0 +1,81 @@
+# 원장 컬럼의 공유 카드 그림을 만든다.
+#
+# 왜 여기서 만드나 — 카드는 브라우저로 그려 내보낸다(한국어 줄바꿈 때문에.
+# tools/make-column-cards.js 맨 위 설명 참고). Cloudflare Pages 빌드에서는
+# 브라우저를 띄울 수 없어, 여기서 미리 만들어 저장소에 넣는다.
+#
+# 원장님이 /admin/ 에서 글을 쓰고 저장하면 master 에 커밋되고, 이 작업이
+# 돌아 없는 카드를 만들어 커밋한다. 그 커밋으로 Cloudflare 가 다시 빌드한다.
+#
+# 색을 바꾸려면 data/column-cards.yaml, 모양을 바꾸려면 생성기를 고친 뒤
+# 「전부 다시 만들기」를 손으로 돌린다(아래 workflow_dispatch).
+
+name: 컬럼 공유 카드
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'content/column/**'
+      - 'data/column-cards.yaml'
+      - 'data/authors/**'
+      - 'tools/make-column-cards.js'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '이미 있는 카드까지 전부 다시 만들기'
+        type: boolean
+        default: false
+
+# 커밋을 되돌려 보내야 한다
+permissions:
+  contents: write
+
+concurrency:
+  group: column-cards
+  cancel-in-progress: false
+
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 한글 글꼴. 이게 없으면 글자가 네모로 나온다.
+      # 사이트는 Noto Sans KR 을 쓴다 — 브라우저가 Google Fonts 에서 받아 가지만,
+      # 받지 못할 때를 대비해 같은 글꼴을 시스템에도 깔아 둔다.
+      - name: 한글 글꼴과 WebP 변환 도구
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk imagemagick
+
+      - name: 의존성
+        working-directory: tools
+        run: npm install --no-audit --no-fund
+
+      - name: 브라우저
+        working-directory: tools
+        run: npx playwright install --with-deps chromium
+
+      - name: 카드 만들기
+        env:
+          NODE_PATH: ${{ github.workspace }}/tools/node_modules
+        run: |
+          node tools/make-column-cards.js ${{ inputs.force && '--force' || '' }}
+
+      - name: 바뀐 것이 있으면 커밋
+        run: |
+          if [ -z "$(git status --porcelain assets/media/column-cards tools/column-cards.state.json)" ]; then
+            echo "새로 만든 카드 없음 — 커밋하지 않는다"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/media/column-cards tools/column-cards.state.json
+          # [skip ci] 로 이 작업이 자기 커밋에 다시 걸리지 않게 한다
+          git commit -m "컬럼 공유 카드 생성 [skip ci]"
+          git push
