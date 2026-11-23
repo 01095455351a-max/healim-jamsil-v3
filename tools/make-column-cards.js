@@ -199,7 +199,20 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
       docPhoto: authorSlug ? `card-${authorSlug}.jpg` : '',
       date,
     }), { waitUntil: 'networkidle' });
-    await page.waitForTimeout(400);
+
+    /* 글꼴을 다 받을 때까지 기다리고, 받았는지 확인한다.
+       확인하지 않으면 Google Fonts 에 닿지 못했을 때 대체 글꼴로 조용히
+       만들어 커밋한다 — 나중에 알아챌 방법이 없다. 차라리 멈춘다. */
+    await page.evaluate(() => document.fonts.ready);
+    const fontOk = await page.evaluate(
+      () => document.fonts.check('600 60px "Noto Sans KR"'));
+    if (!fontOk) {
+      await browser.close(); srv.close();
+      throw new Error(
+        'Noto Sans KR 을 받지 못했습니다. 대체 글꼴로 카드를 만들지 않습니다 — '
+        + 'fonts.googleapis.com 에 닿는지 확인해 주세요.');
+    }
+    await page.waitForTimeout(300);
     const png = path.join(serveDir, slug + '.png');
     await page.screenshot({ path: png });
     await page.close();
