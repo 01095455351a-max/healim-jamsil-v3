@@ -46,20 +46,9 @@ jobs:
           node-version: '22'
 
       # 한글 글꼴은 깔지 않는다 — 브라우저가 Google Fonts 에서 사이트와 똑같은
-      # Noto Sans KR 을 받아 간다. 시스템에 따로 깔면 오히려 사이트와 다른
-      # 글꼴이 나올 수 있다. 제대로 받았는지는 생성기가 직접 확인하고,
+      # Noto Sans KR 을 받아 간다. 제대로 받았는지는 생성기가 직접 확인하고,
       # 못 받았으면 멈춘다(tools/make-column-cards.js).
-      #
-      # ImageMagick 은 러너에 이미 깔려 있다. 없을 때만 받는다 —
-      # DEBIAN_FRONTEND 를 주지 않으면 설치 중 설정을 묻는 창에서 멈춘다.
-      - name: WebP 변환 도구
-        run: |
-          if ! command -v convert >/dev/null; then
-            sudo DEBIAN_FRONTEND=noninteractive apt-get update -qq
-            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq imagemagick
-          fi
-          convert -version | head -1
-
+      # WebP 변환은 sharp 로 한다 — apt 로 ImageMagick 을 받으면 6분이 걸렸다.
       - name: 의존성
         working-directory: tools
         run: npm install --no-audit --no-fund

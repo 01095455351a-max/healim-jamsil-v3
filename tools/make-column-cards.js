@@ -27,8 +27,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { execFileSync } = require('child_process');
 const yaml = require('js-yaml');
+const sharp = require('sharp');
 const { chromium } = require('playwright');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -156,7 +156,9 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
   const srv = require('http').createServer((req, res) => {
     const p = path.join(serveDir, decodeURIComponent(req.url.slice(1)));
     if (!p.startsWith(serveDir) || !fs.existsSync(p)) { res.writeHead(404); return res.end(); }
-    res.writeHead(200, { 'Content-Type': p.endsWith('.png') ? 'image/png' : 'image/jpeg' });
+    const type = p.endsWith('.html') ? 'text/html; charset=utf-8'
+               : p.endsWith('.png') ? 'image/png' : 'image/jpeg';
+    res.writeHead(200, { 'Content-Type': type });
     res.end(fs.readFileSync(p));
   }).listen(PORT, '127.0.0.1');
 
@@ -192,18 +194,32 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
     const [t1, t2] = headline(fm);
     const date = String(fm.date || '').slice(0, 10).replace(/-/g, '.');
 
-    const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-    await page.setContent(html({
+    /* setContent 로 만든 페이지는 주소가 about:blank 라 fonts.googleapis.com
+       같은 다른 출처의 스타일시트·글꼴을 받아오지 못한다. 작은 서버에
+       올려 두고 주소로 연다. */
+    fs.writeFileSync(path.join(serveDir, 'card.html'), html({
       tag, a: tint.from, b: tint.to, dark: !!tint.dark, t1, t2, size: fontSize(t1, t2),
       docName: author ? author.name.display : '',
       docPhoto: authorSlug ? `card-${authorSlug}.jpg` : '',
       date,
-    }), { waitUntil: 'networkidle' });
+    }));
+    const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+    await page.goto(`http://127.0.0.1:${PORT}/card.html`, { waitUntil: 'networkidle' });
 
-    /* 글꼴을 다 받을 때까지 기다리고, 받았는지 확인한다.
-       확인하지 않으면 Google Fonts 에 닿지 못했을 때 대체 글꼴로 조용히
+    /* 글꼴을 적재시키고, 왔는지 확인한다.
+       document.fonts.load() 로 먼저 시키지 않으면 안 된다 — check() 는
+       「이미 적재된 글꼴인가」를 묻는 것이라 load 없이는 늘 false 이고,
+       그대로 찍으면 대체 글꼴로 나간다(실제로 그랬다).
+       확인하지 않으면 Google Fonts 에 닿지 못했을 때 조용히 대체 글꼴로
        만들어 커밋한다 — 나중에 알아챌 방법이 없다. 차라리 멈춘다. */
-    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(async () => {
+      await Promise.all([
+        document.fonts.load('500 60px "Noto Sans KR"'),
+        document.fonts.load('600 60px "Noto Sans KR"'),
+        document.fonts.load('600 60px "Plus Jakarta Sans"'),
+      ]);
+      await document.fonts.ready;
+    });
     const fontOk = await page.evaluate(
       () => document.fonts.check('600 60px "Noto Sans KR"'));
     if (!fontOk) {
@@ -217,8 +233,10 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
     await page.screenshot({ path: png });
     await page.close();
 
-    /* PNG 는 한 장에 수백 KB 다. WebP 로 바꿔 저장소를 가볍게 둔다. */
-    execFileSync('convert', [png, '-quality', '82', '-define', 'webp:method=5', dest]);
+    /* PNG 는 한 장에 수백 KB 다. WebP 로 바꿔 저장소를 가볍게 둔다.
+       ImageMagick 을 쓰다가 sharp 로 바꿨다 — 러너에 ImageMagick 이 없어
+       apt 로 받는 데 6분이 걸렸다. sharp 는 npm 으로 몇 초면 받는다. */
+    await sharp(png).webp({ quality: 82 }).toFile(dest);
     fs.unlinkSync(png);
     made.push(slug);
   }
