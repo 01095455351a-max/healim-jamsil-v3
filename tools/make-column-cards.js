@@ -86,6 +86,17 @@ function headline(fm) {
   return ['', t];
 }
 
+/* 작성일을 2026.09.02 꼴로 만든다.
+   자료형을 가리지 않는다 — js-yaml 4 는 「2026-09-02」를 Date 객체로 바꾸고
+   5 는 문자열로 둔다. String(date).slice(0,10) 으로 잘랐더니 Date 에서
+   「Wed Sep 02」가 나갔다(실제로 그랬다). */
+function fmtDate(v) {
+  if (!v) return '';
+  const iso = v instanceof Date ? v.toISOString() : String(v);
+  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[1]}.${m[2]}.${m[3]}` : '';
+}
+
 /* 글자 수에 따라 크기를 달리한다 — 짧은 제목은 크게, 긴 제목은 작게 */
 function fontSize(a, b) {
   const n = (a + b).replace(/\s/g, '').length;
@@ -178,7 +189,7 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
     const dest = path.join(OUT, slug + '.webp');
     const fm = readFrontMatter(path.join(dir, file));
     const stamp = crypto.createHash('sha1').update(JSON.stringify([
-      fm.title, fm.card_headline, fm.tags, fm.authors, String(fm.date || ''),
+      fm.title, fm.card_headline, fm.tags, fm.authors, fmtDate(fm.date),
     ])).digest('hex').slice(0, 16);
     alive.add(slug);
     state[slug] = stamp;
@@ -192,7 +203,7 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
     if (!author) problems.push(`${slug}: 원장을 찾을 수 없음 (authors: ${authorSlug || '없음'})`);
     if (!tag) problems.push(`${slug}: 질환 태그가 없음`);
     const [t1, t2] = headline(fm);
-    const date = String(fm.date || '').slice(0, 10).replace(/-/g, '.');
+    const date = fmtDate(fm.date);
 
     /* setContent 로 만든 페이지는 주소가 about:blank 라 fonts.googleapis.com
        같은 다른 출처의 스타일시트·글꼴을 받아오지 못한다. 작은 서버에
