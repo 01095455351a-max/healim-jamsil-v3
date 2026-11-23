@@ -109,8 +109,10 @@ function html({ tag, a, b, dark, t1, t2, size, docName, docPhoto, date }) {
   const u = p => `http://127.0.0.1:${PORT}/${p}`;
   /* 진한 바탕에서는 글자를 흰색으로, 로고도 흰 것으로 바꾼다 */
   const ink  = dark ? '#FFFFFF' : '#001E2B';
-  const lead = dark ? 'rgba(255,255,255,.66)' : '#4A4A44';
-  const sub  = dark ? 'rgba(255,255,255,.80)' : '#4A4A44';
+  /* 보조 글자는 잉크색의 투명도로 둔다. 따뜻한 회색(#4A4A44)을 쓰면
+     청록빛 바탕 위에서 탁해 보인다. */
+  const lead = dark ? 'rgba(255,255,255,.66)' : 'rgba(0,30,43,.52)';
+  const sub  = dark ? 'rgba(255,255,255,.80)' : 'rgba(0,30,43,.58)';
   const logo = dark ? 'logo-white.png' : 'logo.png';
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">

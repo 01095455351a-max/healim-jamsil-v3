@@ -1,32 +1,37 @@
 # 원장 컬럼의 공유 카드 그림(카카오톡·목록 썸네일·구글 대표 이미지)에 쓰는 색.
 # tools/make-column-cards.js 가 읽는다. 색을 바꿀 곳은 여기 한 곳이다.
 #
-# 전부 사이트에 이미 있는 색이다 — 새로 만든 색은 없다.
-#   001E2B·0B4F52·157175·0F7A7E   헤더·푸터·버튼의 진한 청록
-#   A7E6E4·C2EEED·DCF4F4·E3FCF7   질환·컬럼 페이지 히어로, 상담 카드의 민트
-#   FAF6EF·F4EEE2·EDE6DA          홈·상담 구역의 크림
+# from 은 전부 사이트에 있는 색이다 — 히어로 그라데이션의 민트(A7E6E4·
+# C2EEED·DCF4F4), 상담 카드의 민트(E3FCF7·C0FAE6), 홈의 크림(FAF6EF·
+# F4EEE2·EDE6DA). to 는 같은 색의 한 걸음 옆이다(민트는 밝은 쪽으로,
+# 크림은 짙은 쪽으로).
 #
-# 전부 밝은 쪽으로 둔다. 진한 청록을 몇 질환에 섞어 봤으나 목록에서
-# 불안정해 보였다 — 카드 순서가 날짜순이라 진한 칸이 어디에 올지 규칙이
-# 없고, 사이트 전체가 밝은 톤이라 진한 카드가 구멍처럼 읽힌다.
-# 생성기는 dark: true 를 아직 받아 준다(쓰는 곳은 없다).
+# 흰색으로 끝내지 않는다 — 전에는 to 가 #FFFFFF 라 카드의 아래 40% 가
+# 사실상 흰색이었고, 색을 열 가지로 나눠 놔도 다 비슷해 보였다. 색조가
+# 비슷해서가 아니라 색이 차지하는 면적이 작았던 것이다.
+#
+# 색이 10가지인데 질환은 10개다. 같은 값을 쓰는 쌍이 있다 — 사이트의
+# 민트·크림이 그만큼뿐이고, 글을 가르는 몫은 색이 아니라 제목이 맡는다.
 #
 #   민트  불면증·공황장애·불안장애·자율신경실조증·신경성 질환·우울장애·강박장애
 #   크림  틱장애·ADHD·다한증        — 소아와 몸 증상, 따뜻한 쪽
 #
+# dark: true 를 주면 글자가 흰색으로 나가고 흰 로고를 쓴다. 지금 쓰는
+# 곳은 없다 — 진한 카드를 섞어 봤더니 목록이 불안정해 보여 되돌렸다.
+#
 # 질환을 새로 만들면 여기에 한 줄 더한다. 없으면 default 가 쓰인다.
 
-default: { from: "#DCF4F4", to: "#FBFDFD" }
+default: { from: "#DCF4F4", to: "#ECF9F9" }
 
 tints:
-  불면증:        { from: "#A7E6E4", to: "#F1FAFA" }
-  공황장애:      { from: "#C2EEED", to: "#F4FBFB" }
-  불안장애:      { from: "#C2EEED", to: "#F4FBFB" }
-  자율신경실조증: { from: "#DCF4F4", to: "#FBFDFD" }
-  신경성 질환:    { from: "#DCF4F4", to: "#FBFDFD" }
-  우울장애:      { from: "#E3FCF7", to: "#F7FEFC" }
-  강박장애:      { from: "#E3FCF7", to: "#F7FEFC" }
+  불면증:        { from: "#A7E6E4", to: "#CFF1F0" }
+  공황장애:      { from: "#C0FAE6", to: "#DCFCF1" }
+  불안장애:      { from: "#C2EEED", to: "#DDF6F5" }
+  자율신경실조증: { from: "#DCF4F4", to: "#ECF9F9" }
+  신경성 질환:    { from: "#DCF4F4", to: "#ECF9F9" }
+  우울장애:      { from: "#E3FCF7", to: "#F0FDFB" }
+  강박장애:      { from: "#E3FCF7", to: "#F0FDFB" }
 
-  틱장애:        { from: "#FAF6EF", to: "#FFFDF9" }
-  ADHD:         { from: "#F4EEE2", to: "#FFFDF9" }
-  다한증:        { from: "#EDE6DA", to: "#FDFBF7" }
+  틱장애:        { from: "#FAF6EF", to: "#F2EADC" }
+  ADHD:         { from: "#F7F1E6", to: "#EFE5D4" }
+  다한증:        { from: "#F4EEE2", to: "#EDE6DA" }
