@@ -15,7 +15,10 @@
 
 <section style="background: #FFFFFF; padding: 48px 0 88px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
-    <div id="column-filters" data-grid="column-grid" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;">
+    {{/* 한 쪽에 9편씩 보이고 아래에 쪽 번호가 나온다. 필터와 함께 돌아가도록
+         static/js/filters.js 가 둘을 같이 맡는다 — 서버에서 쪽을 나누면
+         「불면증」을 눌러도 그 쪽에 있는 9장 안에서만 걸러진다. */}}
+    <div id="column-filters" data-grid="column-grid" data-per-page="9" data-pager="column-pager" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;">
       <button type="button" data-filter="all" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #0F7A7E; background: #E3FCF7; color: #0F7A7E;">전체</button>
       {{ $s := newScratch }}
       {{ range $columns }}{{ range (collections.Complement (slice "칼럼") .Params.tags) }}{{ $s.Add "tags" (slice .) }}{{ end }}{{ end }}
@@ -25,6 +28,9 @@
     </div>
 
     {{ partial "column-cards.html" (dict "columns" $columns "id" "column-grid" "level" 2) }}
+
+    {{/* 쪽 번호가 그려지는 자리. 스크립트가 꺼져 있으면 비어 있고 카드가 전부 보인다. */}}
+    <div id="column-pager"></div>
   </div>
 </section>
 
