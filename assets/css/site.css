@@ -1542,3 +1542,24 @@ html:has(.br-full), html:has(.br-full) body { overflow: hidden; }
   .br-ring { transition: none; }
   .br-progress-bar { transition: none; }
 }
+
+/* ── 쪽 번호 ───────────────────────────────────────────────────────
+   원장 컬럼 목록 아래. 단추를 static/js/filters.js 가 만들기 때문에
+   인라인 style 이 아니라 여기에 둔다. 모양은 위의 필터 칩과 맞췄다. */
+.pager {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; flex-wrap: wrap; margin-top: 48px;
+}
+.pager-btn {
+  font-family: inherit; font-size: 15px; font-weight: 600; line-height: 1;
+  min-width: 42px; padding: 12px 14px; border-radius: 9999px; cursor: pointer;
+  border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.pager-btn:hover:not(:disabled) { border-color: #22ABAF; color: #0F7A7E; }
+.pager-btn.is-current { border-color: #0F7A7E; background: #E3FCF7; color: #0F7A7E; }
+.pager-btn:disabled { opacity: 0.38; cursor: default; }
+.pager-btn:focus-visible { outline: 2px solid #0F7A7E; outline-offset: 2px; }
+.pager-count {
+  margin: 14px 0 0; text-align: center; font-size: 14px; color: #6B6960;
+}
