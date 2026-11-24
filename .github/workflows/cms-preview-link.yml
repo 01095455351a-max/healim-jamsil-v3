@@ -1,0 +1,51 @@
+# CMS 검토 단계의 「미리보기 보기」 링크를 살린다.
+#
+# Decap CMS 는 초안 PR 의 「커밋 상태(status)」에서 context 에 deploy 가 든 항목을
+# 찾아 그 target_url 로 미리보기 링크를 만든다. Cloudflare Pages 는 커밋 상태를
+# 남기지 않고 「체크 실행」만 남기는데, 그 링크는 대시보드로 간다.
+# 그래서 Cloudflare 빌드가 끝나면 체크 결과 요약에 적힌 미리보기 주소
+# (https://<해시>.healim-jamsil.pages.dev)를 꺼내 커밋 상태로 옮겨 적는다.
+#
+# - 초안 브랜치(cms/...)에서만 돈다. master 빌드는 건드리지 않는다.
+# - Decap 은 이 주소 뒤에 config.yml 의 preview_path(column/<슬러그>)를 붙인다.
+# - 브랜치 별칭 주소(cms-column-...)는 28자에서 잘려 슬러그로 맞출 수 없어
+#   커밋마다 생기는 해시 주소를 쓴다. 그 커밋의 빌드를 정확히 가리킨다.
+# - check_run 이벤트는 master 에 있는 이 파일로만 동작한다.
+# - Cloudflare 가 요약 문구나 주소 형식을 바꾸면 아래 grep 한 줄을 고친다.
+
+name: CMS 미리보기 링크
+
+on:
+  check_run:
+    types: [created, completed]
+
+permissions:
+  statuses: write
+
+jobs:
+  preview-status:
+    if: >-
+      github.event.check_run.name == 'Cloudflare Pages' &&
+      github.event.check_run.status == 'completed' &&
+      github.event.check_run.conclusion == 'success' &&
+      startsWith(github.event.check_run.check_suite.head_branch, 'cms/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 미리보기 주소를 커밋 상태로 남긴다
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.check_run.head_sha }}
+          SUMMARY: ${{ github.event.check_run.output.summary }}
+        run: |
+          url=$(printf '%s' "$SUMMARY" | grep -oE 'https://[a-z0-9]+\.healim-jamsil\.pages\.dev' | head -n 1)
+          if [ -z "$url" ]; then
+            echo "체크 요약에서 미리보기 주소를 찾지 못했다"
+            exit 0
+          fi
+          gh api "repos/$REPO/statuses/$SHA" \
+            -f state=success \
+            -f context=deploy/cloudflare-pages \
+            -f target_url="$url" \
+            -f description="Cloudflare Pages 미리보기"
+          echo "$SHA → $url"

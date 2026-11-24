@@ -1,0 +1,54 @@
+{{/* 글 끝의 상담 안내 — 컬럼처럼 본문만 있고 연락 통로가 없던 페이지에 붙인다.
+     column/single.html 끝에서 부른다. 글이 늘어도 저절로 붙는다.
+
+     제목은 이 차례로 고른다.
+       1. 페이지의 cta 값 (data/local.yaml 처럼 파일 없이 만들어지는 쪽)
+       2. data/cta.yaml 의 by_page — content/ 의 파일 이름
+       3. data/cta.yaml 의 by_tag — 글의 tags 에 있는 질환
+       4. data/cta.yaml 의 default
+     새 컬럼을 써도 태그만 달면 저절로 맞는다. 문구는 그 파일들에만 있다.
+
+     배경은 원내 상담실 사진에 어두운 막을 씌운 것이다. 사람이 찍히지 않은
+     사진이라 개인정보 문제가 없다. 사진을 바꾸려면 아래 resources.Get 의
+     파일 이름만 고친다.
+
+     id 는 #consult 가 아니라 #article-cta 다. site.css 에 949px 이하에서
+     이 구역을 숨기는 규칙이 있다 — 그 아래에서는 하단 고정 막대(.qa)가
+     예약·전화·문의·길찾기를 이미 맡고 있어 겹친다.
+
+     버튼의 px 값과 아이콘은 하단 고정 막대에서 쓰던 것을 그대로 가져왔다.
+     svg 크기만 site.css 의 .cta-btn 에서 정한다(인라인으로 줄 수 없다).
+
+     의료광고 — 효과를 단정하거나 조바심을 주는 말은 쓰지 않는다. */}}
+{{- $page := . -}}
+{{- $clinic := site.Data.clinic -}}
+{{- $cta := site.Data.cta -}}
+{{- $head := $cta.default -}}
+{{- $found := false -}}
+{{- /* 파일 없이 만들어지는 쪽(지역별 내원 안내)은 페이지가 문구를 직접 들고 온다 */ -}}
+{{- with $page.Params.cta -}}{{ $head = . }}{{ $found = true }}{{- end -}}
+{{- /* 질환 태그가 없는 쪽은 파일 이름으로 고른다 */ -}}
+{{- if not $found -}}
+  {{- with $page.File -}}
+    {{- with index $cta.by_page .BaseFileName -}}{{ $head = . }}{{ $found = true }}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range $page.Params.tags -}}
+  {{- if not $found -}}{{- with index $cta.by_tag . -}}{{ $head = . }}{{ $found = true }}{{- end -}}{{- end -}}
+{{- end -}}
+{{- $bg := resources.Get "media/clinic/04-counseling-room.jpg" -}}
+{{- $bgw := ($bg.Resize "1800x webp q72 photo").RelPermalink -}}
+<section id="article-cta" style="background: #FAF6EF; border-top: 1px solid #EDE6DA; padding: 80px 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: center;">
+    <div style="background-image: linear-gradient(rgba(0, 30, 43, 0.74), rgba(0, 30, 43, 0.74)), url('{{ $bgw }}'); background-size: cover; background-position: center; border-radius: 16px; padding: 28px 30px; max-width: 800px; width: 100%; box-sizing: border-box; text-align: center;">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #C0FAE6; margin-bottom: 14px;">Consult</div>
+      <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px; color: #FFFFFF;; text-wrap: balance">{{ partial "kr.html" $head }}</h2>
+      <p style="font-size: 17px; line-height: 1.8; color: #FFFFFF; margin: 0 0 24px;; text-wrap: pretty">{{ partial "kr.html" `구체적인 증상과 상황에 따라 접근이 달라집니다.` }}</p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+        <a href="{{ $clinic.phone_tel | safeURL }}" class="btn-primary cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #157175; padding: 22px 24px; border-radius: 12px;">{{ partial "icon-tel.html" . }}<span style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;"><span>전화 상담</span><span style="font-size: 13px;">{{ $clinic.phone_display }}</span></span></a>
+        <a href="{{ $clinic.naver_booking_url }}" target="_blank" rel="noopener" class="btn-naver cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; color: #FFFFFF; background: #03C75A; border: 1px solid #03C75A; padding: 22px 24px; border-radius: 12px;">{{ partial "icon-book.html" . }}네이버 예약</a>
+        <a href="{{ $clinic.kakao_channel_url }}" target="_blank" rel="noopener" class="btn-kakao cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; font-weight: 600; color: #3C1E1E; background: #FEE500; border: 1px solid #FEE500; padding: 22px 24px; border-radius: 12px;">{{ partial "icon-chat.html" . }}카카오톡 문의</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -165,6 +165,9 @@
       </div>
       {{ end }}
 
+      {{/* 지역 문단 — 문구는 data/directions.yaml, 주소는 data/clinic.yaml에 있다 */}}
+      {{ partial "region-note.html" (dict "disease" .Title) }}
+
     </article>
 
     <aside style="position: sticky; top: 112px;">
@@ -178,6 +181,7 @@
           <a href="#exam" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.exam_heading }}</a>
           <a href="#approach" style="font-size: 15px; color: #4A4A44;" class="nav-link">{{ $p.approach_heading }}</a>
           {{ if $p.faqs }}<a href="#faq" style="font-size: 15px; color: #4A4A44;" class="nav-link">자주 묻는 질문</a>{{ end }}
+          <a href="#region" style="font-size: 15px; color: #4A4A44;" class="nav-link">송파 · 잠실에서 오시는 길</a>
         </div>
       </nav>
     </aside>

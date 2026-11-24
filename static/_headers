@@ -1,5 +1,27 @@
 # Cloudflare Pages 응답 헤더.
-# 글 관리 화면이 검색에 잡히지 않게 한다 — layouts/robots.txt 를 건드리지 않으려고
+
+# ── 모든 페이지 ─────────────────────────────────────────────
+# 클릭재킹 막기 — 남의 사이트가 우리 페이지를 투명한 틀(iframe)에 넣고
+# 그 위에 가짜 버튼을 씌우는 공격이다. 일반 페이지는 볼거리뿐이라 피해가
+# 작지만 /admin/ 은 다르다. 원장이 로그인한 상태로 그런 페이지에 걸리면
+# 모르는 사이에 글이 바뀔 수 있다.
+#
+# 같은 뜻을 두 가지로 적는다 — 옛 브라우저는 X-Frame-Options 를,
+# 요즘 브라우저는 CSP 의 frame-ancestors 를 읽는다. 둘 다 있으면
+# 요즘 브라우저는 CSP 쪽을 따른다.
+#
+# 우리가 남을 넣는 것(오시는 길의 지도 iframe)은 이 설정과 무관하다.
+# 막는 것은 「남이 우리를 넣는 것」뿐이다.
+#
+# HSTS 는 여기 넣지 않았다 — 한 번 걸면 방문자 브라우저가 몇 달을
+# 기억해 되돌리기 어렵다. 켤 때는 Cloudflare 대시보드
+# (SSL/TLS → 에지 인증서 → HSTS)에서 켠다. 거기서는 한 번에 끌 수 있다.
+/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'
+
+# ── 글 관리 화면 ────────────────────────────────────────────
+# 검색에 잡히지 않게 한다 — layouts/robots.txt 를 건드리지 않으려고
 # 여기서 처리한다. admin/index.html 의 noindex 메타와 짝이다.
 /admin/*
   X-Robots-Tag: noindex, nofollow

@@ -981,6 +981,13 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
    auto-fit이라 카드를 늘리거나 줄여도 배치가 알아서 맞는다. */
 .fv-exams { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 
+/* 진료 철학 — 제목 왼쪽, 본문 오른쪽.
+   1100px 아래에서는 한 칸으로 내린다. 그보다 좁으면 오른쪽 본문 칸이
+   한글 30자 아래로 떨어져 글이 잘게 접힌다. 390px 에서 제목 칸의
+   360px 이 그대로 버텨 가로로 246px 넘치던 것도 이 규칙이 막는다. */
+.fv-philosophy { display: grid; grid-template-columns: 360px 1fr; gap: 48px; align-items: start; }
+@media (max-width: 1100px) { .fv-philosophy { grid-template-columns: 1fr; gap: 16px; } }
+
 @media (max-width: 767px) {
   .fv-step { gap: 16px; }
   .fv-step-rail { flex: 0 0 40px; }
@@ -1000,6 +1007,19 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 @media (max-width: 767px) {
   #consult, .dx-hero-cta { display: none !important; }
 }
+
+/* ── 글 끝의 상담 구역 · 좁은 화면에서 숨김 ─────────────────────
+   컬럼 끝의 「더 알아보고 싶으시다면」(_partials/consult-cta.html)이다.
+   아래 고정 막대(.qa)가 예약·전화·문의·길찾기를 이미 맡고 있어 겹친다.
+   그래서 위 #consult 의 767px 이 아니라 막대가 나타나는 949px 에
+   맞춘다 — 막대가 있는 동안에는 이 구역을 두지 않는다. */
+@media (max-width: 949px) {
+  #article-cta { display: none !important; }
+}
+
+/* 상담 구역의 통통한 버튼 — svg 는 크기를 인라인 style 로 줄 수 없어
+   여기서만 정한다. 글자·여백은 버튼 쪽 인라인 style 에 있다. */
+.cta-btn svg { width: 20px; height: 20px; flex: 0 0 20px; }
 
 /* ── 홈 히어로 오른쪽 버튼 ────────────────────────────────────
    PC는 「네이버 예약」, 좁은 화면은 「의료진」. 둘 다 마크업에 두고
@@ -1130,6 +1150,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 }
 .sv-chip input:focus-visible + span { outline: 2px solid #0F7A7E; outline-offset: 2px; }
 
+/* 눈에만 안 보이는 글자. 화면낭독기와 검색엔진은 읽는다.
+   컬럼 목록 카드의 제목에 쓴다 — 제목은 카드 그림 안에 그려져 있어 화면에
+   또 적으면 같은 말이 두 번 나오지만, 지워 버리면 검색엔진이 링크가 어떤
+   글인지 알 수 없고 화면낭독기도 읽을 것이 없다. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
 /* ── 단독 체크 ─────────────────────────────────────────────────
    ::before 로 네모를 그린다. 체크되면 민트색으로 채우고 ✓ 를 넣는다. */
 .sv-check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; padding: 3px 0; }
@@ -1147,7 +1176,15 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
 .sv-check:hover > span::before { border-color: #22ABAF; }
 .sv-check input:checked + span { color: #001E2B; font-weight: 600; }
 .sv-check input:checked + span::before {
-  background: #22ABAF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6'/%3E%3C/svg%3E") center/13px no-repeat;
+  /* 체크 표시 — 네모 안에 글자로 찍는다. 전에는 data URI 안에 SVG 를 넣었는데
+     그 안의 xmlns='http://…' 가 보안 점검 도구에 「HTTP 리소스」로 잡혔다.
+     받아 오는 주소가 아니라 SVG 의 이름표였지만, 빨간 표시가 계속 남아 있으면
+     진짜 문제가 생겼을 때 묻힌다. 글자 하나로 바꿔 없앤다.
+     line-height 는 네모 안쪽 높이(20px - 테두리 1px×2)와 같게 둔다. */
+  content: '✓';
+  color: #FFFFFF; font-size: 13px; font-weight: 700;
+  line-height: 18px; text-align: center;
+  background: #22ABAF;
   border-color: #22ABAF;
 }
 .sv-check input:focus-visible + span::before { outline: 2px solid #0F7A7E; outline-offset: 2px; }
@@ -1505,3 +1542,21 @@ html:has(.br-full), html:has(.br-full) body { overflow: hidden; }
   .br-ring { transition: none; }
   .br-progress-bar { transition: none; }
 }
+
+/* ── 쪽 번호 ───────────────────────────────────────────────────────
+   원장 컬럼 목록 아래. 단추를 static/js/filters.js 가 만들기 때문에
+   인라인 style 이 아니라 여기에 둔다. 모양은 위의 필터 칩과 맞췄다. */
+.pager {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; flex-wrap: wrap; margin-top: 48px;
+}
+.pager-btn {
+  font-family: inherit; font-size: 15px; font-weight: 600; line-height: 1;
+  min-width: 42px; padding: 12px 14px; border-radius: 9999px; cursor: pointer;
+  border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.pager-btn:hover:not(:disabled) { border-color: #22ABAF; color: #0F7A7E; }
+.pager-btn.is-current { border-color: #0F7A7E; background: #E3FCF7; color: #0F7A7E; }
+.pager-btn:disabled { opacity: 0.38; cursor: default; }
+.pager-btn:focus-visible { outline: 2px solid #0F7A7E; outline-offset: 2px; }

@@ -30,7 +30,8 @@
       <span style="font-size: 14px; color: #6B6960;">전체 {{ len $notices }}건</span>
       <a href="/notice/" style="margin-left: auto; font-size: 15px; font-weight: 600;">공지사항만 보기 →</a>
     </div>
-    {{ partial "notice-table.html" (dict "notices" $notices) }}
+    {{/* bodies=false — 본문은 /notice/ 한 곳에만 둔다(중복 색인 방지). 제목을 누르면 그리로 간다 */}}
+    {{ partial "notice-table.html" (dict "notices" $notices "bodies" false) }}
   </div>
 </section>
 
@@ -83,7 +84,10 @@
       <span style="font-size: 14px; color: #6B6960;">전체 {{ len $columns }}편</span>
       <a href="/column/" style="margin-left: auto; font-size: 15px; font-weight: 600;">질환별로 골라 보기 →</a>
     </div>
-    {{ partial "column-cards.html" (dict "columns" $columns) }}
+    {{/* 게시판은 공지·컬럼·자료실을 한눈에 보는 곳이다. 컬럼 전부를 여기
+         다시 늘어놓으면 /column/ 과 겹치고 쪽이 길어진다(390px 에서 21화면
+         이었다). 최신 6편만 두고 나머지는 위의 링크로 넘긴다. */}}
+    {{ partial "column-cards.html" (dict "columns" (first 6 $columns)) }}
   </div>
 </section>
 {{ end }}

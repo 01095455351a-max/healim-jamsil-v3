@@ -21,6 +21,14 @@ params:
   # 검색엔진 사이트 소유 확인 코드. 값이 있을 때만 메타 태그가 나간다.
   # 네이버 서치어드바이저 > 사이트 관리 > 소유 확인에서 받은 content 값이다.
   # 확인이 끝난 뒤에도 지우면 소유가 풀리므로 그대로 둔다.
+  # ── 방문자 분석 ───────────────────────────────────────────
+  # 값을 채우면 _partials/analytics.html 이 스크립트를 내보낸다.
+  # 비워 두면 아무것도 나가지 않는다. 검토 모드(noindex: true)에서도
+  # 나가지 않는다 — 공개 전 접속이 통계에 섞이지 않게.
+  #
+  # 켜기 전에 /privacy/ 의 자동 수집 항목·국외 이전을 함께 고친다.
+  ga4_id: "G-3FS31TW99C"              # G-XXXXXXXXXX
+  naver_analytics_id: "129416dbc26b090"
   naver_verification: "630c930bcc229e95149216760a65680ce35d7464"
   # 구글 서치 콘솔은 DNS TXT로 확인하므로 여기에 적을 것이 없다.
   google_verification: ""
@@ -34,3 +42,20 @@ markup:
       unsafe: true
   highlight:
     noClasses: false
+
+# ── llms.txt ────────────────────────────────────────────────
+# ChatGPT·Perplexity·Claude 같은 생성 AI 에게 「이 사이트에서 무엇을
+# 인용하면 되는가」를 알려주는 파일이다. robots.txt 와 같은 자리
+# (/llms.txt)에 평문으로 나간다.
+#
+# 내용은 layouts/index.llms.txt 가 사이트에서 직접 만든다 — 질환·컬럼이
+# 늘면 저절로 따라오므로 손으로 고칠 일이 없다.
+outputFormats:
+  LLMS:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home: [HTML, RSS, LLMS]

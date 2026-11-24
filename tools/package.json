@@ -1,0 +1,10 @@
+{
+  "name": "healim-jamsil-tools",
+  "private": true,
+  "description": "컬럼 공유 카드 생성기. .github/workflows/column-cards.yml 이 쓴다.",
+  "dependencies": {
+    "js-yaml": "4.1.0",
+    "sharp": "0.33.5",
+    "playwright": "1.49.1"
+  }
+}
