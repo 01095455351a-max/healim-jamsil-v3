@@ -1,0 +1,22 @@
+{{/* 스크립트 — assets/js/ 의 파일을 주소에 지문을 붙여 내보낸다.
+     site.css 와 같은 방식이다.
+
+     왜 지문이 필요한가 — 주소가 늘 같으면(/js/filters.js) 브라우저가 옛
+     파일을 그대로 쓴다. 스크립트를 고쳐도 이미 방문한 적 있는 사람에게는
+     반영되지 않는다(실제로 그랬다. 쪽 번호가 강제 새로고침을 해야 나왔다).
+     지문이 붙으면 내용이 바뀔 때 주소가 바뀌어 반드시 새로 받는다.
+
+     integrity(무결성 해시)는 붙이지 않는다 — Cloudflare 에 스크립트를
+     자동으로 손보는 기능(Rocket Loader 등)이 켜져 있으면 해시가 어긋나
+     브라우저가 스크립트를 통째로 막는다. 우리 도메인에서 우리 파일을
+     받는 것이라 얻는 것보다 잃을 위험이 크다.
+
+     인자
+       src    assets/ 기준 경로 (예: "js/filters.js")
+       defer  문서를 다 읽은 뒤 실행 (선택) */}}
+{{- with resources.Get .src -}}
+  {{- $s := . | fingerprint -}}
+  <script src="{{ $s.RelPermalink }}"{{ if $.defer }} defer{{ end }}></script>
+{{- else -}}
+  {{- errorf "script.html: assets/%s 를 찾을 수 없습니다" .src -}}
+{{- end -}}
