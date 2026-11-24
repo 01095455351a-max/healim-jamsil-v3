@@ -77,6 +77,8 @@ related_columns:
   - /column/depression-vs-low-motivation/
   - /column/why-willpower-fails-in-depression/
   - /column/depression-without-sadness/
+  - /column/postpartum-depression-when-to-seek-help/
+  - /column/burnout-vs-depression/
 faqs:
   - question: "우울증도 한약으로 치료가 되나요?"
     answer: |
@@ -89,5 +91,5 @@ faqs:
       우울감이나 흥미·즐거움의 상실이 2주 이상 이어지면서 수면·식욕 변화, 집중력 저하 등이 함께 동반된다면 단순한 기분 문제로 보기 어려우니 상담을 받아보시길 권합니다.
   - question: "산후우울증도 진료받을 수 있나요?"
     answer: |
-      네, 출산 후에는 일반적인 우울장애와 조금 다른 양상으로 나타날 수 있어 시기에 맞는 평가와 접근이 필요합니다. 초진 시 출산 시기와 현재 상태를 말씀해 주시면 함께 살펴봅니다.
+      네, 출산 후에는 일반적인 우울장애와 조금 다른 양상으로 나타날 수 있어 시기에 맞는 평가와 접근이 필요합니다. 초진 시 출산 시기와 현재 상태를 말씀해 주시면 함께 살펴봅니다. 어떤 신호에서 진료를 받아 보면 좋은지는 [출산 뒤 우울감, 언제 진료를 받아야 할까요?](/column/postpartum-depression-when-to-seek-help/)에서 설명했습니다.
 ---

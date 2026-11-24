@@ -79,6 +79,7 @@ related_columns:
   - /column/tired-but-cannot-sleep/
   - /column/dysautonomia-vs-menopause/
   - /column/normal-tests-but-aches-everywhere/
+  - /column/cold-hands-sweaty-palms/
 faqs:
   - question: "검사에서는 정상인데 왜 계속 증상이 있나요?"
     answer: |
