@@ -39,7 +39,7 @@
       return (card.dataset.tags || '').split(',').indexOf(filter) !== -1;
     }
 
-    function drawPager(pages, total) {
+    function drawPager(pages) {
       if (!pager) return;
       pager.textContent = '';
       if (pages < 2) return;
@@ -64,13 +64,7 @@
       for (var i = 1; i <= pages; i++) btn(String(i), i, { current: i === page });
       btn('›', page + 1, { disabled: page === pages, label: '다음 쪽' });
 
-      var count = document.createElement('p');
-      count.className = 'pager-count';
-      count.textContent = total + '편 중 ' + ((page - 1) * per + 1)
-        + '–' + Math.min(page * per, total) + '편';
-
       pager.appendChild(nav);
-      pager.appendChild(count);
     }
 
     function render() {
@@ -84,7 +78,7 @@
       var end = per ? start + per : shown.length;
       for (var i = start; i < end && i < shown.length; i++) shown[i].style.display = '';
 
-      drawPager(pages, shown.length);
+      drawPager(pages);
     }
 
     /* 쪽을 넘기면 목록 맨 위로 올린다 — 안 그러면 넘긴 자리가 목록 중간이라
