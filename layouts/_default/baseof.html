@@ -40,7 +40,12 @@
 
 {{/* 카카오톡·네이버·문자로 링크를 보낼 때 뜨는 미리보기 카드 */}}
 {{- $ogTitle := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
-{{- $ogDesc := $desc -}}
+{{/* 카드 설명은 summary 를 먼저 본다 — 검색용 description 은 키워드를 담아
+     100자 가까이 쓰는데 카톡 카드는 두 줄(60자 안팎)에서 잘린다. summary 가
+     이미 그 길이의 문장이라 새 항목을 만들지 않았다(측정: description 평균
+     99자 / summary 평균 59자). summary 가 없는 쪽은 지금처럼 description 이
+     나간다. 검색용 meta description 은 위 $desc 그대로이며 건드리지 않는다. */}}
+{{- $ogDesc := or .Params.summary .Description site.Params.description -}}
 {{- $ogImg := "" -}}
 {{/* 카톡·문자로 링크를 보낼 때 뜨는 카드 그림. 원본을 미리 1200×630으로
      잘라 두었으므로 여기서는 형식만 바꾼다 — 자르는 위치를 코드에 맡기면
