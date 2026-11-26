@@ -591,6 +591,23 @@ html:has(dialog[open]), html:has(dialog[open]) body { overflow: hidden; }
     box-sizing: border-box !important;
     font-size: 16px !important;
   }
+
+  /* ── 9. 컬럼 목록의 「질환별 보기」 단추 ──────────────────────
+     칩 12개가 네 줄로 접혀 아래 글 목록이 한참 밀렸다. 좌우 여백과
+     사이 간격만 줄여 세 줄에 담는다 — 글자 크기는 14px 그대로다.
+     차례는 data/diseases.yaml 의 order 에서 온다.
+     360·375·390px 에서 4+4+3 으로 접힌다(측정값). 412px 은 한 줄에
+     더 들어가 5+4+2 가 되지만 역시 세 줄이다. */
+  #column-filters { gap: 8px !important; }
+  #column-filters button { padding: 10px 12px !important; }
+}
+
+/* 칩의 긴 이름·짧은 이름. 짧은 이름은 data/diseases.yaml 의 short 에 적는다.
+   「자율신경실조증」 7자가 가운데 오면 360px 에서 네 줄로 접힌다. */
+.chip-short { display: none; }
+@media (max-width: 767px) {
+  .chip-full { display: none; }
+  .chip-short { display: inline; }
 }
 
 
