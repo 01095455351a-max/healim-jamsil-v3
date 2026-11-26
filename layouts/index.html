@@ -363,7 +363,7 @@
 </dialog>
 {{ end }}
 
-<script src="/js/hero-slides.js"></script>
+{{ partial "script.html" (dict "src" "js/hero-slides.js") }}
 {{/* ── 안내 팝업 ─────────────────────────────────────────────
      data/popup.yaml 하나로 켜고 끈다. enabled가 false거나 오늘이
      start~end 밖이면 마크업 자체가 나가지 않는다.
@@ -405,9 +405,9 @@
     </div>
   </div>
 </dialog>
-<script src="/js/site-popup.js"></script>
+{{ partial "script.html" (dict "src" "js/site-popup.js") }}
   {{ end }}
 {{ end }}
 
-<script src="/js/treatment-modal.js"></script>
+{{ partial "script.html" (dict "src" "js/treatment-modal.js") }}
 {{ end }}
