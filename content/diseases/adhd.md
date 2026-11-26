@@ -74,7 +74,6 @@ approach_note: "의료적 치료에 가정의 이해와 격려가 더해질 때,
 related_columns:
   - /column/adhd-vs-normal-distractibility/
   - /column/adult-adhd-diagnosed-later/
-  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
   - /column/adhd-vs-sleep-deprivation/
 faqs:
   - question: "성인도 ADHD 진단과 치료가 가능한가요?"
