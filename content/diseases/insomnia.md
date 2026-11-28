@@ -4,7 +4,7 @@ image: "disease-insomnia.png"
 visit_note: "수면 상태를 확인해야 하므로 최근 1~2주간의 취침·기상 시간을 기억해 오시면 도움이 됩니다."
 weight: 60
 title: "불면증"
-headline: "\"그냥 못 자는 것\"이 아닙니다"
+headline: "“그냥 못 자는 것”이 아닙니다"
 subtitle: "잠들기 어렵거나 자주 깨는 밤 — 긴장, 수면 리듬, 스트레스가 함께 영향을 줍니다."
 date: 2026-08-21
 # 검색 결과에 나오는 제목. 뒤에 "| 해아림한의원 잠실점"이 자동으로 붙는다.
@@ -20,7 +20,7 @@ signs:
   - "하룻밤에도 여러 번 깨고, 한 번 깨면 다시 잠들기 어려움"
   - "새벽에 일찍 깨어 그대로 뜬눈으로 아침을 맞이함"
   - "충분히 잔 것 같아도 개운하지 않고 낮 동안 졸림·피곤함"
-  - "\"오늘도 못 자면 어쩌지\"하는 수면 자체에 대한 불안감"
+  - “\”오늘도 못 자면 어쩌지\"하는 수면 자체에 대한 불안감"
   - "만성적인 긴장, 가슴 두근거림 등 자율신경 항진 증상 동반"
 differential_heading: "불면증과 헷갈리기 쉬운 것들"
 differential:
@@ -69,15 +69,6 @@ approach_steps:
   - title: "침구·신경 이완 치료"
     text: "두경부와 전신의 긴장을 풀어 이완 반응을 회복시킵니다."
 approach_note: "목표는 그날 하루만 잠드는 것이 아니라, 치료 이후에도 스스로 안정적인 수면 리듬을 유지할 수 있는 몸 상태를 만드는 것입니다."
-related_columns:
-  - /column/why-insomnia-becomes-chronic/
-  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
-  - /column/reducing-sleeping-pills/
-  - /column/tired-but-cannot-sleep/
-  - /column/panic-insomnia-care/
-  - /column/few-bad-nights-insomnia/
-  # 발행 전에는 화면에 나오지 않는다(single.html의 if $col이 걸러낸다)
-  - /column/anxiety-insomnia-which-first/
 faqs:
   - question: "수면제를 복용 중인데 한약도 같이 먹을 수 있나요?"
     answer: |

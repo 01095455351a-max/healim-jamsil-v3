@@ -121,12 +121,26 @@
         {{ with $p.approach_note }}<p style="font-size: 17px; line-height: 1.8; color: #001E2B; margin: 28px 0 0; padding: 22px 26px; background: #E3FCF7; border-radius: 12px;; text-wrap: pretty">{{ partial "kr.html" (. | markdownify) }}</p>{{ end }}
       </div>
 
-      {{ with $p.related_columns }}
+      {{/* 관련 원장 컬럼 — 컬럼의 주제 태그를 이 페이지 제목과 맞춰 자동으로 찾는다.
+           「불안장애」 태그는 「공황장애 · 불안장애」 페이지에 걸린다.
+           schema.html 의 about 과 같은 방식이다. 컬럼을 새로 올리면 저절로
+           붙으므로 질환 페이지를 고칠 일이 없다 — 전에는 front matter 의
+           related_columns 에 손으로 적어서 9편이 빠져 있었다.
+           최신순이고 8편까지만 보인다(지금 가장 많은 자율신경실조증이 8편이다). */}}
+      {{ $rel := slice }}
+      {{ $thisTitle := .Title }}
+      {{ range (where site.RegularPages "Section" "column").ByDate.Reverse }}
+        {{ $hit := false }}
+        {{ range (collections.Complement (slice "칼럼") (.Params.tags | default slice)) }}
+          {{ if strings.Contains $thisTitle . }}{{ $hit = true }}{{ end }}
+        {{ end }}
+        {{ if $hit }}{{ $rel = $rel | append . }}{{ end }}
+      {{ end }}
+      {{ with first 8 $rel }}
       <div id="related">
         <h2 style="font-size: 28px; font-weight: 500; line-height: 1.35; letter-spacing: -0.5px; margin: 0 0 20px;; text-wrap: balance">관련 원장 컬럼</h2>
         {{ range . }}
-        {{ $col := site.GetPage . }}
-        {{ if $col }}
+        {{ $col := . }}
         {{ $topics := collections.Complement (slice "칼럼") $col.Params.tags }}
         {{/* 사진은 그 컬럼을 쓴 원장을 따라간다. 한 질환을 두 원장이 나눠 보는
              경우(불면증·자율신경실조증) 두 원장의 컬럼이 섞여 걸린다.
@@ -142,7 +156,6 @@
           </div>
           <span style="margin-left: auto; font-size: 15px; font-weight: 600; color: #0F7A7E;">→</span>
         </a>
-        {{ end }}
         {{ end }}
       </div>
       {{ end }}

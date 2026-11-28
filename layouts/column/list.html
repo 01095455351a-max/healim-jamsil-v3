@@ -22,8 +22,19 @@
       <button type="button" data-filter="all" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #0F7A7E; background: #E3FCF7; color: #0F7A7E;">전체</button>
       {{ $s := newScratch }}
       {{ range $columns }}{{ range (collections.Complement (slice "칼럼") .Params.tags) }}{{ $s.Add "tags" (slice .) }}{{ end }}{{ end }}
-      {{ range collections.Uniq ($s.Get "tags") }}
-      <button type="button" data-filter="{{ . }}" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;">{{ . }}</button>
+      {{/* 차례는 data/diseases.yaml 의 order 한 곳에서 온다 — 그대로 두면 글을
+           올린 차례대로 늘어서서 주요 질환이 뒤로 밀린다. 거기 없는 이름은
+           뒤에 붙으므로 새 태그를 달아도 단추가 사라지지 않는다. */}}
+      {{ $found := collections.Uniq ($s.Get "tags") }}
+      {{ $ordered := slice }}
+      {{ range site.Data.diseases.order }}{{ if in $found . }}{{ $ordered = $ordered | append . }}{{ end }}{{ end }}
+      {{ range $found }}{{ if not (in $ordered .) }}{{ $ordered = $ordered | append . }}{{ end }}{{ end }}
+      {{ range $ordered }}
+      {{/* 짧은 이름이 data/diseases.yaml 의 short 에 있으면 두 가지를 같이 내보내고,
+           CSS 가 화면 폭에 따라 하나만 보인다(PC 는 긴 이름, 모바일은 짧은 이름).
+           거르는 값(data-filter)은 늘 긴 이름이라 글의 태그를 고칠 필요가 없다. */}}
+      {{ $short := index site.Data.diseases.short . }}
+      <button type="button" data-filter="{{ . }}" style="font-family: inherit; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9999px; cursor: pointer; border: 1px solid #E8EDEB; background: #FFFFFF; color: #4A4A44;">{{ if $short }}<span class="chip-full">{{ . }}</span><span class="chip-short">{{ $short }}</span>{{ else }}{{ . }}{{ end }}</button>
       {{ end }}
     </div>
 

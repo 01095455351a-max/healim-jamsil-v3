@@ -69,10 +69,6 @@ approach_steps:
   - title: "생활 관리 코칭"
     text: "자극이 되는 음식·생활 습관 관리 등 실천 가능한 방법을 안내합니다."
 approach_note: "땀은 단순히 참아야 할 증상이 아니라, [류석균 원장](/doctors/ryu-seokgyun/)과 함께 체질과 자율신경의 균형을 살펴가며 개선을 기대할 수 있는 문제입니다."
-related_columns:
-  - /column/why-anxiety-worsens-hyperhidrosis/
-  - /column/autonomic-imbalance/
-  - /column/cold-hands-sweaty-palms/
 faqs:
   - question: "교감신경 절제술과 한방 치료는 어떻게 다른가요?"
     answer: |

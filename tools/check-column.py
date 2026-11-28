@@ -135,6 +135,19 @@ def check(path, others):
 
     if re.search(r"^##\s*마무리\s*$", body, re.M):
         warn.append("「## 마무리」 소제목은 쓰지 않습니다(가이드 「마지막」)")
+    # 닫는 따옴표 뒤에 한글이 바로 붙으면 Hugo 가 닫는 따옴표로 알아보지 못해
+    # 화면에서 여는 쪽만 둥글게 나온다(「“…했다"며」). 그 쌍만 “ ” 로 적는다.
+    # 쌍은 순서대로 센다 — 정규식으로 양쪽을 따로 찾으면 쉼표를 한 쌍으로 묶는다.
+    _pos = [m.start() for m in re.finditer('"', body)]
+    for _i in range(0, len(_pos) - 1, 2):
+        _after = _pos[_i + 1] + 1
+        if _after < len(body) and re.match(r"[가-힣]", body[_after]):
+            _snip = body[_pos[_i]:_after + 2]
+            warn.append(
+                f"닫는 따옴표 뒤에 한글이 바로 붙었습니다: {_snip} — "
+                "그 쌍은 “ ” 를 직접 쓰세요(Hugo 가 닫는 따옴표로 알아보지 못합니다)"
+            )
+
     for w in BANNED:
         if w in body or w in summary or any(w in str(f) for f in faqs):
             warn.append(f"의료광고 주의 표현 「{w}」이 있습니다 — 부정 맥락(「~할 수 없습니다」)인지 확인해 주세요")
@@ -155,13 +168,17 @@ def check(path, others):
         if s >= OVERLAP:
             warn.append(f"주제가 겹칠 수 있습니다: 「{ofm.get('title')}」({op.stem}) — 검색에서 서로 순위를 나눠 가집니다. 다른 점을 분명히 하거나 서로 링크해 주세요")
 
-    # 질환 페이지 연결은 자동이 아니다(가이드 「발행 전 점검」)
-    slug = path.stem
-    for dp in sorted((ROOT / "content/diseases").glob("*.md")):
-        dfm, _ = load(dp)
-        if dfm and any(t in str(dfm.get("title", "")) for t in topics):
-            if slug not in str(dfm.get("related_columns") or ""):
-                warn.append(f"질환 페이지 {dp.name} 의 related_columns 에 이 글이 아직 없습니다 — 발행 뒤 연결해 주세요")
+    # 질환 페이지의 「관련 원장 컬럼」은 주제 태그로 자동 연결된다
+    # (layouts/diseases/single.html). 손으로 적을 것이 없으므로, 걸리는 것은
+    # 태그가 어느 질환 페이지 제목에도 맞지 않는 경우뿐이다 — 그러면 질환
+    # 페이지와 Article 구조화 데이터(about) 양쪽에서 함께 빠진다.
+    if topics:
+        titles = [str(load(dp)[0].get("title", "")) for dp in sorted((ROOT / "content/diseases").glob("*.md"))]
+        if not any(t in ti for t in topics for ti in titles):
+            warn.append(
+                f"주제 태그 {topics} 가 어느 질환 페이지 제목에도 걸리지 않습니다 — "
+                "질환 페이지의 「관련 원장 컬럼」과 구조화 데이터에서 함께 빠집니다"
+            )
     return err, warn
 
 
